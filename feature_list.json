@@ -1,0 +1,23 @@
+{
+  "project": "[PROJECT_NAME]",
+  "description": "Reemplazar con la descripción del proyecto derivado de este template.",
+  "rules": {
+    "one_feature_at_a_time": true,
+    "require_tests_to_close": true,
+    "valid_status": ["pending", "in_progress", "done", "blocked"]
+  },
+  "features": [
+    {
+      "id": 1,
+      "name": "example_feature",
+      "title": "Feature de ejemplo (eliminar al inicializar el proyecto)",
+      "description": "Placeholder de cómo se describe una feature en este harness. La completa el orchestrator durante /new-issue.",
+      "acceptance": [
+        "Reemplazar este array con los Acceptance Criteria de la issue real",
+        "Cada AC debe ser verificable por el reviewer",
+        "Cada AC debe poder mapearse a uno o más tests en workflow/specs/issue-<N>/test-plan.md"
+      ],
+      "status": "pending"
+    }
+  ]
+}

@@ -35,6 +35,7 @@ Cada AC debe ser:
 ## Proceso
 
 - [ ] **Label de tipo asignado:** `type:feature` / `type:bug` / `type:chore` / `type:spike`
+- [ ] **Milestone asignada** — la issue pertenece a la Milestone de la fase correspondiente en `docs/project-plan.md`. Las issues ad-hoc (bugs, spikes no planificados) se asignan a la Milestone de la fase activa en ese momento.
 - [ ] **Añadida al GitHub Project**
 
 ---

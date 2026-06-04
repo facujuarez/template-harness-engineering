@@ -13,20 +13,27 @@ AGENTS.md                       → contrato raíz multi-provider (auto-cargado 
 init.sh                         → verifica entorno e inicializa permisos
 feature_list.json               → estado sincronizado de features/issues
 
+docs/                           → ⚠️ DOCUMENTOS DE PROYECTO (completar con /setup-project)
+├── functional.md               → visión, RF, RNF, entidades, casos de uso
+├── architecture.md             → stack, diseño técnico, comandos build/test/lint
+├── data-model.md               → modelo de datos, índices, cache
+└── project-plan.md             → fases, tareas, milestones
+
 workflow/
 ├── agents/
+│   ├── project-manager.md      → Fase 0: entrevista docs/ + generación de backlog
 │   ├── orchestrator.md         → rol líder: detecta nivel, delega, gestiona gates
 │   ├── explorer.md             → rol read-only: análisis estático del codebase
-│   ├── designer.md             → rol que genera el spec (contrato)
+│   ├── designer.md             → rol que genera el spec (test-plan en Gherkin)
 │   ├── implementer.md          → rol que ejecuta tasks del spec
-│   └── reviewer.md             → rol verificador, dueño de workflow/docs/checkpoint.md
+│   └── reviewer.md             → rol verificador: ACs + Mutation Testing + checkpoint
 ├── docs/
 │   ├── checkpoint.md           → checklist de cierre de sesión (dueño: reviewer)
-│   ├── product-context.md      → ⚠️ DEBES COMPLETAR ESTE
-│   ├── tech-stack.md           → ⚠️ DEBES COMPLETAR ESTE
+│   ├── product-context.md      → fallback de contexto si docs/ aún no está listo
+│   ├── tech-stack.md           → fallback de stack si docs/ aún no está listo
 │   ├── workflow-conventions.md → branches, commits, PRs
 │   ├── workflow-levels.md      → sistema de niveles L0/L1/L2
-│   ├── definition-of-ready.md  → criterios para Ready
+│   ├── definition-of-ready.md  → criterios para Ready (incluye Milestone)
 │   ├── issue-template.md       → template canónico de Issues
 │   └── dev-review-checklist.md → checklist Fase 5
 ├── scripts/
@@ -45,19 +52,21 @@ contra `workflow/agents/*.md`. Ejemplo para Claude Code:
 ```
 .claude/
 ├── agents/
-│   ├── orchestrator.md   → wrapper apuntando a workflow/agents/orchestrator.md
-│   ├── explorer.md       → idem
-│   ├── designer.md       → idem
-│   ├── implementer.md    → idem
-│   └── reviewer.md       → idem
+│   ├── project-manager.md → wrapper apuntando a workflow/agents/project-manager.md
+│   ├── orchestrator.md    → idem
+│   ├── explorer.md        → idem
+│   ├── designer.md        → idem
+│   ├── implementer.md     → idem
+│   └── reviewer.md        → idem
 └── skills/
-    ├── new-issue/SKILL.md     → /new-issue   Fase 0
-    ├── start-issue/SKILL.md   → /start-issue Fase 1
-    ├── design/SKILL.md        → /design      Fase 2
-    ├── implement/SKILL.md     → /implement   Fase 3
-    ├── verify/SKILL.md        → /verify      Fase 4
-    ├── create-pr/SKILL.md     → /create-pr   Fase 6
-    └── move-issue/SKILL.md    → /move-issue  utilidad
+    ├── setup-project/SKILL.md  → /setup-project  Fase 0
+    ├── start-issue/SKILL.md    → /start-issue    Fase 1
+    ├── design/SKILL.md         → /design         Fase 2
+    ├── implement/SKILL.md      → /implement      Fase 3
+    ├── verify/SKILL.md         → /verify         Fase 4
+    ├── create-pr/SKILL.md      → /create-pr      Fase 6
+    ├── new-issue/SKILL.md      → /new-issue      utilidad
+    └── move-issue/SKILL.md     → /move-issue     utilidad
 ```
 
 En caso de conflicto, **`AGENTS.md` + `workflow/agents/` prevalecen**.
@@ -106,34 +115,39 @@ Reemplazá los placeholders:
 ## Paso 4 — Completar feature_list.json
 
 Reemplazá `project` y `description` con los datos reales. Borrá la feature de
-ejemplo cuando empieces a crear las reales (lo hace el orchestrator durante
-`new-issue`).
+ejemplo; el backlog real lo genera `/setup-project` en el Paso 5.
 
 ---
 
-## Paso 5 — Completar workflow/docs/product-context.md
+## Paso 5 — Ejecutar /setup-project (Fase 0)
 
-Describí tu producto: qué es, usuarios, módulos principales.
+**El paso más importante.** Invoca al agente `project-manager` para completar
+los documentos de `docs/` y generar el backlog inicial en GitHub.
+
+```
+/setup-project              → flujo completo (entrevista de docs + backlog)
+/setup-project docs         → solo entrevista (sin crear backlog aún)
+/setup-project backlog      → solo backlog (si docs/ ya están completos)
+```
+
+El agente conduce una entrevista estructurada por cada documento:
+
+1. `docs/functional.md` — visión del producto, usuarios, RF, RNF, casos de uso
+2. `docs/architecture.md` — stack tecnológico, diseño, comandos de build/test/lint
+3. `docs/data-model.md` — entidades, índices, estrategia de cache
+4. `docs/project-plan.md` — fases, tareas y criterios de éxito
+
+Una vez aprobados los documentos, genera en GitHub:
+- **Milestones** — una por fase de `docs/project-plan.md`
+- **Issues** — una por tarea, asignada a su Milestone
+
+> Si preferís completar los documentos manualmente antes de correr el workflow,
+> podés editar los archivos en `docs/` y luego ejecutar `/setup-project backlog`
+> para solo generar el backlog.
 
 ---
 
-## Paso 6 — Completar workflow/docs/tech-stack.md
-
-**El archivo más crítico para la calidad del código generado.**
-
-Completá:
-- Stack tecnológico con versiones
-- **Comandos exactos de build, test y lint**
-- Estructura de directorios
-- Convenciones de código
-
-El `pre-commit-check.sh` detecta el tipo de proyecto automáticamente
-(dotnet, spfx, node/vite) pero podés editar el script si tu stack
-tiene particularidades.
-
----
-
-## Paso 7 — Instalar el pre-commit hook
+## Paso 6 — Instalar el pre-commit hook
 
 ```bash
 cp workflow/scripts/pre-commit-check.sh .git/hooks/pre-commit
@@ -145,7 +159,7 @@ Alternativa: el orchestrator lo instala automáticamente al ejecutar
 
 ---
 
-## Paso 8 — Configurar GitHub CLI
+## Paso 7 — Configurar GitHub CLI
 
 ```bash
 gh auth login
@@ -174,16 +188,19 @@ export GITHUB_TOKEN=ghp_tu_token_aquí
 
 ---
 
-## Paso 9 — Configurar GitHub Project Board
+## Paso 8 — Configurar GitHub Project Board
 
 1. Tu repo → **Projects** → **New Project** → **Board**
 2. Configurá el campo **Status** con estas columnas:
    - `📋 Backlog` / `✅ Ready` / `🔧 In Progress` / `👀 In Review` / `✔️ Done`
 3. Copiá la URL al `AGENTS.md`.
 
+> Las Milestones las crea `/setup-project` automáticamente. No hace falta
+> crearlas a mano.
+
 ---
 
-## Paso 10 — Configurar labels en el repo
+## Paso 9 — Configurar labels en el repo
 
 ```
 type:feature  #0075ca    type:bug      #d73a4a
@@ -195,11 +212,12 @@ size:XL       #e11d48
 
 ---
 
-## Paso 11 — Verificar instalación
+## Paso 10 — Verificar instalación
 
 Abrí tu harness en el directorio. El agente debería cargar `AGENTS.md`
-automáticamente y reconocer los roles en `workflow/agents/`. Probá un comando de
-exploración (lectura) para confirmar que el contexto está cargado.
+automáticamente y reconocer los roles en `workflow/agents/`. Si ejecutaste
+`/setup-project`, verificá que las Issues y Milestones aparecen en GitHub
+y en el Project Board (columna Backlog).
 
 ---
 
@@ -209,8 +227,10 @@ Los nombres de comandos abajo son **convención**; cada harness los expone
 como mejor encaje (slash commands, aliases, tasks).
 
 ```bash
-# Fase 0 — Nueva feature
-new-issue quiero que los usuarios puedan filtrar el listado por fecha
+# ── FASE 0: Setup del proyecto (una sola vez) ─────────────────────────
+setup-project   # completa docs/ + Milestones + Issues en GitHub
+
+# ── Por cada issue del backlog ─────────────────────────────────────────
 
 # Fase 1 — Inicializar (detecta nivel automáticamente)
 start-issue 42
@@ -219,16 +239,17 @@ start-issue 42
 implement
 
 # L1/L2 (M, L, XL):
-design       # genera spec vía explorer + designer
-implement    # implementa task por task
-verify       # reviewer cubre ACs + build + tests + workflow/docs/checkpoint.md
+design          # genera spec con test-plan en Gherkin
+implement       # implementa task por task
+verify          # ACs + build + tests + Mutation Testing + checkpoint
 
 # Fase 5 — Manual: revisar en entorno local
 
 # Fase 6
-create-pr    # genera PR + actualiza project-memory
+create-pr       # genera PR + actualiza project-memory
 
-# Utilidades
+# ── Utilidades ─────────────────────────────────────────────────────────
+new-issue quiero que los usuarios puedan filtrar por fecha   # issue ad-hoc
 move-issue 42 Ready
 move-issue 42 Done
 ```
@@ -247,6 +268,7 @@ workflow/specs/active-issue.md
 ```
 
 Archivos que **SÍ** se committean:
+- `docs/` — documentos de proyecto completados
 - `workflow/specs/project-memory.md` — memoria del proyecto
 - `workflow/specs/issue-N/` — spec y reporte de cada issue (documentación + trazabilidad)
 - `workflow/specs/checkpoint-N.md` — histórico inmutable de checkpoints

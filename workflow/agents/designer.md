@@ -22,11 +22,15 @@
    - Cada task lista archivos a tocar, contratos a respetar, dependencias entre tasks.
    - En L2, marca explícitamente qué tasks son paralelizables.
 
-3. **Plan de tests**
-   - Por cada AC de la Issue, define el o los tests que la cubren.
-   - Niveles de test (unit / integration / e2e) según `workflow/docs/tech-stack.md`.
-   - **Cobertura de ACs es regla del [[reviewer]]:** si un AC no tiene test, el spec
-     no cierra.
+3. **Plan de tests en Gherkin**
+   - Por cada AC de la Issue, escribe uno o más escenarios Gherkin
+     (`Feature` / `Scenario` / `Given-When-Then`) en `test-plan.md`.
+   - Niveles de test (unit / integration / e2e) según `workflow/docs/tech-stack.md`
+     o `docs/architecture.md`.
+   - **Cobertura de ACs es regla del [[reviewer]]:** si un AC no tiene Scenario
+     Gherkin asociado, el spec no cierra.
+   - Cada Scenario debe ser verificable directamente: el [[implementer]] lo usa
+     para escribir el test; el [[reviewer]] verifica que el test existe y pasa.
 
 4. **Output: spec completo**
    - Persiste el spec en `workflow/specs/issue-<N>/` (o equivalente según la
@@ -54,7 +58,7 @@ reportes de múltiples [[explorer]]s en paralelo. El spec final es único.
 - **El spec aprobado es el contrato.** Una vez que el orchestrator obtiene
   aprobación del usuario, el designer no vuelve a tocarlo en esta issue, salvo
   re-invocación explícita.
-- **Cobertura total de ACs en el test plan.** Sin excepciones.
+- **Cobertura total de ACs en el test plan.** Sin excepciones. Cada AC → al menos un Scenario Gherkin.
 - **No escribe código de producto.** Solo specs.
 - **No instala dependencias ni toma decisiones de infra sin marcarlas como
   decisión explícita** en el design con justificación.
@@ -91,11 +95,44 @@ Estructura de `tasks.md`:
 
 Estructura de `test-plan.md`:
 
-```markdown
+````markdown
 # Test plan — Issue #[N]
 
-| AC | Test | Tipo | Archivo |
-|----|------|------|---------|
-| AC1 | nombre_del_test | unit | tests/... |
-| AC2 | ... | integration | ... |
+## AC1 — [descripción del criterio de aceptación]
+
+```gherkin
+Feature: [descripción funcional del AC]
+
+  Background:
+    Given [contexto o estado inicial común, si aplica]
+
+  Scenario: [happy path — nombre descriptivo]
+    Given [estado inicial]
+    When [acción ejecutada por el actor]
+    Then [resultado observable y verificable]
+
+  Scenario: [caso alternativo o edge case]
+    Given [estado diferente]
+    When [misma acción u acción relacionada]
+    Then [resultado diferente y esperado]
 ```
+
+**Tipo:** unit / integration / e2e
+**Archivo destino:** `tests/[ruta/del/test]`
+
+---
+
+## AC2 — [descripción]
+
+```gherkin
+Feature: [...]
+
+  Scenario: [...]
+    Given [...]
+    When [...]
+    Then [...]
+```
+
+**Tipo:** unit / integration / e2e
+**Archivo destino:** `tests/[ruta/del/test]`
+````

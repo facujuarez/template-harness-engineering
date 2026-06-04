@@ -8,11 +8,14 @@
  ## Visión general
  
  ```
- FASE 0  new-issue     → Idea → Issue refinada en GitHub
+ ── SETUP DE PROYECTO (una sola vez) ──────────────────────────────────────
+ FASE 0  setup-project → docs/ completos + Milestones + Issues en GitHub
+
+ ── CICLO POR ISSUE (se repite por cada issue del backlog) ────────────────
  FASE 1  start-issue   → Issue → Branch + contexto + nivel detectado
- FASE 2  design        → Contexto → Spec aprobado (L1, L2)
+ FASE 2  design        → Contexto → Spec aprobado (test-plan en Gherkin)
  FASE 3  implement     → Spec → Código + commits
- FASE 4  verify        → Código → Reporte de verificación (L1, L2)
+ FASE 4  verify        → Código → Reporte (ACs + Mutation Testing + checkpoint)
  FASE 5  [MANUAL]      → Revisión funcional en entorno local
  FASE 6  create-pr     → PR creada → In Review + project-memory actualizado
  ```
@@ -37,40 +40,51 @@
  
  ---
  
- ## FASE 0 — `new-issue [descripción libre]`
- 
- **Rol responsable:** [orchestrator](agents/orchestrator.md).
- 
- **Objetivo:** Convertir una idea en lenguaje natural en una Issue de GitHub
- bien definida, con criterios de aceptación testeables y lista para trabajar.
- 
+ ## FASE 0 — `setup-project`
+
+ **Rol responsable:** [project-manager](agents/project-manager.md).
+
+ **Objetivo:** Completar los documentos de `docs/` mediante entrevista guiada
+ y generar el backlog inicial en GitHub (Milestones por fase + Issues por tarea).
+ Esta fase se ejecuta **una sola vez** al iniciar el proyecto.
+
+ **Modos de uso:**
+ ```
+ /setup-project           → flujo completo (entrevista + backlog)
+ /setup-project docs      → solo entrevista de documentos
+ /setup-project backlog   → solo generación de backlog (docs/ ya completos)
+ ```
+
  **Lee al iniciar:**
- - `workflow/docs/product-context.md`
- - `workflow/docs/tech-stack.md`
+ - `docs/functional.md`
+ - `docs/architecture.md`
+ - `docs/data-model.md`
+ - `docs/project-plan.md`
  - `workflow/docs/issue-template.md`
- - `workflow/docs/definition-of-ready.md`
  - `feature_list.json`
- 
+
  **Flujo:**
- 
- 1. El usuario describe el requisito (libre, sin formato).
- 2. El orchestrator hace escucha activa: máx. 3 preguntas por ronda,
-    priorizando las más críticas (problema de negocio, usuario afectado,
-    criterio de éxito).
- 3. Infiere tipo (`feature/bug/chore/spike`) y tamaño (`XS/S/M/L/XL`).
-    Si es `L` o `XL`, evalúa si conviene dividir.
- 4. Genera borrador completo con el template canónico.
- 5. Itera hasta aprobación explícita del usuario.
- 6. **Gate:** aprobación explícita antes de crear nada en GitHub.
- 7. Crea Issue en GitHub con labels de tipo y tamaño.
- 8. Agrega entrada nueva a `feature_list.json` con `status: pending`.
- 9. Opcionalmente mueve a **Ready** (verifica Definition of Ready primero).
- 
- **Output:** Issue #N en GitHub con status `Backlog` o `Ready`,
- sincronizada en `feature_list.json`.
- 
+
+ 1. Revisa el estado de los 4 documentos de `docs/` y reporta: `VACÍO / PARCIAL / COMPLETO`.
+ 2. Por cada documento incompleto (orden: functional → architecture → data-model →
+    project-plan), conduce la entrevista sección por sección:
+    - Máx. 4 preguntas por ronda.
+    - Muestra preview de cada sección antes de escribir.
+    - Escribe solo tras aprobación explícita.
+ 3. **Gate:** todos los documentos aprobados antes de proceder al backlog.
+ 4. Lee `docs/project-plan.md`, presenta el plan de Milestones + Issues y
+    espera aprobación explícita del usuario.
+ 5. Crea Milestones (una por fase) e Issues (una por tarea) en GitHub.
+ 6. Inicializa `feature_list.json` con todas las issues en `status: pending`.
+
+ **Output:**
+ - `docs/` completos y aprobados.
+ - Milestones en GitHub correspondientes a cada fase del plan.
+ - Issues en GitHub correspondientes a cada tarea, asignadas a su Milestone.
+ - `feature_list.json` inicializado.
+
  ---
- 
+
  ## FASE 1 — `start-issue [N]`
  
  **Rol responsable:** [orchestrator](agents/orchestrator.md).
@@ -80,7 +94,7 @@
  
  **Lee al iniciar:**
  - `AGENTS.md`
- - `workflow/docs/tech-stack.md`
+ - `docs/architecture.md` (o `workflow/docs/tech-stack.md` como fallback)
  - `workflow/docs/workflow-conventions.md`
  - `workflow/docs/workflow-levels.md`
  - `workflow/specs/project-memory.md` (si existe)
@@ -327,6 +341,36 @@
  
  ---
  
+ ## UTILIDAD — `new-issue [descripción libre]`
+
+ **Rol responsable:** [orchestrator](agents/orchestrator.md).
+
+ **Objetivo:** Crear una Issue individual ad-hoc (bug, spike o feature no
+ planificada) para casos que no forman parte del backlog generado en Fase 0.
+ Para el backlog inicial del proyecto usar `setup-project`.
+
+ **Lee al iniciar:**
+ - `docs/functional.md` (o `workflow/docs/product-context.md` como fallback)
+ - `docs/architecture.md` (o `workflow/docs/tech-stack.md` como fallback)
+ - `workflow/docs/issue-template.md`
+ - `workflow/docs/definition-of-ready.md`
+ - `feature_list.json`
+
+ **Flujo:**
+
+ 1. El usuario describe el requisito (libre, sin formato).
+ 2. El orchestrator hace escucha activa: máx. 3 preguntas por ronda.
+ 3. Infiere tipo y tamaño. Si es `L` o `XL`, evalúa si conviene dividir.
+ 4. Genera borrador con el template canónico.
+ 5. **Gate:** aprobación explícita antes de crear nada en GitHub.
+ 6. Crea Issue asignándola a la Milestone de la fase activa del proyecto.
+ 7. Agrega entrada a `feature_list.json` con `status: pending`.
+
+ **Output:** Issue #N en GitHub con Milestone asignada, sincronizada en
+ `feature_list.json`.
+
+ ---
+
  ## UTILIDAD — `move-issue [N] [estado]`
  
  **Rol responsable:** [orchestrator](agents/orchestrator.md).
@@ -361,22 +405,23 @@
  | `workflow/agents/*.md` | Definición de cada rol. |
  
  ### Roles — corren en contexto aislado
- 
+
  | Archivo | Rol | Usado en |
  |---------|-----|----------|
- | `workflow/agents/orchestrator.md` | Líder, único canal con el usuario | Todas las fases |
+ | `workflow/agents/project-manager.md` | Entrevista de docs + generación de backlog | Fase 0 |
+ | `workflow/agents/orchestrator.md` | Líder, único canal con el usuario | Fases 1–6 |
  | `workflow/agents/explorer.md` | Análisis estático del codebase | Fase 2 |
- | `workflow/agents/designer.md` | Diseño arquitectónico + spec | Fase 2 |
+ | `workflow/agents/designer.md` | Diseño arquitectónico + spec (Gherkin) | Fase 2 |
  | `workflow/agents/implementer.md` | Implementación task por task | Fase 3 |
- | `workflow/agents/reviewer.md` | Verificación de ACs + build + tests + `workflow/docs/checkpoint.md` | Fase 4 |
- 
+ | `workflow/agents/reviewer.md` | ACs + build + tests + Mutation Testing + checkpoint | Fase 4 |
+
  ### Capa provider-specific (opcional)
- 
+
  Si el harness lo soporta, se crea como adapter. Ejemplo Claude Code:
- 
+
  | Archivo | Comando | Fase |
  |---------|---------|------|
- | `.claude/skills/new-issue/SKILL.md` | `/new-issue` | 0 |
+ | `.claude/skills/setup-project/SKILL.md` | `/setup-project` | 0 |
  | `.claude/skills/start-issue/SKILL.md` | `/start-issue` | 1 |
  | `.claude/skills/design/SKILL.md` | `/design` | 2 |
  | `.claude/skills/implement/SKILL.md` | `/implement` | 3 |
@@ -400,15 +445,19 @@
  | `workflow/docs/checkpoint.md` | Checklist de cierre de sesión (dueño: reviewer) |
  | `feature_list.json` | Estado sincronizado de features/issues |
  
- ### Documentación del proyecto *(completar al iniciar)*
- 
+ ### Documentación del proyecto *(se completa con `/setup-project`)*
+
  | Archivo | Qué contiene | ¿Editar? |
  |---------|--------------|----------|
- | `workflow/docs/product-context.md` | Qué es el producto, usuarios, módulos | ⚠️ Sí |
- | `workflow/docs/tech-stack.md` | Stack, comandos build/test/lint, estructura | ⚠️ Sí |
+ | `docs/functional.md` | Visión, RF, RNF, entidades, CU, riesgos | ⚠️ Sí (vía `/setup-project`) |
+ | `docs/architecture.md` | Stack, diseño técnico, auth, deploy | ⚠️ Sí (vía `/setup-project`) |
+ | `docs/data-model.md` | Modelo de datos, índices, cache | ⚠️ Sí (vía `/setup-project`) |
+ | `docs/project-plan.md` | Fases, tareas, milestones | ⚠️ Sí (vía `/setup-project`) |
+ | `workflow/docs/product-context.md` | Fallback de contexto (si `docs/` no está listo) | Opcional |
+ | `workflow/docs/tech-stack.md` | Fallback de stack (si `docs/` no está listo) | Opcional |
  | `workflow/docs/workflow-conventions.md` | Branches, commits, PRs | Opcional |
  | `workflow/docs/workflow-levels.md` | Referencia del sistema L0/L1/L2 | No |
- | `workflow/docs/definition-of-ready.md` | Criterios para estado Ready | Opcional |
+ | `workflow/docs/definition-of-ready.md` | Criterios para estado Ready (incluye Milestone) | Opcional |
  | `workflow/docs/issue-template.md` | Template canónico de Issues | Opcional |
  | `workflow/docs/dev-review-checklist.md` | Checklist Fase 5 manual | Opcional |
  
@@ -437,9 +486,6 @@
        `[GITHUB_REPO]`, `[PROJECT_BOARD_URL]`.
  - [ ] Completar `feature_list.json` (project, description; eliminar feature
        de ejemplo).
- - [ ] Completar `workflow/docs/product-context.md`.
- - [ ] Completar `workflow/docs/tech-stack.md` (especialmente los comandos de
-       build/test/lint).
  - [ ] Instalar el pre-commit hook (`cp workflow/scripts/pre-commit-check.sh
        .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit`).
  - [ ] Autenticar GitHub CLI: `gh auth login`.
@@ -448,7 +494,9 @@
  - [ ] Crear labels en el repo: `type:feature`, `type:bug`, `type:chore`,
        `type:spike`, `size:XS/S/M/L/XL`.
  - [ ] Abrir tu harness en el proyecto y verificar que carga `AGENTS.md`.
- - [ ] Primera issue de prueba: `new-issue [descripción pequeña]`.
+ - [ ] **Ejecutar `/setup-project`** para completar `docs/` y generar el
+       backlog inicial (Milestones + Issues en GitHub).
+ - [ ] Verificar que las Issues creadas están en el Project Board (columna Backlog).
  
  ---
  

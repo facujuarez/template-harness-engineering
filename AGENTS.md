@@ -17,9 +17,12 @@
 
 Antes de cualquier acción, el agente activo debe leer:
 
-1. `workflow/docs/product-context.md`
-2. `workflow/docs/tech-stack.md`
-3. `feature_list.json` (estado actual de features/issues)
+1. `docs/functional.md` — contexto del producto, usuarios y requerimientos
+   *(fallback: `workflow/docs/product-context.md` si `docs/` aún no fue completado)*
+2. `docs/architecture.md` — stack tecnológico, comandos de build/test/lint
+   *(fallback: `workflow/docs/tech-stack.md` si `docs/` aún no fue completado)*
+3. `docs/project-plan.md` — fases y contexto de ejecución *(si existe)*
+4. `feature_list.json` (estado actual de features/issues)
 
 ---
 
@@ -32,11 +35,12 @@ secuencialmente en una sola sesión. La definición canónica es la de
 
 | Rol | Archivo | Responsabilidad |
 |-----|---------|-----------------|
+| **Project Manager** | [workflow/agents/project-manager.md](workflow/agents/project-manager.md) | Fase 0. Entrevista y completa `docs/`. Genera backlog en GitHub (Milestones + Issues). |
 | **Orchestrator** | [workflow/agents/orchestrator.md](workflow/agents/orchestrator.md) | Líder. Detecta nivel, delega, aplica gates, único canal hacia el usuario. |
 | **Explorer** | [workflow/agents/explorer.md](workflow/agents/explorer.md) | Análisis read-only del codebase. Insumo del Designer. |
-| **Designer** | [workflow/agents/designer.md](workflow/agents/designer.md) | Genera el spec (design + tasks + test-plan). |
+| **Designer** | [workflow/agents/designer.md](workflow/agents/designer.md) | Genera el spec (design + tasks + test-plan en Gherkin). |
 | **Implementer** | [workflow/agents/implementer.md](workflow/agents/implementer.md) | Ejecuta tasks del spec, una a una. Respeta pre-commit. |
-| **Reviewer** | [workflow/agents/reviewer.md](workflow/agents/reviewer.md) | Verifica ACs, build, tests. Dueño de `workflow/docs/checkpoint.md`. Bloquea cierre si quedan boxes vacíos. |
+| **Reviewer** | [workflow/agents/reviewer.md](workflow/agents/reviewer.md) | Verifica ACs, build, tests y robustez por Mutation Testing. Dueño de `workflow/docs/checkpoint.md`. |
 
 ---
 
@@ -55,14 +59,22 @@ Detalle: `workflow/docs/workflow-levels.md`.
 
 ---
 
-## Flujo completo (L1 / L2)
+## Flujo completo
+
+### Fase 0 — Setup de proyecto (una sola vez)
 
 ```
-FASE 0  new-issue      → Orchestrator captura y refina requisito → Issue en GitHub
+FASE 0  setup-project  → Project Manager completa docs/ + genera backlog en GitHub
+                          (Milestones por fase + Issues por tarea de project-plan.md)
+```
+
+### Ciclo por issue (L1 / L2, se repite por cada issue)
+
+```
 FASE 1  start-issue    → Orchestrator detecta nivel, crea branch, genera contexto
-FASE 2  design         → Explorer + Designer producen el spec
+FASE 2  design         → Explorer + Designer producen el spec (test-plan en Gherkin)
 FASE 3  implement      → Implementer ejecuta task por task + pre-commit hook
-FASE 4  verify         → Reviewer cubre ACs + build + tests + workflow/docs/checkpoint.md
+FASE 4  verify         → Reviewer: ACs + build + tests + Mutation Testing + checkpoint
 FASE 5  [MANUAL]       → Dev review en entorno local (gate humano)
 FASE 6  create-pr      → Orchestrator genera PR desde spec + reporte
 ```
@@ -77,12 +89,13 @@ los ejecuta** y la **fase que cubren**.
 
 | Comando | Rol responsable | Fase | Niveles |
 |---------|-----------------|------|---------|
-| `new-issue [descripción]` | Orchestrator | 0 | Todos |
+| `setup-project` | Project Manager | 0 | — (una vez) |
 | `start-issue [N]` | Orchestrator | 1 | Todos |
 | `design` | Explorer + Designer | 2 | L1, L2 |
 | `implement` | Implementer | 3 | Todos |
 | `verify` | Reviewer | 4 | L1, L2 |
 | `create-pr` | Orchestrator | 6 | Todos |
+| `new-issue [descripción]` | Orchestrator | utilidad | Todos |
 | `move-issue [N] [estado]` | Orchestrator | utilidad | Todos |
 
 ---
@@ -113,13 +126,17 @@ Ambos se commitean junto con los specs.
 |---------|-------------|
 | `AGENTS.md` | Este archivo. Contrato del harness. |
 | `workflow/agents/*.md` | Definición de cada rol. |
+| `docs/functional.md` | Visión del producto, RF, RNF, entidades, CU. **Fuente primaria.** |
+| `docs/architecture.md` | Stack, diseño técnico, comandos build/test/lint. **Fuente primaria.** |
+| `docs/data-model.md` | Modelo de datos, entidades, índices, cache. |
+| `docs/project-plan.md` | Fases, tareas, milestones del proyecto. |
+| `workflow/docs/product-context.md` | Fallback si `docs/` aún no está completado. |
+| `workflow/docs/tech-stack.md` | Fallback si `docs/` aún no está completado. |
 | `workflow/docs/checkpoint.md` | Template de checklist de cierre de sesión (Reviewer). |
 | `feature_list.json` | Estado sincronizado de features/issues. |
 | `init.sh` | Verificación e inicialización del entorno. |
-| `workflow/docs/product-context.md` | Qué es el producto, usuarios, módulos. |
-| `workflow/docs/tech-stack.md` | Stack, comandos de build/test/lint, estructura. |
 | `workflow/docs/workflow-conventions.md` | Branches, commits, PRs. |
-| `workflow/docs/definition-of-ready.md` | Criterios para estado Ready. |
+| `workflow/docs/definition-of-ready.md` | Criterios para estado Ready (incluye Milestone). |
 | `workflow/docs/issue-template.md` | Template canónico de Issues. |
 | `workflow/docs/dev-review-checklist.md` | Checklist Fase 5 (manual). |
 | `workflow/docs/workflow-levels.md` | Referencia del sistema de niveles. |

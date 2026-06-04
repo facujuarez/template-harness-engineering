@@ -41,6 +41,7 @@ secuencialmente en una sola sesión. La definición canónica es la de
 | **Designer** | [workflow/agents/designer.md](workflow/agents/designer.md) | Genera el spec (design + tasks + test-plan en Gherkin). |
 | **Implementer** | [workflow/agents/implementer.md](workflow/agents/implementer.md) | Ejecuta tasks del spec, una a una. Respeta pre-commit. |
 | **Reviewer** | [workflow/agents/reviewer.md](workflow/agents/reviewer.md) | Verifica ACs, build, tests y robustez por Mutation Testing. Dueño de `workflow/docs/checkpoint.md`. |
+| **Doc Updater** | [workflow/agents/doc-updater.md](workflow/agents/doc-updater.md) | Fase 6. Detecta cambios en arquitectura, modelo de datos y requerimientos, y propone actualizaciones a `docs/`. |
 
 ---
 
@@ -76,7 +77,7 @@ FASE 2  design         → Explorer + Designer producen el spec (test-plan en Gh
 FASE 3  implement      → Implementer ejecuta task por task + pre-commit hook
 FASE 4  verify         → Reviewer: ACs + build + tests + Mutation Testing + checkpoint
 FASE 5  [MANUAL]       → Dev review en entorno local (gate humano)
-FASE 6  create-pr      → Orchestrator genera PR desde spec + reporte
+FASE 6  create-pr      → Doc Updater sincroniza docs/ → Orchestrator genera PR desde spec + reporte
 ```
 
 ---
@@ -143,6 +144,7 @@ Ambos se commitean junto con los specs.
 | `workflow/specs/active-issue.md` | Issue y nivel activos en sesión. |
 | `workflow/specs/project-memory.md` | Memoria persistente cross-issues. |
 | `workflow/specs/checkpoint-<N>.md` | Copia por issue del checkpoint cerrado. |
+| `workflow/specs/issue-{N}/doc-update-report.md` | Cambios aplicados a `docs/` al cerrar la issue. |
 
 ---
 
@@ -154,8 +156,9 @@ Ambos se commitean junto con los specs.
    independientes en Fase 2 (exploración por área) y Fase 4 (verificación por área).
 4. **Los gates manuales son intencionales.** No se saltan.
 5. **Si hay ambigüedad, preguntar.** No asumir ni inventar.
-6. **Actualizar `feature_list.json` y `workflow/specs/project-memory.md`** al
-   cerrar cada issue.
+6. **Actualizar `feature_list.json`, `workflow/specs/project-memory.md` y `docs/`** al
+   cerrar cada issue. El Doc Updater propone los cambios a `docs/`; el Orchestrator
+   obtiene aprobación explícita antes de escribir.
 7. **El Reviewer bloquea el cierre de sesión** si `workflow/docs/checkpoint.md`
    tiene boxes en `[ ]`.
 

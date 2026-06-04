@@ -17,7 +17,7 @@
  FASE 3  implement     → Spec → Código + commits
  FASE 4  verify        → Código → Reporte (ACs + Mutation Testing + checkpoint)
  FASE 5  [MANUAL]      → Revisión funcional en entorno local
- FASE 6  create-pr     → PR creada → In Review + project-memory actualizado
+ FASE 6  create-pr     → doc-updater sincroniza docs/ → PR creada → In Review + project-memory actualizado
  ```
  
  Los nombres son **convención**: cada harness los expone como mejor encaje
@@ -314,28 +314,40 @@
     - Actualizado respecto a `develop` (si no, pregunta si hacer rebase).
     - `workflow/docs/checkpoint.md` cerrado por el reviewer.
  3. Para **L1/L2:** verifica que existe `verification-report.md`.
- 4. **Gate:** muestra borrador de PR y espera aprobación explícita.
- 5. Tras aprobación, hace `git push origin {branch}` (única operación que
-    contacta GitHub para publicar; nunca antes).
- 6. Genera descripción de PR según nivel:
+ 4. **Invoca al [doc-updater](agents/doc-updater.md)** en contexto aislado:
+    - Analiza `design.md`, `verification-report.md` y `active-issue.md`.
+    - Compara contra el estado actual de `docs/architecture.md`,
+      `docs/data-model.md` y `docs/functional.md`.
+    - Devuelve propuestas de actualización con diff sección a sección.
+    - Si no detecta cambios relevantes, lo declara y no propone nada.
+ 5. **Gate:** muestra borrador de PR + propuestas del doc-updater y espera
+    aprobación explícita. El usuario puede aprobar los cambios de docs
+    todos, parcialmente, o ninguno.
+ 6. Aplica las actualizaciones aprobadas a `docs/` y genera
+    `workflow/specs/issue-{N}/doc-update-report.md`.
+ 7. Hace `git push origin {branch}` (única operación que contacta GitHub
+    para publicar; nunca antes).
+ 8. Genera descripción de PR según nivel:
     - **L0:** descripción simple con ACs cubiertos.
     - **L1/L2:** descripción completa con ACs + tabla de verificación +
       decisiones técnicas relevantes + out of scope intencional.
- 7. Crea PR en GitHub con `gh pr create`:
+ 9. Crea PR en GitHub con `gh pr create`:
     - Título: `{tipo}(issue-{N}): {descripción}`
     - Base: `develop` (nunca `main` directamente)
     - `Closes #{N}` en la descripción
- 8. Mueve issue a **In Review** en el Project Board.
- 9. **Actualiza `workflow/specs/project-memory.md`** con:
-    - Resumen de cambios realizados
-    - Patrones nuevos introducidos
-    - Archivos clave afectados
-    - Aprendizajes para futuras issues similares
- 10. Confirma estado final en `feature_list.json`.
+ 10. Mueve issue a **In Review** en el Project Board.
+ 11. **Actualiza `workflow/specs/project-memory.md`** con:
+     - Resumen de cambios realizados
+     - Patrones nuevos introducidos
+     - Archivos clave afectados
+     - Aprendizajes para futuras issues similares
+ 12. Confirma estado final en `feature_list.json`.
  
  **Output:**
  - PR creada en GitHub linkeada a la issue.
  - Issue en estado **In Review**.
+ - `docs/` actualizados con los cambios aprobados.
+ - `workflow/specs/issue-{N}/doc-update-report.md` generado.
  - `project-memory.md` actualizado.
  - `feature_list.json` reflejando el cierre de scope.
  
@@ -414,6 +426,7 @@
  | `workflow/agents/designer.md` | Diseño arquitectónico + spec (Gherkin) | Fase 2 |
  | `workflow/agents/implementer.md` | Implementación task por task | Fase 3 |
  | `workflow/agents/reviewer.md` | ACs + build + tests + Mutation Testing + checkpoint | Fase 4 |
+ | `workflow/agents/doc-updater.md` | Detecta y propone actualizaciones a `docs/` tras la issue | Fase 6 |
 
  ### Capa provider-specific (opcional)
 
@@ -473,6 +486,7 @@
  | `workflow/specs/issue-{N}/test-plan.md` | Plan de pruebas | ✅ Sí |
  | `workflow/specs/issue-{N}/verification-report.md` | Reporte de verificación | ✅ Sí |
  | `workflow/specs/checkpoint-{N}.md` | Histórico inmutable del checkpoint cerrado | ✅ Sí |
+ | `workflow/specs/issue-{N}/doc-update-report.md` | Registro de actualizaciones aplicadas a `docs/` | ✅ Sí |
  
  ---
  

@@ -32,7 +32,9 @@
    - **Fase 4 (L1/L2):** invoca al [[reviewer]] con `workflow/docs/checkpoint.md` como contrato.
    - **Fase 5:** **gate manual.** Pausa, presenta `workflow/docs/dev-review-checklist.md`
      y espera confirmación humana.
-   - **Fase 6:** genera el PR con `gh pr create` usando spec + reporte del reviewer.
+   - **Fase 6:** invoca al [[doc-updater]] para proponer actualizaciones a `docs/`;
+     tras aprobación del usuario, genera el PR con `gh pr create` incluyendo spec +
+     reporte del reviewer + doc-update-report.
 
 4. **Gestión de estado**
    - Mantiene `feature_list.json` sincronizado en cada transición de estado.
@@ -71,11 +73,19 @@
                                       │ checkpoint.md verde
                                       ▼
                               (de vuelta al Orchestrator
-                               para Fase 5 y PR)
+                               para Fase 5 → Fase 6)
+                                      │ (Fase 6: post Fase 5 aprobada)
+                              ┌───────▼───────┐
+                              │  Doc Updater  │
+                              └───────────────┘
+                                      │ propuestas + report
+                                      ▼
+                              (Orchestrator presenta
+                               PR draft + doc changes)
 ```
 
 - **Recibe de:** Usuario (lenguaje natural), Reviewer (reporte de cierre).
-- **Entrega a:** Explorer, Designer, Implementer, Reviewer (contextos delegados).
+- **Entrega a:** Explorer, Designer, Implementer, Reviewer, Doc Updater (contextos delegados).
 - **Nunca hereda contexto entre fases sin congelarlo en disco:** todo se
   persiste en `workflow/specs/` y `feature_list.json` para que cada agente
   arranque desde un estado leíble.

@@ -25,8 +25,7 @@
 3. **Plan de tests en Gherkin**
    - Por cada AC de la Issue, escribe uno o más escenarios Gherkin
      (`Feature` / `Scenario` / `Given-When-Then`) en `test-plan.md`.
-   - Niveles de test (unit / integration / e2e) según `workflow/docs/tech-stack.md`
-     o `docs/architecture.md`.
+   - Niveles de test (unit / integration / e2e) según `docs/architecture.md`.
    - **Cobertura de ACs es regla del [[reviewer]]:** si un AC no tiene Scenario
      Gherkin asociado, el spec no cierra.
    - Cada Scenario debe ser verificable directamente: el [[implementer]] lo usa

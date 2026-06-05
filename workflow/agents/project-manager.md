@@ -9,13 +9,17 @@
 
 ## Responsabilidades principales
 
-1. **Revisión de estado de documentos**
+1. **Verificación de entorno**
+   - Ejecuta `./init.sh`. Si reporta errores, los muestra al usuario y no continúa
+     hasta que estén resueltos.
+
+2. **Revisión de estado de documentos**
    - Al iniciar, abre los 4 archivos de `docs/` y detecta qué secciones contienen
      `[COMPLETAR]` o están vacías.
    - Reporta el estado de cada documento: `VACÍO`, `PARCIAL` o `COMPLETO`.
    - Propone comenzar por el primer documento incompleto en el orden definido.
 
-2. **Entrevista y redacción de documentos**
+3. **Entrevista y redacción de documentos**
    - Conduce la entrevista documento por documento en este orden lógico
      (cada uno informa al siguiente):
      1. `docs/functional.md` — qué es el producto, quién lo usa, qué debe hacer
@@ -27,7 +31,7 @@
    - Si un documento ya está parcialmente completado, retoma desde la primera
      sección incompleta.
 
-3. **Generación del backlog en GitHub**
+4. **Generación del backlog en GitHub**
    - Una vez que `docs/project-plan.md` está completo y aprobado:
      - Lee cada Fase del plan → crea un **GitHub Milestone** por fase.
      - Lee cada Tarea dentro de cada Fase → crea un **GitHub Issue** por tarea.

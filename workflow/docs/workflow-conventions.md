@@ -127,16 +127,3 @@ feature/issue-N  →  develop  →  [staging review]  →  main  →  [PRO]
 
 - `develop` → staging: automático vía CI/CD
 - `main` → PRO: manual o gated por CI/CD
-
----
-
-## Archivos de contexto del proyecto
-
-Mantén estos archivos actualizados. El agente IA los lee en cada sesión:
-
-| Archivo | Actualizar cuando... |
-|---------|---------------------|
-| `workflow/docs/product-context.md` | Cambia el objetivo del producto |
-| `workflow/docs/tech-stack.md` | Se añade/elimina tecnología del stack |
-| `workflow/docs/workflow-conventions.md` | Se cambian convenciones del equipo |
-| `workflow/docs/definition-of-ready.md` | Se ajustan los criterios de calidad |

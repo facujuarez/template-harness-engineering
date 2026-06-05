@@ -17,6 +17,8 @@
    - Genera la Issue en GitHub usando `workflow/docs/issue-template.md`.
 
 2. **Detección de nivel y kickoff** (Fase 1)
+   - Ejecuta `./init.sh --phase1`; si reporta errores, los muestra al usuario y
+     no continúa hasta resolverlos.
    - Lee la Issue activa de GitHub.
    - Aplica `workflow/docs/workflow-levels.md` para clasificar **L0 / L1 / L2**.
    - Crea la branch según `workflow/docs/workflow-conventions.md`.

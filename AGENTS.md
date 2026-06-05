@@ -18,9 +18,7 @@
 Antes de cualquier acción, el agente activo debe leer:
 
 1. `docs/functional.md` — contexto del producto, usuarios y requerimientos
-   *(fallback: `workflow/docs/product-context.md` si `docs/` aún no fue completado)*
 2. `docs/architecture.md` — stack tecnológico, comandos de build/test/lint
-   *(fallback: `workflow/docs/tech-stack.md` si `docs/` aún no fue completado)*
 3. `docs/project-plan.md` — fases y contexto de ejecución *(si existe)*
 4. `feature_list.json` (estado actual de features/issues)
 
@@ -131,8 +129,6 @@ Ambos se commitean junto con los specs.
 | `docs/architecture.md` | Stack, diseño técnico, comandos build/test/lint. **Fuente primaria.** |
 | `docs/data-model.md` | Modelo de datos, entidades, índices, cache. |
 | `docs/project-plan.md` | Fases, tareas, milestones del proyecto. |
-| `workflow/docs/product-context.md` | Fallback si `docs/` aún no está completado. |
-| `workflow/docs/tech-stack.md` | Fallback si `docs/` aún no está completado. |
 | `workflow/docs/checkpoint.md` | Template de checklist de cierre de sesión (Reviewer). |
 | `feature_list.json` | Estado sincronizado de features/issues. |
 | `init.sh` | Verificación e inicialización del entorno. |

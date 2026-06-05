@@ -17,7 +17,7 @@
 
 2. **Build + Lint + Tests**
    - Corre los comandos canónicos del proyecto definidos en
-     `docs/architecture.md` o `workflow/docs/tech-stack.md` (build, lint, test).
+     `docs/architecture.md` (build, lint, test).
    - Todos deben pasar. Cero warnings ignorados sin justificación.
 
 3. **Cumplimiento del spec**

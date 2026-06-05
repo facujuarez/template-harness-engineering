@@ -27,6 +27,12 @@ cd "$ROOT_DIR"
 ERRORS=0
 WARNINGS=0
 
+# Parse mode: --phase1 adds docs/ completeness check
+MODE="phase0"
+for arg in "$@"; do
+  [[ "$arg" == "--phase1" ]] && MODE="phase1"
+done
+
 log_ok()    { printf "  ${GREEN}✓${RESET} %s\n" "$1"; }
 log_warn()  { printf "  ${YELLOW}!${RESET} %s\n" "$1"; WARNINGS=$((WARNINGS + 1)); }
 log_err()   { printf "  ${RED}✗${RESET} %s\n" "$1"; ERRORS=$((ERRORS + 1)); }
@@ -82,8 +88,6 @@ REQUIRED_FILES=(
   "workflow/agents/implementer.md"
   "workflow/agents/reviewer.md"
   "workflow/docs/checkpoint.md"
-  "workflow/docs/product-context.md"
-  "workflow/docs/tech-stack.md"
   "workflow/docs/workflow-conventions.md"
   "workflow/docs/definition-of-ready.md"
   "workflow/docs/issue-template.md"
@@ -185,7 +189,29 @@ if [[ -f "$CHECKPOINT" ]]; then
   fi
 fi
 
-# ---------- 7. Resumen ----------
+# ---------- 7. Documentos de proyecto ----------
+if [[ "$MODE" == "phase1" ]]; then
+  section "Documentos de proyecto"
+
+  REQUIRED_DOCS=(
+    "docs/functional.md"
+    "docs/architecture.md"
+  )
+
+  for doc in "${REQUIRED_DOCS[@]}"; do
+    if [[ ! -f "$doc" ]]; then
+      log_err "$doc — no existe. Ejecuta /setup-project antes de start-issue."
+    elif [[ ! -s "$doc" ]]; then
+      log_err "$doc — está vacío. Ejecuta /setup-project antes de start-issue."
+    elif grep -q '\[COMPLETAR\]' "$doc"; then
+      log_err "$doc — contiene secciones sin completar. Ejecuta /setup-project."
+    else
+      log_ok "$doc"
+    fi
+  done
+fi
+
+# ---------- 8. Resumen ----------
 section "Resumen"
 
 if (( ERRORS == 0 && WARNINGS == 0 )); then

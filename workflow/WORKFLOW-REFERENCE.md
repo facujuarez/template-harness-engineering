@@ -65,17 +65,19 @@
 
  **Flujo:**
 
- 1. Revisa el estado de los 4 documentos de `docs/` y reporta: `VACÍO / PARCIAL / COMPLETO`.
- 2. Por cada documento incompleto (orden: functional → architecture → data-model →
+ 1. Ejecuta `./init.sh`. Si reporta errores, los muestra al usuario y no continúa
+    hasta resolverlos.
+ 2. Revisa el estado de los 4 documentos de `docs/` y reporta: `VACÍO / PARCIAL / COMPLETO`.
+ 3. Por cada documento incompleto (orden: functional → architecture → data-model →
     project-plan), conduce la entrevista sección por sección:
     - Máx. 4 preguntas por ronda.
     - Muestra preview de cada sección antes de escribir.
     - Escribe solo tras aprobación explícita.
- 3. **Gate:** todos los documentos aprobados antes de proceder al backlog.
- 4. Lee `docs/project-plan.md`, presenta el plan de Milestones + Issues y
+ 4. **Gate:** todos los documentos aprobados antes de proceder al backlog.
+ 5. Lee `docs/project-plan.md`, presenta el plan de Milestones + Issues y
     espera aprobación explícita del usuario.
- 5. Crea Milestones (una por fase) e Issues (una por tarea) en GitHub.
- 6. Inicializa `feature_list.json` con todas las issues en `status: pending`.
+ 6. Crea Milestones (una por fase) e Issues (una por tarea) en GitHub.
+ 7. Inicializa `feature_list.json` con todas las issues en `status: pending`.
 
  **Output:**
  - `docs/` completos y aprobados.
@@ -94,7 +96,7 @@
  
  **Lee al iniciar:**
  - `AGENTS.md`
- - `docs/architecture.md` (o `workflow/docs/tech-stack.md` como fallback)
+ - `docs/architecture.md`
  - `workflow/docs/workflow-conventions.md`
  - `workflow/docs/workflow-levels.md`
  - `workflow/specs/project-memory.md` (si existe)
@@ -102,25 +104,27 @@
  
  **Flujo:**
  
- 1. Lee Issue #N completa desde GitHub (`gh issue view`).
- 2. **Detecta nivel** según label `size:*`:
+ 1. Ejecuta `./init.sh --phase1`. Si reporta errores, los muestra al usuario y no
+    continúa hasta resolverlos.
+ 2. Lee Issue #N completa desde GitHub (`gh issue view`).
+ 3. **Detecta nivel** según label `size:*`:
     - XS, S → **L0** (flujo ligero)
     - M → **L1** (flujo completo secuencial)
     - L, XL → **L2** (flujo completo con paralelismo)
     - Override a L1+ si afecta auth/seguridad/contratos de API
- 3. Crea branch siguiendo la convención `{tipo}/issue-{N}-{slug}` desde `develop`.
- 4. Hace checkout local del branch.
- 5. Instala el pre-commit hook si no existe (copia
+ 4. Crea branch siguiendo la convención `{tipo}/issue-{N}-{slug}` desde `develop`.
+ 5. Hace checkout local del branch.
+ 6. Instala el pre-commit hook si no existe (copia
     `workflow/scripts/pre-commit-check.sh` a `.git/hooks/pre-commit`).
- 6. Genera `workflow/specs/active-issue.md` con:
+ 7. Genera `workflow/specs/active-issue.md` con:
     - Número, título, nivel, branch, tipo, tamaño
     - ACs extraídos de la issue
     - Notas técnicas y out of scope
     - Para **L0:** tasks inline generadas directamente
     - Para **L1/L2:** specs marcados como pendientes (Fase 2)
- 7. Actualiza `feature_list.json`: feature → `in_progress`.
- 8. Mueve la issue a **In Progress** en el Project Board.
- 9. Presenta resumen e indica el siguiente comando según el nivel.
+ 8. Actualiza `feature_list.json`: feature → `in_progress`.
+ 9. Mueve la issue a **In Progress** en el Project Board.
+ 10. Presenta resumen e indica el siguiente comando según el nivel.
  
  **Output:**
  - Branch creado y en checkout.
@@ -197,7 +201,7 @@
     - b. El orchestrator delega al [implementer](agents/implementer.md) con:
       - Descripción completa de la task
       - Contenido de `design.md` y `api-contract.md`
-      - Convenciones de `tech-stack.md`
+      - Convenciones de `workflow-conventions.md`
     - c. El implementer trabaja en contexto aislado:
       - Lee archivos afectados en su estado actual
       - Implementa estrictamente según el spec
@@ -362,8 +366,8 @@
  Para el backlog inicial del proyecto usar `setup-project`.
 
  **Lee al iniciar:**
- - `docs/functional.md` (o `workflow/docs/product-context.md` como fallback)
- - `docs/architecture.md` (o `workflow/docs/tech-stack.md` como fallback)
+ - `docs/functional.md`
+ - `docs/architecture.md`
  - `workflow/docs/issue-template.md`
  - `workflow/docs/definition-of-ready.md`
  - `feature_list.json`
@@ -466,8 +470,6 @@
  | `docs/architecture.md` | Stack, diseño técnico, auth, deploy | ⚠️ Sí (vía `/setup-project`) |
  | `docs/data-model.md` | Modelo de datos, índices, cache | ⚠️ Sí (vía `/setup-project`) |
  | `docs/project-plan.md` | Fases, tareas, milestones | ⚠️ Sí (vía `/setup-project`) |
- | `workflow/docs/product-context.md` | Fallback de contexto (si `docs/` no está listo) | Opcional |
- | `workflow/docs/tech-stack.md` | Fallback de stack (si `docs/` no está listo) | Opcional |
  | `workflow/docs/workflow-conventions.md` | Branches, commits, PRs | Opcional |
  | `workflow/docs/workflow-levels.md` | Referencia del sistema L0/L1/L2 | No |
  | `workflow/docs/definition-of-ready.md` | Criterios para estado Ready (incluye Milestone) | Opcional |

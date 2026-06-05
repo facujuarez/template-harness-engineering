@@ -23,8 +23,7 @@ echo "🔍 Pre-commit check..."
 
 # ─────────────────────────────────────────
 # CONFIGURA AQUÍ TUS COMANDOS
-# (o mueve esta lógica a docs/tech-stack.md
-#  y lee desde ahí en una versión avanzada)
+# (o lee los comandos canónicos desde docs/architecture.md)
 # ─────────────────────────────────────────
 
 # Detecta el tipo de proyecto automáticamente

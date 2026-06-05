@@ -39,7 +39,7 @@
 
 ## 3. Build, lint, tests
 
-- [ ] `build` corre sin errores (comando: ver `workflow/docs/tech-stack.md`).
+- [ ] `build` corre sin errores (comando: ver `docs/architecture.md`).
 - [ ] `lint` corre sin errores ni warnings ignorados sin justificación.
 - [ ] Test suite completa pasa. Sin tests skipped sin justificación.
 - [ ] Pre-commit hook se ejecutó en cada commit (no se usó `--no-verify`).
@@ -64,8 +64,7 @@
 - [ ] El spec (`design.md`) documenta las decisiones no obvias.
 - [ ] Si se introdujeron nuevos comandos / scripts / convenciones, están
       documentados en `workflow/docs/` correspondiente.
-- [ ] Si se cambió la estructura del repo, `workflow/docs/tech-stack.md` se
-      actualizó.
+- [ ] Si se cambió la estructura del repo, `docs/architecture.md` se actualizó.
 
 ## 7. Listo para PR
 

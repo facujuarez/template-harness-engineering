@@ -17,7 +17,7 @@
 
 2. **Implementación**
    - Sigue las decisiones del design. **No improvisa arquitectura.**
-   - Respeta convenciones del proyecto (ver `workflow/docs/tech-stack.md` y
+   - Respeta convenciones del proyecto (ver `docs/architecture.md` y
      `workflow/docs/workflow-conventions.md`).
    - Escribe los tests definidos en `test-plan.md` antes o junto con el código.
    - TypeScript: `strict` siempre, sin `any`.

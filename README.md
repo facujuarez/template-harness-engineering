@@ -41,7 +41,7 @@ cd <tu-repo>
 # 3. Reemplazar placeholders del template:
 #    - AGENTS.md         → [PROJECT_NAME], [GITHUB_ORG]/[GITHUB_REPO], [PROJECT_BOARD_URL]
 #    - feature_list.json → project, description
-#    - workflow/docs/product-context.md, tech-stack.md → contenido real del proyecto
+#    Luego ejecutar /setup-project para completar docs/ mediante entrevista guiada
 ```
 
 A partir de aquí, abre el harness de tu elección (Claude Code, Cursor, etc.).

@@ -29,8 +29,6 @@ workflow/
 │   └── reviewer.md             → rol verificador: ACs + Mutation Testing + checkpoint
 ├── docs/
 │   ├── checkpoint.md           → checklist de cierre de sesión (dueño: reviewer)
-│   ├── product-context.md      → fallback de contexto si docs/ aún no está listo
-│   ├── tech-stack.md           → fallback de stack si docs/ aún no está listo
 │   ├── workflow-conventions.md → branches, commits, PRs
 │   ├── workflow-levels.md      → sistema de niveles L0/L1/L2
 │   ├── definition-of-ready.md  → criterios para Ready (incluye Milestone)

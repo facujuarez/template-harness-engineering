@@ -17,7 +17,7 @@ harness en uso (Claude Code, Cursor, Aider, Continue, OpenHands, Codex, etc.).
 |---|---|
 | `AGENTS.md` | Contrato raíz multi-provider. Lo leen todos los agentes al iniciar. |
 | `feature_list.json` | Estado sincronizado de features/issues. |
-| `workflow/agents/` | Definición de cada rol: orchestrator, explorer, designer, implementer, reviewer. |
+| `workflow/agents/` | Definición de cada rol: project-manager, orchestrator, explorer, designer, implementer, reviewer, doc-updater. |
 | `workflow/docs/checkpoint.md` | Checklist de cierre de sesión. Lo recorre el reviewer. Bloquea cierre con boxes vacíos. |
 | `workflow/docs/` | Contexto del proyecto: producto, stack, convenciones, niveles, templates. |
 | `workflow/specs/` | Specs activos por issue + memoria persistente cross-issues. |
@@ -31,41 +31,45 @@ harness en uso (Claude Code, Cursor, Aider, Continue, OpenHands, Codex, etc.).
 ## Quickstart
 
 ```bash
-# 1. Crear repo nuevo desde este template en GitHub, luego clonarlo:
-git clone git@github.com:<tu-org>/<tu-repo>.git
-cd <tu-repo>
-
-# 2. Verificar e inicializar el entorno:
+git clone git@github.com:<tu-org>/<tu-repo>.git && cd <tu-repo>
 ./init.sh
-
-# 3. Reemplazar placeholders del template:
-#    - AGENTS.md         → [PROJECT_NAME], [GITHUB_ORG]/[GITHUB_REPO], [PROJECT_BOARD_URL]
-#    - feature_list.json → project, description
-#    Luego ejecutar /setup-project para completar docs/ mediante entrevista guiada
+# Reemplazar en AGENTS.md: [PROJECT_NAME], [GITHUB_ORG]/[GITHUB_REPO], [PROJECT_BOARD_URL]
+# Reemplazar en feature_list.json: project, description
+# Luego ejecutar /setup-project
 ```
 
-A partir de aquí, abre el harness de tu elección (Claude Code, Cursor, etc.).
-El agente cargará `AGENTS.md` y `workflow/agents/*.md` y operará bajo los roles
-definidos. Tu primer comando suele ser `new-issue` (o el equivalente que tu
-harness mapee al orchestrator).
+Abre el harness de tu elección. El agente cargará `AGENTS.md` y operará bajo
+los roles definidos. Tu primer comando es `/setup-project`: conduce la
+entrevista guiada, genera `docs/`, crea el `README.md` del proyecto y publica
+el backlog en GitHub (Milestones + Issues).
 
 ---
 
 ## Roles de un vistazo
 
 ```
+── FASE 0 ──────────────────────────────────────────────────────────────────
+Project Manager → entrevista docs/ → genera README.md → backlog en GitHub
+
+── CICLO POR ISSUE ─────────────────────────────────────────────────────────
 Usuario ──▶ Orchestrator ──▶ Explorer ──▶ Designer ──▶ Implementer ──▶ Reviewer
-                  ▲                                                       │
-                  └───── checkpoint.md verde + reporte ───────────────────┘
+                ▲                                                          │
+                └────── checkpoint verde + reporte ───────────────────────┘
+                                    │
+                          Doc Updater → docs/ + README.md actualizados → PR
 ```
 
 Detalle en `workflow/agents/`:
 
-- **[Orchestrator](workflow/agents/orchestrator.md)** — líder, único canal con el usuario.
-- **[Explorer](workflow/agents/explorer.md)** — análisis read-only del codebase.
-- **[Designer](workflow/agents/designer.md)** — produce el spec (contrato).
-- **[Implementer](workflow/agents/implementer.md)** — ejecuta el spec, una task por commit.
-- **[Reviewer](workflow/agents/reviewer.md)** — verifica todo, dueño de `workflow/docs/checkpoint.md`.
+| Rol | Archivo | Fase |
+|-----|---------|------|
+| **[Project Manager](workflow/agents/project-manager.md)** | Entrevista `docs/`, genera `README.md` y backlog en GitHub. | 0 |
+| **[Orchestrator](workflow/agents/orchestrator.md)** | Líder, único canal con el usuario. Detecta nivel, aplica gates. | 1–6 |
+| **[Explorer](workflow/agents/explorer.md)** | Análisis read-only del codebase. Insumo del Designer. | 2 |
+| **[Designer](workflow/agents/designer.md)** | Produce el spec: design + tasks + test-plan en Gherkin. | 2 |
+| **[Implementer](workflow/agents/implementer.md)** | Ejecuta el spec, una task por commit. | 3 |
+| **[Reviewer](workflow/agents/reviewer.md)** | Verifica ACs, build, tests y Mutation Testing. Dueño de `checkpoint.md`. | 4 |
+| **[Doc Updater](workflow/agents/doc-updater.md)** | Detecta cambios de la issue y propone actualizaciones a `docs/` y `README.md`. | 6 |
 
 ---
 
@@ -73,7 +77,7 @@ Detalle en `workflow/agents/`:
 
 | Nivel | Tamaño | Flujo |
 |---|---|---|
-| **L0** | XS, S | new-issue → start-issue → implement → review → create-pr |
+| **L0** | XS, S | new-issue → start-issue → implement → create-pr |
 | **L1** | M | Flujo completo secuencial |
 | **L2** | L, XL | Flujo completo + agentes en paralelo en design y review |
 

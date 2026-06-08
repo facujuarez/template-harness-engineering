@@ -31,7 +31,15 @@
    - Si un documento ya está parcialmente completado, retoma desde la primera
      sección incompleta.
 
-4. **Generación del backlog en GitHub**
+4. **Generación del README.md**
+   - Una vez que los 4 documentos de `docs/` están completos y aprobados:
+     - Genera el `README.md` del proyecto a partir de la información consolidada.
+     - Muestra un preview completo y espera aprobación explícita antes de escribir.
+     - El README debe seguir la estructura definida en la sección **Formato del README**.
+   - Si el `README.md` ya existe (re-ejecución o actualización de docs), lo reemplaza
+     íntegramente con la versión actualizada —nunca hace parches parciales.
+
+5. **Generación del backlog en GitHub**
    - Una vez que `docs/project-plan.md` está completo y aprobado:
      - Lee cada Fase del plan → crea un **GitHub Milestone** por fase.
      - Lee cada Tarea dentro de cada Fase → crea un **GitHub Issue** por tarea.
@@ -97,6 +105,38 @@
 - **GitHub Milestones** — una por Fase definida en `docs/project-plan.md`.
 - **GitHub Issues** — una por Tarea, asignada a su Milestone.
 - `feature_list.json` — inicializado con todas las issues en `status: pending`.
+- `README.md` — generado/actualizado con la visión completa del proyecto.
+
+---
+
+## Formato del README
+
+```markdown
+# [Nombre del proyecto]
+
+> [Descripción de una línea extraída de docs/functional.md — visión del producto]
+
+## ¿Qué hace?
+[Párrafo breve: problema que resuelve y propuesta de valor. Máx. 3 oraciones.]
+
+## Stack tecnológico
+[Lista de tecnologías clave extraída de docs/architecture.md]
+
+## Estructura del proyecto
+[Árbol de directorios principal — solo nivel raíz y primer nivel relevante]
+
+## Documentación
+- [Análisis funcional](docs/functional.md)
+- [Arquitectura](docs/architecture.md)
+- [Modelo de datos](docs/data-model.md)
+- [Plan de proyecto](docs/project-plan.md)
+
+## Desarrollo
+[Comandos mínimos para levantar el entorno local, extraídos de docs/architecture.md]
+
+## Estado del proyecto
+[Fase actual según docs/project-plan.md — ej: "Fase 0 completada — backlog generado"]
+```
 
 ---
 

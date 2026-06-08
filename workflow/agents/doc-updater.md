@@ -24,6 +24,7 @@
    | Decisiones arquitectónicas | `design.md` (sección "decisiones técnicas") | `docs/architecture.md` |
    | Cambios en el modelo de datos | `design.md` + `verification-report.md` | `docs/data-model.md` |
    | Cambios o clarificaciones en requerimientos | `active-issue.md` (ACs aprobados) | `docs/functional.md` |
+   | Cambios visibles al lector externo (stack, estado, estructura) | cualquier doc actualizado en esta issue | `README.md` |
 
 3. **Propuesta de cambios**
    - Por cada sección afectada, muestra el diff propuesto (antes → después).
@@ -80,6 +81,7 @@
 - `docs/architecture.md` — actualizado (secciones aprobadas).
 - `docs/data-model.md` — actualizado (secciones aprobadas).
 - `docs/functional.md` — actualizado (secciones aprobadas).
+- `README.md` — actualizado si algún cambio aprobado afecta información visible externamente.
 - `workflow/specs/issue-{N}/doc-update-report.md`:
 
   ```markdown

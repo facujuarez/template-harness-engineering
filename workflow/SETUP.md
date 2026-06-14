@@ -1,79 +1,47 @@
 # Harness Engineering Workflow — Setup
 
-Guía de instalación completa del workflow AI-first **provider-agnostic** con
-agentes definidos en `workflow/agents/` + OpenSpec + GitHub.
-Incluye sistema de niveles, subagents, pre-commit hook y memoria persistente.
+> **⚠️ Leé esto primero.** Guía paso a paso para configurar tu proyecto desde cero
+> con el workflow AI-first **provider-agnostic**.
 
 ---
 
-## Estructura completa
+## Visión general del setup
+
+El setup tiene **dos fases principales**:
 
 ```
-AGENTS.md                       → contrato raíz multi-provider (auto-cargado por el harness)
-init.sh                         → verifica entorno e inicializa permisos
-feature_list.json               → estado sincronizado de features/issues
-
-docs/                           → ⚠️ DOCUMENTOS DE PROYECTO (completar con /setup-project)
-├── functional.md               → visión, RF, RNF, entidades, casos de uso
-├── architecture.md             → stack, diseño técnico, comandos build/test/lint
-├── data-model.md               → modelo de datos, índices, cache
-└── project-plan.md             → fases, tareas, milestones
-
-workflow/
-├── agents/
-│   ├── project-manager.md      → Fase 0: entrevista docs/ + generación de backlog
-│   ├── orchestrator.md         → rol líder: detecta nivel, delega, gestiona gates
-│   ├── explorer.md             → rol read-only: análisis estático del codebase
-│   ├── designer.md             → rol que genera el spec (test-plan en Gherkin)
-│   ├── implementer.md          → rol que ejecuta tasks del spec
-│   └── reviewer.md             → rol verificador: ACs + Mutation Testing + checkpoint
-├── docs/
-│   ├── checkpoint.md           → checklist de cierre de sesión (dueño: reviewer)
-│   ├── workflow-conventions.md → branches, commits, PRs
-│   ├── workflow-levels.md      → sistema de niveles L0/L1/L2
-│   ├── definition-of-ready.md  → criterios para Ready (incluye Milestone)
-│   ├── issue-template.md       → template canónico de Issues
-│   └── dev-review-checklist.md → checklist Fase 5
-├── scripts/
-│   └── pre-commit-check.sh     → hook de build + lint
-└── specs/
-    ├── project-memory.md       → memoria persistente cross-issues
-    ├── active-issue.md         → issue activa en sesión (generado)
-    └── checkpoint-<N>.md       → historial de checkpoints cerrados por issue
+FASE 0a  [MANUAL]         → Abrís el harness (Claude Code, Cursor, etc.)
+                             Leés este archivo (SETUP.md)
+                             
+FASE 0a  /init-harness    → Configurador genera .claude/, .cursor/, etc.
+                             Mapea roles de workflow/agents/ a la capa nativa
+                             
+FASE 0b  /setup-project   → Project Manager completa docs/ + backlog en GitHub
 ```
 
-### Capa provider-specific (opcional)
-
-Si el harness soporta una capa nativa, se crea como **adapter** que mapea 1:1
-contra `workflow/agents/*.md`. Ejemplo para Claude Code:
-
-```
-.claude/
-├── agents/
-│   ├── project-manager.md → wrapper apuntando a workflow/agents/project-manager.md
-│   ├── orchestrator.md    → idem
-│   ├── explorer.md        → idem
-│   ├── designer.md        → idem
-│   ├── implementer.md     → idem
-│   └── reviewer.md        → idem
-└── skills/
-    ├── setup-project/SKILL.md  → /setup-project  Fase 0
-    ├── start-issue/SKILL.md    → /start-issue    Fase 1
-    ├── design/SKILL.md         → /design         Fase 2
-    ├── implement/SKILL.md      → /implement      Fase 3
-    ├── verify/SKILL.md         → /verify         Fase 4
-    ├── create-pr/SKILL.md      → /create-pr      Fase 6
-    ├── new-issue/SKILL.md      → /new-issue      utilidad
-    └── move-issue/SKILL.md     → /move-issue     utilidad
-```
-
-En caso de conflicto, **`AGENTS.md` + `workflow/agents/` prevalecen**.
+Una vez completada la Fase 0, tu proyecto está 100% listo para el ciclo por issue.
 
 ---
 
-## Paso 1 — Crear repo desde el template
+## Flujo rápido (5 minutos)
 
-En GitHub: **Use this template → Create a new repository**. Luego cloná y entrá
+Si ya tenés experiencia con este workflow:
+
+```bash
+1. git clone ... && cd <repo>
+2. ./init.sh
+3. Abrí tu harness → ejecutá /init-harness [claude-code|cursor|copilot|aider]
+4. Una vez configurado, ejecutá /setup-project
+5. Respondé la entrevista guiada → backlog en GitHub listo
+```
+
+---
+
+## Flujo completo paso a paso
+
+### Paso 1 — Crear repo desde el template
+
+En GitHub: **Use this template → Create a new repository**. Luego clona y entra
 al directorio.
 
 ```bash
@@ -83,122 +51,145 @@ cd <tu-repo>
 
 ---
 
-## Paso 2 — Ejecutar init.sh
+### Paso 2 — Ejecutar init.sh (Configuración del entorno)
 
 ```bash
 ./init.sh
 ```
 
-Verifica:
-- Prerrequisitos (`git`, `gh`, `bash`, `jq`; opcionales: `node`, `dotnet`, `python3`)
-- Estructura canónica del harness
-- Validez de `feature_list.json`
-- Permisos de scripts (`chmod +x` automático)
-- Estado del `workflow/docs/checkpoint.md`
+Este script verifica:
+- ✓ Prerrequisitos (`git`, `gh`, `bash`, `jq`)
+- ✓ Estructura del repo (directorios y archivos canónicos)
+- ✓ Permisos de scripts
+- ✓ Validez de `feature_list.json`
 
-Si reporta errores, resolvelos y volvé a correrlo (es idempotente).
-
----
-
-## Paso 3 — Completar AGENTS.md
-
-Reemplazá los placeholders:
-- `[PROJECT_NAME]` → nombre de tu proyecto
-- `[GITHUB_ORG]` → tu organización/usuario de GitHub
-- `[GITHUB_REPO]` → nombre del repositorio
-- `[PROJECT_BOARD_URL]` → URL del GitHub Project Board
+Si reporta errores, resolvelos y volvé a correr (es **idempotente**).
 
 ---
 
-## Paso 4 — Completar feature_list.json
+### Paso 3 — Completar AGENTS.md
 
-Reemplazá `project` y `description` con los datos reales. Borrá la feature de
-ejemplo; el backlog real lo genera `/setup-project` en el Paso 5.
-
----
-
-## Paso 5 — Ejecutar /setup-project (Fase 0)
-
-**El paso más importante.** Invoca al agente `project-manager` para completar
-los documentos de `docs/` y generar el backlog inicial en GitHub.
+Reemplazá los placeholders en `AGENTS.md`:
 
 ```
-/setup-project              → flujo completo (entrevista de docs + backlog)
-/setup-project docs         → solo entrevista (sin crear backlog aún)
-/setup-project backlog      → solo backlog (si docs/ ya están completos)
+[PROJECT_NAME]     → Nombre de tu proyecto
+[GITHUB_ORG]       → Tu organización/usuario de GitHub
+[GITHUB_REPO]      → Nombre del repositorio
+[PROJECT_BOARD_URL] → URL del GitHub Project Board
 ```
 
-El agente conduce una entrevista estructurada por cada documento:
+Ejemplo:
+```markdown
+- **Nombre:** Mi Aplicación Web
+- **Repositorio:** miorg/mi-app-web
+- **GitHub Project Board:** https://github.com/miorg/mi-app-web/projects/1
+```
 
-1. `docs/functional.md` — visión del producto, usuarios, RF, RNF, casos de uso
-2. `docs/architecture.md` — stack tecnológico, diseño, comandos de build/test/lint
-3. `docs/data-model.md` — entidades, índices, estrategia de cache
-4. `docs/project-plan.md` — fases, tareas y criterios de éxito
+---
 
-Una vez aprobados los documentos, genera en GitHub:
+### Paso 4 — Completar feature_list.json
+
+Reemplazá `project` y `description`:
+
+```json
+{
+  "project": "Mi Aplicación Web",
+  "description": "Plataforma de e-commerce con panel de administración",
+  "features": []
+}
+```
+
+El backlog real lo genera `/setup-project` en el Paso 6.
+
+---
+
+### Paso 5 — Abrí tu harness y ejecutá /init-harness (FASE 0a)
+
+**Este es el paso más importante de la configuración inicial.**
+
+Abrí el harness que usarás (Claude Code, Cursor, GitHub Copilot, etc.) en este
+directorio. El agente leerá `AGENTS.md` automáticamente.
+
+Luego ejecutá:
+
+```
+/init-harness claude-code
+```
+
+(Reemplazá `claude-code` con tu harness: `cursor`, `copilot`, `aider`, `continue`, etc.)
+
+**Qué hace /init-harness:**
+
+1. Detecta el harness elegido.
+2. Lee `workflow/docs/harness-adapters.md` para saber qué generar.
+3. Genera la carpeta provider-specific:
+   - **Claude Code:** `.claude/agents/` + `.claude/skills/`
+   - **Cursor:** `.cursor/rules/`
+   - **Copilot:** `.copilot/rules/`
+   - **Otros:** adapta según capacidades del harness
+4. Mapea 1:1 cada rol de `workflow/agents/*.md` a la capa nativa.
+5. Valida que todo esté correcto.
+6. Reporta: "✓ Harness configurado — podés usar /setup-project ahora"
+
+---
+
+### Paso 6 — Ejecutá /setup-project (FASE 0b)
+
+Una vez que /init-harness terminó, ejecutá:
+
+```
+/setup-project
+```
+
+O con opciones específicas:
+
+```
+/setup-project docs      → solo entrevista de documentos
+/setup-project backlog   → solo generación de backlog (si docs/ ya están completos)
+/setup-project           → flujo completo (recomendado)
+```
+
+**Qué hace /setup-project:**
+
+El agente `project-manager` conduce una entrevista estructurada:
+
+1. **docs/functional.md** — ¿Qué es tu proyecto? Visión, usuarios, requerimientos.
+2. **docs/architecture.md** — ¿Cómo se construye? Stack, diseño, comandos build/test.
+3. **docs/data-model.md** — ¿Qué datos maneja? Entidades, índices, cache.
+4. **docs/project-plan.md** — ¿Cuáles son las fases y tareas? Plazos y métricas.
+
+Para cada documento:
+- El PM hace máx. 4 preguntas por ronda (apertura amplia → cierre específico).
+- Mostrará un preview de cada sección antes de escribir.
+- Espera tu aprobación antes de guardar.
+
+Una vez aprobados los 4 documentos y el `README.md`, crea en GitHub:
 - **Milestones** — una por fase de `docs/project-plan.md`
 - **Issues** — una por tarea, asignada a su Milestone
-
-> Si preferís completar los documentos manualmente antes de correr el workflow,
-> podés editar los archivos en `docs/` y luego ejecutar `/setup-project backlog`
-> para solo generar el backlog.
+- **README.md** — resumen del proyecto (100% proyecto-específico, sin referencias a plantilla)
 
 ---
 
-## Paso 6 — Instalar el pre-commit hook
+### Paso 7 — Instalar GitHub CLI y Project Board (opcional pero recomendado)
 
-```bash
-cp workflow/scripts/pre-commit-check.sh .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-```
-
-Alternativa: el orchestrator lo instala automáticamente al ejecutar
-`start-issue [N]` por primera vez en el repo.
-
----
-
-## Paso 7 — Configurar GitHub CLI
+**GitHub CLI:**
 
 ```bash
 gh auth login
 ```
 
-El orchestrator usa `gh` para todas las operaciones contra GitHub: crear
-issues, mover en el Project Board, abrir PRs.
-
 Permisos necesarios del token:
 - `repo` — leer y escribir en repos
 - `project` — leer y escribir en GitHub Projects
 
-### Capa provider-specific (Claude Code)
-
-Si usás Claude Code y querés el GitHub MCP nativo:
-
-```bash
-claude mcp add github \
-  --transport stdio \
-  -- npx -y @modelcontextprotocol/server-github
-```
-
-```bash
-export GITHUB_TOKEN=ghp_tu_token_aquí
-```
-
----
-
-## Paso 8 — Configurar GitHub Project Board
+**GitHub Project Board:**
 
 1. Tu repo → **Projects** → **New Project** → **Board**
 2. Configurá el campo **Status** con estas columnas:
    - `📋 Backlog` / `✅ Ready` / `🔧 In Progress` / `👀 In Review` / `✔️ Done`
-3. Copiá la URL al `AGENTS.md`.
+3. Copiá la URL a `AGENTS.md` (en la sección `[PROJECT_BOARD_URL]`).
 
-> Las Milestones las crea `/setup-project` automáticamente. No hace falta
-> crearlas a mano.
-
----
-
-## Paso 9 — Configurar labels en el repo
+**Labels en el repo (opcional):**
 
 ```
 type:feature  #0075ca    type:bug      #d73a4a
@@ -210,46 +201,125 @@ size:XL       #e11d48
 
 ---
 
-## Paso 10 — Verificar instalación
+### Paso 8 — Pre-commit hook (se instala automáticamente)
 
-Abrí tu harness en el directorio. El agente debería cargar `AGENTS.md`
-automáticamente y reconocer los roles en `workflow/agents/`. Si ejecutaste
-`/setup-project`, verificá que las Issues y Milestones aparecen en GitHub
-y en el Project Board (columna Backlog).
+El hook se instala la primera vez que ejecutas `start-issue [N]`.
+
+Pero si lo querés instalar ahora:
+
+```bash
+cp workflow/scripts/pre-commit-check.sh .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+El hook ejecuta `build + lint` antes de cada commit. Si falla, el commit se cancela.
 
 ---
 
-## Flujo de uso rápido
+## ¿Qué es cada carpeta?
 
-Los nombres de comandos abajo son **convención**; cada harness los expone
-como mejor encaje (slash commands, aliases, tasks).
+```
+AGENTS.md                   → Contrato raíz multi-provider (lee automáticamente el harness)
+init.sh                     → Script de inicialización del entorno
+feature_list.json           → Estado sincronizado de features/issues
+
+docs/                       → ⚠️ DOCUMENTOS DE PROYECTO (completa con /setup-project)
+├── functional.md           → Visión, RF, RNF, entidades, casos de uso
+├── architecture.md         → Stack, diseño técnico, comandos build/test/lint
+├── data-model.md           → Modelo de datos, índices, cache
+└── project-plan.md         → Fases, tareas, milestones
+
+README.md                   → Resumen del proyecto (generado por /setup-project)
+
+workflow/                   → ⚠️ PILARES DEL FLUJO (no modificar)
+├── agents/
+│   ├── harness-configurator.md  → Fase 0a: configura el harness
+│   ├── project-manager.md       → Fase 0b: entrevista + docs + backlog
+│   ├── orchestrator.md          → Líder: detecta nivel, delega, gates
+│   ├── explorer.md              → Análisis read-only del codebase
+│   ├── designer.md              → Genera el spec (test-plan en Gherkin)
+│   ├── implementer.md           → Ejecuta tasks del spec
+│   ├── reviewer.md              → Verifica ACs + Mutation Testing
+│   └── doc-updater.md           → Sincroniza docs/ al cerrar issue
+├── docs/
+│   ├── harness-adapters.md      → Referencia: qué se genera por harness
+│   ├── checkpoint.md            → Checklist de cierre de sesión (revisor)
+│   ├── workflow-conventions.md  → Branches, commits, PRs
+│   ├── workflow-levels.md       → Sistema de niveles L0/L1/L2
+│   ├── definition-of-ready.md   → Criterios para Ready
+│   ├── issue-template.md        → Template canónico de Issues
+│   └── dev-review-checklist.md  → Checklist Fase 5 (manual)
+├── scripts/
+│   └── pre-commit-check.sh      → Hook de build + lint
+└── specs/
+    ├── project-memory.md        → Memoria persistente cross-issues
+    ├── active-issue.md          → Issue activa en sesión (generado)
+    └── checkpoint-<N>.md        → Histórico de checkpoints por issue
+
+.{harness}/                 → GENERADO en Paso 5 (/init-harness)
+├── agents/                 → Mapeos 1:1 a workflow/agents/ (Claude Code)
+└── skills/                 → Skills del harness (start-issue, design, implement, etc.)
+```
+
+---
+
+## Flujo de uso después del setup
+
+Una vez que `/setup-project` terminó con éxito:
 
 ```bash
-# ── FASE 0: Setup del proyecto (una sola vez) ─────────────────────────
-setup-project   # completa docs/ + Milestones + Issues en GitHub
+# ── FASE 1: Iniciar issue ─────────────────────────────────────────────
+/start-issue 42          # detecta nivel automáticamente (L0/L1/L2)
 
-# ── Por cada issue del backlog ─────────────────────────────────────────
+# ── FASE 2-4: Según nivel ────────────────────────────────────────────
+/design                  # L1/L2: genera spec con test-plan en Gherkin
+/implement               # implementa task por task (todos los niveles)
+/verify                  # L1/L2: ACs + build + tests + Mutation Testing
 
-# Fase 1 — Inicializar (detecta nivel automáticamente)
-start-issue 42
+# ── FASE 5: Manual en entorno local ──────────────────────────────────
 
-# L0 (XS/S): saltar directamente a
-implement
+# ── FASE 6: Crear PR ─────────────────────────────────────────────────
+/create-pr               # Doc Updater sincroniza docs/ → PR creada
 
-# L1/L2 (M, L, XL):
-design          # genera spec con test-plan en Gherkin
-implement       # implementa task por task
-verify          # ACs + build + tests + Mutation Testing + checkpoint
+# ── Utilidades ──────────────────────────────────────────────────────
+/new-issue Mi descripción       # issue ad-hoc
+/move-issue 42 Ready            # mover en Project Board
+/move-issue 42 Done             # marcar como done
+```
 
-# Fase 5 — Manual: revisar en entorno local
+---
 
-# Fase 6
-create-pr       # genera PR + actualiza project-memory
+## Estructura de carpeta después de /init-harness (ejemplo: Claude Code)
 
-# ── Utilidades ─────────────────────────────────────────────────────────
-new-issue quiero que los usuarios puedan filtrar por fecha   # issue ad-hoc
-move-issue 42 Ready
-move-issue 42 Done
+```
+.claude/
+├── agents/
+│   ├── harness-configurator.md  → referencia a workflow/agents/harness-configurator.md
+│   ├── project-manager.md       → referencia a workflow/agents/project-manager.md
+│   ├── orchestrator.md          → referencia a workflow/agents/orchestrator.md
+│   ├── explorer.md              → referencia a workflow/agents/explorer.md
+│   ├── designer.md              → referencia a workflow/agents/designer.md
+│   ├── implementer.md           → referencia a workflow/agents/implementer.md
+│   ├── reviewer.md              → referencia a workflow/agents/reviewer.md
+│   └── doc-updater.md           → referencia a workflow/agents/doc-updater.md
+│
+├── skills/
+│   ├── init-harness/
+│   │   ├── SKILL.md             → /init-harness [harness]
+│   │   └── prompt.txt
+│   ├── setup-project/
+│   │   ├── SKILL.md             → /setup-project
+│   │   └── prompt.txt
+│   ├── start-issue/
+│   ├── design/
+│   ├── implement/
+│   ├── verify/
+│   ├── create-pr/
+│   ├── new-issue/
+│   └── move-issue/
+│
+├── settings.json                → configuración de hooks, permissions, env vars
+└── CLAUDE.md                    → contexto proyecto-específico (opcional)
 ```
 
 ---
@@ -265,9 +335,42 @@ workflow/specs/active-issue.md
 .env.*.local
 ```
 
-Archivos que **SÍ** se committean:
+**Archivos que SÍ se committean:**
 - `docs/` — documentos de proyecto completados
+- `README.md` — resumen del proyecto
 - `workflow/specs/project-memory.md` — memoria del proyecto
-- `workflow/specs/issue-N/` — spec y reporte de cada issue (documentación + trazabilidad)
-- `workflow/specs/checkpoint-N.md` — histórico inmutable de checkpoints
+- `workflow/specs/issue-N/` — spec y reporte de cada issue
+- `workflow/specs/checkpoint-N.md` — histórico de checkpoints
 - `feature_list.json` — estado sincronizado
+- `.claude/` (o `.cursor/`, etc.) — configuración del harness para el repo
+
+---
+
+## Troubleshooting
+
+**❌ /init-harness no existe**
+→ Aún no configuraste el harness. Ese es exactamente el paso que hace /init-harness.
+  El harness lee SETUP.md y ejecuta el comando de configuración.
+
+**❌ /setup-project no existe después de /init-harness**
+→ Verifica que .claude/skills/ (o .cursor/, etc.) se generó correctamente.
+  Ejecutá nuevamente /init-harness.
+
+**❌ init.sh reporta errores**
+→ Es idempotente. Resolvé el error y volvé a correr `./init.sh`.
+
+**❌ GitHub CLI no funciona**
+→ Ejecutá `gh auth login` y asigná permisos `repo` + `project`.
+
+**❌ ¿Ya tenés documentos completos y solo querés generar backlog?**
+→ Ejecutá `/setup-project backlog` (sin pasar por la entrevista nuevamente).
+
+---
+
+## Referencias
+
+- **AGENTS.md** — Contrato del harness y definición de roles
+- **workflow/agents/\*.md** — Definición detallada de cada rol
+- **workflow/docs/harness-adapters.md** — Qué se genera por harness
+- **workflow/WORKFLOW-REFERENCE.md** — Referencia completa del flujo
+- **README.md** — Resumen del proyecto (generado)

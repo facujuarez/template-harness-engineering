@@ -33,32 +33,33 @@ harness en uso (Claude Code, Cursor, Aider, Continue, OpenHands, Codex, etc.).
 
 ```bash
 git clone git@github.com:<tu-org>/<tu-repo>.git && cd <tu-repo>
-./init.sh
-# Reemplazar en AGENTS.md: [PROJECT_NAME], [GITHUB_ORG]/[GITHUB_REPO], [PROJECT_BOARD_URL]
-# Reemplazar en feature_list.json: project, description
+# 👉 LEÉ workflow/SETUP.md PRIMERO
+# (es tu punto de partida para configurar el harness)
 ```
 
-Abre el harness de tu elección y ejecuta `/setup-project`. El **Project Manager** te guiará por la **Fase 0**:
+**Flujo resumido:**
 
-1. **Elige el harness** — Claude Code, Cursor, GitHub Copilot, etc.
-2. **Configura el harness** — genera `.claude/`, `.cursor/`, etc., mapeando 1:1 a `workflow/agents/`
-3. **Entrevista guiada** — completa `docs/` (funcional, arquitectura, datos, plan)
-4. **Genera README.md** — resumen del proyecto específico (sin referencias a la plantilla)
-5. **Publica backlog en GitHub** — Milestones (por fase) + Issues (por tarea)
+1. Clona el repo y entra al directorio.
+2. **Abre el harness** (Claude Code, Cursor, etc.) — lee **`workflow/SETUP.md`**.
+3. Ejecuta `/init-harness [tu-harness]` — configura la capa provider-specific.
+4. Ejecuta `/setup-project` — Project Manager guía la entrevista + genera backlog.
+5. **Listo:** tu proyecto está configurado para el ciclo por issue.
 
-Una vez finalizada la Fase 0, tu proyecto está configurado y listo para el ciclo por issue.
+Detalle: ver [`workflow/SETUP.md`](workflow/SETUP.md) para guía paso a paso.
 
 ---
 
 ## Roles de un vistazo
 
 ```
-── FASE 0 ──────────────────────────────────────────────────────────────────
-Usuario ──▶ [elige harness] ──▶ Project Manager ──▶ configura harness
-                                      ▼
-                            entrevista docs/ + README.md
-                                      ▼
-                            backlog en GitHub → listo para ciclo por issue
+── FASE 0a ─────────────────────────────────────────────────────────────────
+Usuario ──▶ Lee SETUP.md ──▶ /init-harness [harness] ──▶ Harness Configurator
+                                                          genera .claude/, etc.
+
+── FASE 0b ─────────────────────────────────────────────────────────────────
+/setup-project ──▶ Project Manager ──▶ entrevista docs/ + README.md
+                                               ▼
+                                      backlog en GitHub
 
 ── CICLO POR ISSUE ─────────────────────────────────────────────────────────
 Usuario ──▶ Orchestrator ──▶ Explorer ──▶ Designer ──▶ Implementer ──▶ Reviewer
@@ -72,7 +73,8 @@ Detalle en `workflow/agents/`:
 
 | Rol | Archivo | Fase |
 |-----|---------|------|
-| **[Project Manager](workflow/agents/project-manager.md)** | Configura harness elegido. Entrevista `docs/`, genera `README.md` y backlog en GitHub. | 0 |
+| **[Harness Configurator](workflow/agents/harness-configurator.md)** | Configura capa provider-specific (`.claude/`, `.cursor/`, etc.). | 0a |
+| **[Project Manager](workflow/agents/project-manager.md)** | Entrevista `docs/`, genera `README.md` y backlog en GitHub. | 0b |
 | **[Orchestrator](workflow/agents/orchestrator.md)** | Líder, único canal con el usuario. Detecta nivel, aplica gates. | 1–6 |
 | **[Explorer](workflow/agents/explorer.md)** | Análisis read-only del codebase. Insumo del Designer. | 2 |
 | **[Designer](workflow/agents/designer.md)** | Produce el spec: design + tasks + test-plan en Gherkin. | 2 |

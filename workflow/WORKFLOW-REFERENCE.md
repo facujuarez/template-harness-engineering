@@ -46,44 +46,81 @@
  
  ## FASE 0 — Setup completo del proyecto
 
- **Fase 0a (manual):** Usuario elige el harness (Claude Code, Cursor, Copilot, etc.).
+ Consta de dos subfases:
 
- **Fase 0b (setup-project):**
- 
+ ### FASE 0a — Configuración del harness
+
+ **Rol responsable:** [harness-configurator](agents/harness-configurator.md).
+
+ **Comando:** `/init-harness [harness-name]`
+
+ **Objetivo:** Configurar la capa provider-specific del harness elegido (`.claude/`,
+ `.cursor/`, `.copilot/`, etc.), mapeando 1:1 cada rol de `workflow/agents/` a la capa nativa.
+ Se ejecuta una sola vez al inicializar el proyecto.
+
+ **Entrada:** usuario elige harness, lee `workflow/SETUP.md` y ejecuta `/init-harness`.
+
+ **Salida:** carpeta provider-specific lista; proyecto configurado para usar `workflow/agents/`.
+
+ ---
+
+ ### FASE 0b — Documentación y backlog
+
  **Rol responsable:** [project-manager](agents/project-manager.md).
 
- **Objetivo:** Configurar el harness elegido, completar los documentos de `docs/`
- mediante entrevista guiada, generar README.md del proyecto y crear el backlog inicial
- en GitHub (Milestones por fase + Issues por tarea). Esta fase se ejecuta **una sola vez** al iniciar el proyecto.
+ **Comando:** `/setup-project`
 
- **Modos de uso:**
+ **Objetivo:** Completar los documentos de `docs/` mediante entrevista guiada,
+ generar README.md del proyecto y crear el backlog inicial en GitHub (Milestones +
+ Issues). Se ejecuta **una sola vez** después de la Fase 0a.
+
+ **Modos de uso (Fase 0a):**
  ```
- /setup-project           → flujo completo (harness + entrevista + backlog)
- /setup-project harness   → solo configuración del harness
- /setup-project docs      → solo entrevista de documentos
- /setup-project backlog   → solo generación de backlog (docs/ ya completos)
+ /init-harness claude-code  → configura Claude Code
+ /init-harness cursor       → configura Cursor
+ /init-harness copilot      → configura GitHub Copilot
+ /init-harness [harness]    → configura otro harness (aider, continue, openhands, etc.)
  ```
 
- **Lee al iniciar:**
+ **Modos de uso (Fase 0b):**
+ ```
+ /setup-project             → flujo completo (entrevista + backlog)
+ /setup-project docs        → solo entrevista de documentos
+ /setup-project backlog     → solo generación de backlog (docs/ ya completos)
+ ```
+
+ **Lee al iniciar (Fase 0a):**
+ - `workflow/SETUP.md` (punto de partida — **léelo primero**)
  - `AGENTS.md`
+ - `workflow/docs/harness-adapters.md`
+
+ **Lee al iniciar (Fase 0b):**
  - `docs/functional.md`
  - `docs/architecture.md`
  - `docs/data-model.md`
  - `docs/project-plan.md`
  - `workflow/docs/issue-template.md`
- - `workflow/docs/harness-adapters.md`
  - `feature_list.json`
 
- **Flujo:**
+ **Flujo Fase 0a (Harness Configurator):**
 
- 1. Ejecuta `./init.sh`. Si reporta errores, los muestra al usuario y no continúa
+ 1. Usuario ejecuta `/init-harness [harness-name]`.
+ 2. Ejecuta `./init.sh`. Si reporta errores, los muestra al usuario y no continúa
     hasta resolverlos.
- 2. **Configuración del harness:**
-    - Pregunta al usuario qué harness usará (Claude Code, Cursor, Copilot, etc.).
-    - Genera la carpeta provider-specific (`.claude/`, `.cursor/`, `.copilot/`, etc.).
-    - Mapea 1:1 cada rol de `workflow/agents/*.md` a la capa nativa.
-    - Valida que la configuración sea correcta.
-    - Referencia: `workflow/docs/harness-adapters.md`.
+ 3. Lee `workflow/docs/harness-adapters.md` para obtener estructura esperada.
+ 4. Detecta el harness elegido (claude-code, cursor, copilot, aider, continue, etc.).
+ 5. Genera carpeta provider-specific (`.claude/`, `.cursor/`, `.copilot/`, etc.).
+ 6. Mapea 1:1 cada rol de `workflow/agents/` a la capa nativa:
+    - Crea referencias (nunca duplica).
+    - Genera skills (si aplica al harness).
+    - Crea configuración JSON (settings.json, etc.).
+ 7. Valida que todos los roles estén mapeados correctamente.
+ 8. Reporta: "✓ Harness configurado: [harness-name] → podés usar /setup-project".
+
+ **Flujo Fase 0b (Project Manager):**
+
+ 1. Usuario ejecuta `/setup-project`.
+ 2. Verifica que la Fase 0a está completa (capa provider-specific existe).
  3. Revisa el estado de los 4 documentos de `docs/` y reporta: `VACÍO / PARCIAL / COMPLETO`.
  4. Por cada documento incompleto (orden: functional → architecture → data-model →
     project-plan), conduce la entrevista sección por sección:
@@ -98,14 +135,18 @@
  8. Crea Milestones (una por fase) e Issues (una por tarea) en GitHub.
  9. Inicializa `feature_list.json` con todas las issues en `status: pending`.
 
- **Output:**
+ **Output Fase 0a:**
  - Carpeta provider-specific configurada (`.claude/`, `.cursor/`, etc.) con roles mapeados.
+ - Todos los comandos workflow disponibles (init-harness, setup-project, start-issue, etc.).
+ - Proyecto listo para Fase 0b.
+
+ **Output Fase 0b:**
  - `docs/` completos y aprobados (funcional, arquitectura, datos, plan).
  - `README.md` del proyecto generado (proyecto-específico).
  - Milestones en GitHub correspondientes a cada fase del plan.
  - Issues en GitHub correspondientes a cada tarea, asignadas a su Milestone.
  - `feature_list.json` inicializado.
- - Proyecto listo para iniciar ciclo por issue (Fase 1 en adelante).
+ - **Proyecto 100% listo para iniciar ciclo por issue (Fase 1 en adelante).**
 
  ---
 

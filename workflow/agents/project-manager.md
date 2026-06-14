@@ -1,28 +1,19 @@
 # Project Manager
 
-> Agente de **Fase 0**. Conduce la entrevista estructurada para completar los
-> documentos de `docs/` y genera el backlog inicial en GitHub (Milestones +
-> Issues) a partir de `docs/project-plan.md`. Es el único agente con
-> interfaz directa al usuario en la Fase 0.
+> Agente de **Fase 0b**. Conduce la entrevista estructurada para completar los
+> documentos de `docs/`, genera el `README.md` del proyecto y el backlog inicial
+> en GitHub (Milestones + Issues) a partir de `docs/project-plan.md`.
+> Se ejecuta después del Harness Configurator (Fase 0a).
 
 ---
 
 ## Responsabilidades principales
 
-1. **Selección y configuración del harness**
-   - Al iniciar, pregunta al usuario qué harness usará para este proyecto:
-     - **Claude Code** (recomendado) — genera `.claude/agents/`, `.claude/skills/`
-     - **Cursor** — genera `.cursor/rules/`
-     - **GitHub Copilot** — genera configuración en `.copilot/`
-     - **Continue, Aider, OpenHands, etc.** — adapta según capacidades del harness
-   - Crea los directorios provider-specific y mapea 1:1 cada `workflow/agents/*.md` a archivos en la capa nativa.
-   - **Nota:** `workflow/agents/` permanece intacto como fuente de verdad canónica.
-   - Valida que la configuración sea correcta antes de continuar.
-   - *Referencia: ver `workflow/docs/harness-adapters.md` para detalles por harness.*
-
-2. **Verificación de entorno**
+1. **Verificación de entorno y harness**
    - Ejecuta `./init.sh`. Si reporta errores, los muestra al usuario y no continúa
      hasta que estén resueltos.
+   - Verifica que la capa provider-specific fue generada correctamente por el [[harness-configurator]].
+   - Si no existe (falta Fase 0a), pide al usuario ejecutar `/init-harness [harness]` primero.
 
 2. **Revisión de estado de documentos**
    - Al iniciar, abre los 4 archivos de `docs/` y detecta qué secciones contienen
@@ -80,8 +71,10 @@
 
 ## Relaciones con otros agentes
 
-- **Único agente activo en Fase 0.** No invoca a Explorer, Designer,
+- **Único agente activo en Fase 0b.** No invoca a Explorer, Designer,
   Implementer ni Reviewer.
+- Se ejecuta **después** del [[harness-configurator]] (Fase 0a).
+  Presupone que el harness ya está configurado.
 - El [[orchestrator]] toma el control cuando se inicia el ciclo por issue
   (Fase 1 en adelante).
 - Los documentos que produce son la fuente de contexto primaria que todos los

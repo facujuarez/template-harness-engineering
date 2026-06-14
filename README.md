@@ -18,6 +18,7 @@ harness en uso (Claude Code, Cursor, Aider, Continue, OpenHands, Codex, etc.).
 | `AGENTS.md` | Contrato raíz multi-provider. Lo leen todos los agentes al iniciar. |
 | `feature_list.json` | Estado sincronizado de features/issues. |
 | `workflow/agents/` | Definición de cada rol: project-manager, orchestrator, explorer, designer, implementer, reviewer, doc-updater. |
+| `workflow/docs/harness-adapters.md` | Referencia de configuración por harness (Claude Code, Cursor, Copilot, etc.). Lo usa Project Manager en Fase 0. |
 | `workflow/docs/checkpoint.md` | Checklist de cierre de sesión. Lo recorre el reviewer. Bloquea cierre con boxes vacíos. |
 | `workflow/docs/` | Contexto del proyecto: producto, stack, convenciones, niveles, templates. |
 | `workflow/specs/` | Specs activos por issue + memoria persistente cross-issues. |
@@ -35,13 +36,17 @@ git clone git@github.com:<tu-org>/<tu-repo>.git && cd <tu-repo>
 ./init.sh
 # Reemplazar en AGENTS.md: [PROJECT_NAME], [GITHUB_ORG]/[GITHUB_REPO], [PROJECT_BOARD_URL]
 # Reemplazar en feature_list.json: project, description
-# Luego ejecutar /setup-project
 ```
 
-Abre el harness de tu elección. El agente cargará `AGENTS.md` y operará bajo
-los roles definidos. Tu primer comando es `/setup-project`: conduce la
-entrevista guiada, genera `docs/`, crea el `README.md` del proyecto y publica
-el backlog en GitHub (Milestones + Issues).
+Abre el harness de tu elección y ejecuta `/setup-project`. El **Project Manager** te guiará por la **Fase 0**:
+
+1. **Elige el harness** — Claude Code, Cursor, GitHub Copilot, etc.
+2. **Configura el harness** — genera `.claude/`, `.cursor/`, etc., mapeando 1:1 a `workflow/agents/`
+3. **Entrevista guiada** — completa `docs/` (funcional, arquitectura, datos, plan)
+4. **Genera README.md** — resumen del proyecto específico (sin referencias a la plantilla)
+5. **Publica backlog en GitHub** — Milestones (por fase) + Issues (por tarea)
+
+Una vez finalizada la Fase 0, tu proyecto está configurado y listo para el ciclo por issue.
 
 ---
 
@@ -49,7 +54,11 @@ el backlog en GitHub (Milestones + Issues).
 
 ```
 ── FASE 0 ──────────────────────────────────────────────────────────────────
-Project Manager → entrevista docs/ → genera README.md → backlog en GitHub
+Usuario ──▶ [elige harness] ──▶ Project Manager ──▶ configura harness
+                                      ▼
+                            entrevista docs/ + README.md
+                                      ▼
+                            backlog en GitHub → listo para ciclo por issue
 
 ── CICLO POR ISSUE ─────────────────────────────────────────────────────────
 Usuario ──▶ Orchestrator ──▶ Explorer ──▶ Designer ──▶ Implementer ──▶ Reviewer
@@ -63,7 +72,7 @@ Detalle en `workflow/agents/`:
 
 | Rol | Archivo | Fase |
 |-----|---------|------|
-| **[Project Manager](workflow/agents/project-manager.md)** | Entrevista `docs/`, genera `README.md` y backlog en GitHub. | 0 |
+| **[Project Manager](workflow/agents/project-manager.md)** | Configura harness elegido. Entrevista `docs/`, genera `README.md` y backlog en GitHub. | 0 |
 | **[Orchestrator](workflow/agents/orchestrator.md)** | Líder, único canal con el usuario. Detecta nivel, aplica gates. | 1–6 |
 | **[Explorer](workflow/agents/explorer.md)** | Análisis read-only del codebase. Insumo del Designer. | 2 |
 | **[Designer](workflow/agents/designer.md)** | Produce el spec: design + tasks + test-plan en Gherkin. | 2 |
@@ -85,23 +94,17 @@ Ver `workflow/docs/workflow-levels.md`.
 
 ---
 
-## Adaptación a tu harness
+## Adaptación a tu harness (Fase 0b)
 
-`AGENTS.md` + `workflow/agents/` es la **fuente de verdad**. Si tu harness
-soporta una capa nativa (slash commands, subagents, rules), créala como
-**adapter** mapeando 1:1 contra `workflow/agents/*.md`. Ejemplo para Claude Code:
+`AGENTS.md` + `workflow/agents/` es la **fuente de verdad**. El **Project Manager** genera la capa
+provider-specific automáticamente en **Fase 0b** (`setup-project`), creando:
 
-```
-.claude/
-  ├── agents/
-  │   ├── orchestrator.md   → wrapper que apunta a workflow/agents/orchestrator.md
-  │   ├── designer.md       → idem
-  │   └── ...
-  └── skills/
-      ├── new-issue/SKILL.md
-      ├── start-issue/SKILL.md
-      └── ...
-```
+- **Claude Code:** `.claude/agents/` + `.claude/skills/` (mapeos 1:1 a workflow/)
+- **Cursor:** `.cursor/rules/` (reglas nativas)
+- **GitHub Copilot:** `.copilot/rules/` (reglas consolidadas)
+- **Otros:** adaptar según capacidades del harness
+
+Ver `workflow/docs/harness-adapters.md` para detalles completos.
 
 En caso de conflicto, **`AGENTS.md` y `workflow/agents/` prevalecen** sobre la
-capa provider-specific.
+capa provider-specific. Los adaptadores son **referenciales**, no fuentes de verdad.

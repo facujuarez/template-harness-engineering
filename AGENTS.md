@@ -33,7 +33,7 @@ secuencialmente en una sola sesión. La definición canónica es la de
 
 | Rol | Archivo | Responsabilidad |
 |-----|---------|-----------------|
-| **Project Manager** | [workflow/agents/project-manager.md](workflow/agents/project-manager.md) | Fase 0. Entrevista y completa `docs/`. Genera backlog en GitHub (Milestones + Issues). |
+| **Project Manager** | [workflow/agents/project-manager.md](workflow/agents/project-manager.md) | Fase 0. Configura harness elegido. Entrevista y completa `docs/`. Genera README.md y backlog en GitHub. |
 | **Orchestrator** | [workflow/agents/orchestrator.md](workflow/agents/orchestrator.md) | Líder. Detecta nivel, delega, aplica gates, único canal hacia el usuario. |
 | **Explorer** | [workflow/agents/explorer.md](workflow/agents/explorer.md) | Análisis read-only del codebase. Insumo del Designer. |
 | **Designer** | [workflow/agents/designer.md](workflow/agents/designer.md) | Genera el spec (design + tasks + test-plan en Gherkin). |
@@ -60,11 +60,18 @@ Detalle: `workflow/docs/workflow-levels.md`.
 
 ## Flujo completo
 
-### Fase 0 — Setup de proyecto (una sola vez)
+### Fase 0 — Setup completo del proyecto (una sola vez)
 
 ```
-FASE 0  setup-project  → Project Manager completa docs/ + genera backlog en GitHub
-                          (Milestones por fase + Issues por tarea de project-plan.md)
+FASE 0a  [MANUAL]              → Usuario elige harness (Claude Code, Cursor, Copilot, etc.)
+│
+FASE 0b  setup-project         → Project Manager:
+│                                 1. Genera carpeta provider-specific (.claude/, .cursor/, etc.)
+│                                    mapeando 1:1 a workflow/agents/*
+│                                 2. Completa docs/ + README.md (proyecto-específico)
+│                                 3. Genera backlog en GitHub (Milestones + Issues)
+│
+└──────► Entregables: proyecto configurado + docs alineados + backlog en GitHub
 ```
 
 ### Ciclo por issue (L1 / L2, se repite por cada issue)

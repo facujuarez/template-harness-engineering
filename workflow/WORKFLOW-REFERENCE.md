@@ -9,7 +9,8 @@
  
  ```
  ── SETUP DE PROYECTO (una sola vez) ──────────────────────────────────────
- FASE 0  setup-project → docs/ completos + Milestones + Issues en GitHub
+ FASE 0a [MANUAL]      → Usuario elige harness (Claude Code, Cursor, etc.)
+ FASE 0b setup-project → harness configurado + docs/ completos + backlog en GitHub
 
  ── CICLO POR ISSUE (se repite por cada issue del backlog) ────────────────
  FASE 1  start-issue   → Issue → Branch + contexto + nivel detectado
@@ -27,7 +28,10 @@
  
  ## Sistema de niveles
  
- El nivel se detecta automáticamente en `start-issue` según el label `size:*`.
+ **FASE 0** (setup-project) se ejecuta una sola vez, fuera del sistema de niveles.
+
+ El nivel se detecta automáticamente en `start-issue` según el label `size:*`
+ y aplica a partir de **FASE 1** en adelante.
  
  | Nivel | Tamaño | Fases activas | Agentes |
  |-------|--------|--------------|---------|
@@ -40,50 +44,68 @@
  
  ---
  
- ## FASE 0 — `setup-project`
+ ## FASE 0 — Setup completo del proyecto
 
+ **Fase 0a (manual):** Usuario elige el harness (Claude Code, Cursor, Copilot, etc.).
+
+ **Fase 0b (setup-project):**
+ 
  **Rol responsable:** [project-manager](agents/project-manager.md).
 
- **Objetivo:** Completar los documentos de `docs/` mediante entrevista guiada
- y generar el backlog inicial en GitHub (Milestones por fase + Issues por tarea).
- Esta fase se ejecuta **una sola vez** al iniciar el proyecto.
+ **Objetivo:** Configurar el harness elegido, completar los documentos de `docs/`
+ mediante entrevista guiada, generar README.md del proyecto y crear el backlog inicial
+ en GitHub (Milestones por fase + Issues por tarea). Esta fase se ejecuta **una sola vez** al iniciar el proyecto.
 
  **Modos de uso:**
  ```
- /setup-project           → flujo completo (entrevista + backlog)
+ /setup-project           → flujo completo (harness + entrevista + backlog)
+ /setup-project harness   → solo configuración del harness
  /setup-project docs      → solo entrevista de documentos
  /setup-project backlog   → solo generación de backlog (docs/ ya completos)
  ```
 
  **Lee al iniciar:**
+ - `AGENTS.md`
  - `docs/functional.md`
  - `docs/architecture.md`
  - `docs/data-model.md`
  - `docs/project-plan.md`
  - `workflow/docs/issue-template.md`
+ - `workflow/docs/harness-adapters.md`
  - `feature_list.json`
 
  **Flujo:**
 
  1. Ejecuta `./init.sh`. Si reporta errores, los muestra al usuario y no continúa
     hasta resolverlos.
- 2. Revisa el estado de los 4 documentos de `docs/` y reporta: `VACÍO / PARCIAL / COMPLETO`.
- 3. Por cada documento incompleto (orden: functional → architecture → data-model →
+ 2. **Configuración del harness:**
+    - Pregunta al usuario qué harness usará (Claude Code, Cursor, Copilot, etc.).
+    - Genera la carpeta provider-specific (`.claude/`, `.cursor/`, `.copilot/`, etc.).
+    - Mapea 1:1 cada rol de `workflow/agents/*.md` a la capa nativa.
+    - Valida que la configuración sea correcta.
+    - Referencia: `workflow/docs/harness-adapters.md`.
+ 3. Revisa el estado de los 4 documentos de `docs/` y reporta: `VACÍO / PARCIAL / COMPLETO`.
+ 4. Por cada documento incompleto (orden: functional → architecture → data-model →
     project-plan), conduce la entrevista sección por sección:
     - Máx. 4 preguntas por ronda.
     - Muestra preview de cada sección antes de escribir.
     - Escribe solo tras aprobación explícita.
- 4. **Gate:** todos los documentos aprobados antes de proceder al backlog.
- 5. Lee `docs/project-plan.md`, presenta el plan de Milestones + Issues y
+ 5. **Gate:** todos los documentos aprobados antes de proceder a README + backlog.
+ 6. Genera `README.md` del proyecto a partir de los documentos completados.
+    - Enfocado 100% en el proyecto específico, sin referencias a la plantilla.
+ 7. Lee `docs/project-plan.md`, presenta el plan de Milestones + Issues y
     espera aprobación explícita del usuario.
- 6. Crea Milestones (una por fase) e Issues (una por tarea) en GitHub.
- 7. Inicializa `feature_list.json` con todas las issues en `status: pending`.
+ 8. Crea Milestones (una por fase) e Issues (una por tarea) en GitHub.
+ 9. Inicializa `feature_list.json` con todas las issues en `status: pending`.
 
  **Output:**
- - `docs/` completos y aprobados.
+ - Carpeta provider-specific configurada (`.claude/`, `.cursor/`, etc.) con roles mapeados.
+ - `docs/` completos y aprobados (funcional, arquitectura, datos, plan).
+ - `README.md` del proyecto generado (proyecto-específico).
  - Milestones en GitHub correspondientes a cada fase del plan.
  - Issues en GitHub correspondientes a cada tarea, asignadas a su Milestone.
  - `feature_list.json` inicializado.
+ - Proyecto listo para iniciar ciclo por issue (Fase 1 en adelante).
 
  ---
 

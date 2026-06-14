@@ -9,7 +9,18 @@
 
 ## Responsabilidades principales
 
-1. **Verificación de entorno**
+1. **Selección y configuración del harness**
+   - Al iniciar, pregunta al usuario qué harness usará para este proyecto:
+     - **Claude Code** (recomendado) — genera `.claude/agents/`, `.claude/skills/`
+     - **Cursor** — genera `.cursor/rules/`
+     - **GitHub Copilot** — genera configuración en `.copilot/`
+     - **Continue, Aider, OpenHands, etc.** — adapta según capacidades del harness
+   - Crea los directorios provider-specific y mapea 1:1 cada `workflow/agents/*.md` a archivos en la capa nativa.
+   - **Nota:** `workflow/agents/` permanece intacto como fuente de verdad canónica.
+   - Valida que la configuración sea correcta antes de continuar.
+   - *Referencia: ver `workflow/docs/harness-adapters.md` para detalles por harness.*
+
+2. **Verificación de entorno**
    - Ejecuta `./init.sh`. Si reporta errores, los muestra al usuario y no continúa
      hasta que estén resueltos.
 

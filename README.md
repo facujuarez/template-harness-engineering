@@ -52,18 +52,18 @@ Detalle: ver [`workflow/SETUP.md`](workflow/SETUP.md) para guía paso a paso.
 ## Roles de un vistazo
 
 ```
-── FASE 0a ─────────────────────────────────────────────────────────────────
+── INIT ────────────────────────────────────────────────────────────────────
 Usuario ──▶ Lee SETUP.md ──▶ /init-harness [harness] ──▶ Harness Configurator
                                                           genera .claude/, etc.
 
-── FASE 0b ─────────────────────────────────────────────────────────────────
+── SETUP ───────────────────────────────────────────────────────────────────
 /setup-project ──▶ Project Manager ──▶ entrevista docs/ + README.md
                                                ▼
                                       backlog en GitHub
 
 ── CICLO POR ISSUE ─────────────────────────────────────────────────────────
 Usuario ──▶ Orchestrator ──▶ Explorer ──▶ Designer ──▶ Implementer ──▶ Reviewer
-                ▲                                                          │
+                ▲                                                         │
                 └────── checkpoint verde + reporte ───────────────────────┘
                                     │
                           Doc Updater → docs/ + README.md actualizados → PR
@@ -96,10 +96,10 @@ Ver `workflow/docs/workflow-levels.md`.
 
 ---
 
-## Adaptación a tu harness (Fase 0b)
+## Adaptación a tu harness (Setup)
 
 `AGENTS.md` + `workflow/agents/` es la **fuente de verdad**. El **Project Manager** genera la capa
-provider-specific automáticamente en **Fase 0b** (`setup-project`), creando:
+provider-specific automáticamente en **Setup** (`setup-project`), creando:
 
 - **Claude Code:** `.claude/agents/` + `.claude/skills/` (mapeos 1:1 a workflow/)
 - **Cursor:** `.cursor/rules/` (reglas nativas)

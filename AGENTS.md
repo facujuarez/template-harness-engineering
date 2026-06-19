@@ -33,8 +33,8 @@ secuencialmente en una sola sesión. La definición canónica es la de
 
 | Rol | Archivo | Responsabilidad |
 |-----|---------|-----------------|
-| **Harness Configurator** | [workflow/agents/harness-configurator.md](workflow/agents/harness-configurator.md) | Fase 0a. Configura capa provider-specific (`.claude/`, `.cursor/`, etc.) mapeando 1:1 a `workflow/agents/`. |
-| **Project Manager** | [workflow/agents/project-manager.md](workflow/agents/project-manager.md) | Fase 0b. Entrevista y completa `docs/`. Genera README.md y backlog en GitHub. |
+| **Harness Configurator** | [workflow/agents/harness-configurator.md](workflow/agents/harness-configurator.md) | Init. Configura capa provider-specific (`.claude/`, `.cursor/`, etc.) mapeando 1:1 a `workflow/agents/`. |
+| **Project Manager** | [workflow/agents/project-manager.md](workflow/agents/project-manager.md) | Setup. Entrevista y completa `docs/`. Genera README.md y backlog en GitHub. |
 | **Orchestrator** | [workflow/agents/orchestrator.md](workflow/agents/orchestrator.md) | Líder. Detecta nivel, delega, aplica gates, único canal hacia el usuario. |
 | **Explorer** | [workflow/agents/explorer.md](workflow/agents/explorer.md) | Análisis read-only del codebase. Insumo del Designer. |
 | **Designer** | [workflow/agents/designer.md](workflow/agents/designer.md) | Genera el spec (design + tasks + test-plan en Gherkin). |

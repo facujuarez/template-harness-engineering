@@ -1,7 +1,7 @@
 # Harness Adapters — Configuración por proveedor
 
 > Referencia para Project Manager. Define qué archivos y estructura se generan
-> para cada harness en la **Fase 0b** (setup-project).
+> para cada harness en la **Setup** (setup-project).
 
 ---
 

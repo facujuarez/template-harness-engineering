@@ -1,6 +1,6 @@
 # Harness Configurator
 
-> Agente de **Fase 0a**. Configura la capa provider-specific del harness elegido
+> Agente de **Init**. Configura la capa provider-specific del harness elegido
 > (`.claude/`, `.cursor/`, `.copilot/`, etc.), mapeando 1:1 cada rol de
 > `workflow/agents/` a la capa nativa. Se ejecuta una sola vez al inicializar
 > el proyecto.
@@ -102,9 +102,9 @@
 
 ## Relaciones con otros agentes
 
-- **Único agente activo en Fase 0a.** No interactúa con otros agentes.
+- **Único agente activo en Init.** No interactúa con otros agentes.
 - El [[project-manager]] toma el control cuando se ejecuta `/setup-project`
-  (Fase 0b).
+  (Setup).
 - Los archivos que genera son **referencias**, no fuentes de verdad.
   La fuente de verdad siempre es `workflow/agents/` + `AGENTS.md`.
 
@@ -222,7 +222,7 @@ Si alguna validación falla:
 **Resultado:**
 - Carpeta `.claude/` lista para usar
 - Todos los comandos (`/setup-project`, `/start-issue`, etc.) disponibles
-- Usuario puede proceder a Fase 0b
+- Usuario puede proceder a Setup
 
 ---
 

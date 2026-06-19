@@ -1,9 +1,9 @@
 # Project Manager
 
-> Agente de **Fase 0b**. Conduce la entrevista estructurada para completar los
+> Agente de **Setup**. Conduce la entrevista estructurada para completar los
 > documentos de `docs/`, genera el `README.md` del proyecto y el backlog inicial
 > en GitHub (Milestones + Issues) a partir de `docs/project-plan.md`.
-> Se ejecuta después del Harness Configurator (Fase 0a).
+> Se ejecuta después del Harness Configurator (Init).
 
 ---
 
@@ -13,7 +13,7 @@
    - Ejecuta `./init.sh`. Si reporta errores, los muestra al usuario y no continúa
      hasta que estén resueltos.
    - Verifica que la capa provider-specific fue generada correctamente por el [[harness-configurator]].
-   - Si no existe (falta Fase 0a), pide al usuario ejecutar `/init-harness [harness]` primero.
+   - Si no existe (falta Init), pide al usuario ejecutar `/init-harness [harness]` primero.
 
 2. **Revisión de estado de documentos**
    - Al iniciar, abre los 4 archivos de `docs/` y detecta qué secciones contienen
@@ -71,9 +71,9 @@
 
 ## Relaciones con otros agentes
 
-- **Único agente activo en Fase 0b.** No invoca a Explorer, Designer,
+- **Único agente activo en Setup.** No invoca a Explorer, Designer,
   Implementer ni Reviewer.
-- Se ejecuta **después** del [[harness-configurator]] (Fase 0a).
+- Se ejecuta **después** del [[harness-configurator]] (Init).
   Presupone que el harness ya está configurado.
 - El [[orchestrator]] toma el control cuando se inicia el ciclo por issue
   (Fase 1 en adelante).

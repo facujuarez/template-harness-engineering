@@ -7,16 +7,16 @@
 
 ## Visión general del setup
 
-El setup tiene **dos fases principales**:
+El setup tiene **tres fases principales**:
 
 ```
-FASE 0a  [MANUAL]         → Abrís el harness (Claude Code, Cursor, etc.)
+1. HARNESS  [MANUAL]         → Abrís el harness (Claude Code, Cursor, etc.)
                              Leés este archivo (SETUP.md)
                              
-FASE 0a  /init-harness    → Configurador genera .claude/, .cursor/, etc.
+2. INIT     /init-harness    → Configurador genera .claude/, .cursor/, etc.
                              Mapea roles de workflow/agents/ a la capa nativa
                              
-FASE 0b  /setup-project   → Project Manager completa docs/ + backlog en GitHub
+3. SETUP    /setup-project   → Project Manager completa docs/ + backlog en GitHub
 ```
 
 Una vez completada la Fase 0, tu proyecto está 100% listo para el ciclo por issue.
@@ -233,8 +233,8 @@ README.md                   → Resumen del proyecto (generado por /setup-projec
 
 workflow/                   → ⚠️ PILARES DEL FLUJO (no modificar)
 ├── agents/
-│   ├── harness-configurator.md  → Fase 0a: configura el harness
-│   ├── project-manager.md       → Fase 0b: entrevista + docs + backlog
+│   ├── harness-configurator.md  → Init: configura el harness
+│   ├── project-manager.md       → Setup: entrevista + docs + backlog
 │   ├── orchestrator.md          → Líder: detecta nivel, delega, gates
 │   ├── explorer.md              → Análisis read-only del codebase
 │   ├── designer.md              → Genera el spec (test-plan en Gherkin)

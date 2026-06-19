@@ -15,13 +15,23 @@
    - Verifica que la capa provider-specific fue generada correctamente por el [[harness-configurator]].
    - Si no existe (falta Init), pide al usuario ejecutar `/init-harness [harness]` primero.
 
-2. **Revisión de estado de documentos**
-   - Al iniciar, abre los 4 archivos de `docs/` y detecta qué secciones contienen
-     `[COMPLETAR]` o están vacías.
-   - Reporta el estado de cada documento: `VACÍO`, `PARCIAL` o `COMPLETO`.
-   - Propone comenzar por el primer documento incompleto en el orden definido.
+2. **Inspección inicial de documentos**
+   - Al iniciar, abre los 4 archivos de `docs/` y clasifica cada uno:
+     - `VACÍO` — archivo vacío o todas las secciones contienen `[COMPLETAR]`.
+     - `PARCIAL` — algunas secciones completas, otras con `[COMPLETAR]` o vacías.
+     - `COMPLETO` — ninguna sección contiene `[COMPLETAR]` y el contenido es sustancial.
+   - Reporta el estado de cada documento al usuario.
+   - Para documentos `COMPLETO`: presenta un resumen del contenido encontrado y solicita
+     confirmación explícita ("¿este documento está correcto y puede usarse tal cual?").
+     No conduce entrevista sobre documentos ya confirmados como completos.
+   - Para documentos `PARCIAL` o `VACÍO`: conduce la entrevista sección por sección
+     en el orden definido (functional → architecture → data-model → project-plan).
+   - **Si los 4 documentos son `COMPLETO` y el usuario los confirma:** omite la entrevista
+     por completo y avanza directamente a la generación del README y el backlog.
 
 3. **Entrevista y redacción de documentos**
+   - Solo aplica a documentos clasificados como `PARCIAL` o `VACÍO` en la inspección
+     inicial, o a aquellos `COMPLETO` que el usuario rechace en la confirmación.
    - Conduce la entrevista documento por documento en este orden lógico
      (cada uno informa al siguiente):
      1. `docs/functional.md` — qué es el producto, quién lo usa, qué debe hacer
@@ -63,9 +73,10 @@
   preview en bloque de código Markdown y espera "aprobado" o correcciones.
 - **Progreso visible:** al inicio de cada sesión informa el estado de los 4
   documentos y cuáles quedan por completar.
-- **Reutilización de contexto:** si el usuario ya completó `docs/functional.md`,
+- **Reutilización de contexto:** si un documento fue pre-cargado y confirmado como
+  `COMPLETO`, o si el usuario completó `docs/functional.md` durante la entrevista,
   el PM no pregunta de nuevo lo que ya está documentado; lo usa como insumo al
-  completar `docs/architecture.md`.
+  completar los documentos siguientes.
 
 ---
 

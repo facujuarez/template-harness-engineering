@@ -121,8 +121,13 @@
 
  1. Usuario ejecuta `/setup-project`.
  2. Verifica que la Init está completa (capa provider-specific existe).
- 3. Revisa el estado de los 4 documentos de `docs/` y reporta: `VACÍO / PARCIAL / COMPLETO`.
- 4. Por cada documento incompleto (orden: functional → architecture → data-model →
+ 3. Inspecciona los 4 documentos de `docs/` y clasifica cada uno:
+    - `VACÍO` — vacío o todas las secciones con `[COMPLETAR]`.
+    - `PARCIAL` — mezcla de secciones completas y vacías.
+    - `COMPLETO` — sin `[COMPLETAR]`, contenido sustancial (p. ej. pre-cargado desde otro proyecto).
+    Para documentos `COMPLETO`: presenta resumen del contenido y solicita confirmación
+    explícita al usuario. Si los 4 son `COMPLETO` y el usuario los confirma → salta al paso 6.
+ 4. Por cada documento `PARCIAL` o `VACÍO` (orden: functional → architecture → data-model →
     project-plan), conduce la entrevista sección por sección:
     - Máx. 4 preguntas por ronda.
     - Muestra preview de cada sección antes de escribir.

@@ -151,14 +151,26 @@ O con opciones específicas:
 
 **Qué hace /setup-project:**
 
-El agente `project-manager` conduce una entrevista estructurada:
+El agente `project-manager` comienza inspeccionando el estado de cada documento en `docs/`:
+
+| Estado | Condición | Comportamiento del PM |
+|--------|-----------|----------------------|
+| `COMPLETO` | Sin `[COMPLETAR]`, contenido sustancial | Presenta resumen y pide confirmación. No entrevista. |
+| `PARCIAL` | Mezcla de secciones completas y vacías | Retoma desde la primera sección incompleta. |
+| `VACÍO` | Vacío o todo `[COMPLETAR]` | Conduce entrevista completa para ese documento. |
+
+Si los 4 documentos ya existen y son válidos —caso típico al importar docs desde otro
+proyecto— el PM los confirma con vos y avanza directamente al README y el backlog,
+sin pasar por la entrevista.
+
+Para documentos `PARCIAL` o `VACÍO`, conduce una entrevista estructurada:
 
 1. **docs/functional.md** — ¿Qué es tu proyecto? Visión, usuarios, requerimientos.
 2. **docs/architecture.md** — ¿Cómo se construye? Stack, diseño, comandos build/test.
 3. **docs/data-model.md** — ¿Qué datos maneja? Entidades, índices, cache.
 4. **docs/project-plan.md** — ¿Cuáles son las fases y tareas? Plazos y métricas.
 
-Para cada documento:
+Para cada sección incompleta:
 - El PM hace máx. 4 preguntas por ronda (apertura amplia → cierre específico).
 - Mostrará un preview de cada sección antes de escribir.
 - Espera tu aprobación antes de guardar.
@@ -362,8 +374,13 @@ workflow/specs/active-issue.md
 **❌ GitHub CLI no funciona**
 → Ejecutá `gh auth login` y asigná permisos `repo` + `project`.
 
-**❌ ¿Ya tenés documentos completos y solo querés generar backlog?**
-→ Ejecutá `/setup-project backlog` (sin pasar por la entrevista nuevamente).
+**❌ ¿Ya tenés documentos completos importados de otro proyecto?**
+→ Ejecutá `/setup-project` normalmente. El PM los detectará como `COMPLETO`, presentará
+  un resumen de cada uno y pedirá confirmación antes de avanzar al README y el backlog.
+
+**❌ ¿Ya confirmaste los docs y solo querés (re)generar el backlog?**
+→ Ejecutá `/setup-project backlog` para saltar directamente a la generación de Milestones
+  e Issues en GitHub.
 
 ---
 

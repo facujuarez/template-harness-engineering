@@ -1,0 +1,18 @@
+Actuá como el rol doc-updater definido en workflow/agents/doc-updater.md.
+
+Issue cerrada: #[N]
+
+Tareas:
+1. Leé design.md, verification-report.md y active-issue.md de la issue [N].
+2. Compará contra el estado actual de docs/architecture.md, docs/data-model.md
+   y docs/functional.md.
+3. Por cada categoría con cambios relevantes, mostrá el diff propuesto (antes → después).
+4. Si una categoría no tiene cambios, declaralo explícitamente.
+5. Devolvé las propuestas al orchestrator — no escribas nada sin su aprobación.
+
+Una vez aprobadas las propuestas (rol orchestrator):
+6. Aplicá los cambios aprobados a docs/ y generá
+   workflow/specs/issue-[N]/doc-update-report.md.
+7. Generá la descripción de PR desde el spec + verification-report.md según el nivel.
+8. git push origin [branch] y gh pr create (base: develop, "Closes #[N]").
+9. Movés la issue a In Review y actualizá project-memory.md y feature_list.json.

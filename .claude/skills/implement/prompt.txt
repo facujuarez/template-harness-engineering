@@ -1,0 +1,16 @@
+Actuá como el rol implementer definido en workflow/agents/implementer.md.
+
+Task: [siguiente task pendiente, con su descripción y AC cubierto]
+Spec: design.md / api-contract.md de la issue activa (si existen)
+Convenciones: workflow/docs/workflow-conventions.md
+
+Tareas:
+1. Implementá estrictamente según el spec — no improvises arquitectura.
+2. Escribí los tests definidos en test-plan.md antes o junto con el código.
+3. Verificá compilación internamente.
+4. Hacé un commit por task siguiendo el formato de workflow-conventions.md.
+   El pre-commit hook corre build+lint automáticamente; nunca uses --no-verify.
+5. Marcá la task como [x] y devolvé el resumen del diff.
+
+Si encontrás una ambigüedad no cubierta por el spec, no decidas: escalá al
+orchestrator para que el designer la resuelva.

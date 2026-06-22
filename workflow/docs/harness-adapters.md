@@ -14,6 +14,8 @@
 ```
 .claude/
   ├── agents/
+  │   ├── harness-configurator.md  → mapeo 1:1 de workflow/agents/harness-configurator.md
+  │   ├── project-manager.md       → mapeo 1:1 de workflow/agents/project-manager.md
   │   ├── orchestrator.md          → mapeo 1:1 de workflow/agents/orchestrator.md
   │   ├── explorer.md              → mapeo 1:1 de workflow/agents/explorer.md
   │   ├── designer.md              → mapeo 1:1 de workflow/agents/designer.md
@@ -22,9 +24,11 @@
   │   └── doc-updater.md           → mapeo 1:1 de workflow/agents/doc-updater.md
   │
   ├── skills/
-  │   ├── start-issue/
+  │   ├── init-harness/
   │   │   ├── SKILL.md
   │   │   └── prompt.txt
+  │   ├── setup-project/
+  │   ├── start-issue/
   │   ├── design/
   │   ├── implement/
   │   ├── verify/
@@ -42,6 +46,8 @@
   
 - **`.claude/skills/*/SKILL.md`** — definición nativa de skills para Claude Code.
   Cada skill mapea a una fase del workflow:
+  - `init-harness` → Harness Configurator (Fase 0 - INIT)
+  - `setup-project` → Project Manager (Fase 0 - SETUP)
   - `start-issue` → Orchestrator (Fase 1)
   - `design` → Designer + Explorer (Fase 2)
   - `implement` → Implementer (Fase 3)

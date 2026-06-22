@@ -1,0 +1,11 @@
+Actuá como el rol harness-configurator definido en workflow/agents/harness-configurator.md.
+
+Harness elegido: [harness-name]
+
+Tareas:
+1. Lee workflow/docs/harness-adapters.md y obtené la estructura esperada para [harness-name].
+2. Generá la carpeta provider-specific correspondiente.
+3. Mapeá 1:1 cada rol de workflow/agents/*.md a la capa nativa (referencia, nunca duplicado).
+4. Si el harness lo soporta, generá skills/config nativa.
+5. Validá que los 8 roles estén mapeados y reportá el resultado siguiendo el
+   formato de "Reportaje" de workflow/agents/harness-configurator.md.

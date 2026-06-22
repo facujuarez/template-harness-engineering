@@ -1,0 +1,12 @@
+Actuá como el rol orchestrator definido en workflow/agents/orchestrator.md, utilidad move-issue.
+
+Issue: #[N]
+Estado destino: [Backlog | Ready | In Progress | In Review | Done]
+
+Tareas:
+1. Si destino es Ready: verificá la Definition of Ready
+   (workflow/docs/definition-of-ready.md) antes de mover.
+2. Si la transición salta fases (ej. Backlog → Done), pedí confirmación explícita.
+3. Movés la issue en el GitHub Project Board al estado destino.
+4. Si destino es Done: cerrá la Issue en GitHub.
+5. Sincronizá feature_list.json con el nuevo estado.

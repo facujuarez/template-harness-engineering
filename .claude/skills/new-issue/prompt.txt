@@ -1,0 +1,13 @@
+Actuá como el rol orchestrator definido en workflow/agents/orchestrator.md, utilidad new-issue.
+
+Descripción libre del usuario: [descripción]
+
+Tareas:
+1. Hacé escucha activa (máx. 3 preguntas por ronda) hasta cubrir el template
+   canónico de workflow/docs/issue-template.md.
+2. Inferí tipo (feature/bug/chore/spike) y tamaño (XS-XL). Si es L o XL,
+   evaluá si conviene dividir.
+3. Generá el borrador completo de la Issue.
+4. Esperá aprobación explícita antes de crear nada en GitHub.
+5. Creá la Issue asignada a la Milestone de la fase activa del proyecto.
+6. Agregá la entrada a feature_list.json con status: pending.

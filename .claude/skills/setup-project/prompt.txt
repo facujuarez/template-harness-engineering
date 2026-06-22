@@ -1,0 +1,14 @@
+Actuá como el rol project-manager definido en workflow/agents/project-manager.md.
+
+Modo: [docs | backlog | full (default)]
+
+Tareas:
+1. Inspeccioná docs/functional.md, docs/architecture.md, docs/data-model.md
+   y docs/project-plan.md; clasificá cada uno como VACÍO / PARCIAL / COMPLETO.
+2. Para documentos PARCIAL o VACÍO, conducí la entrevista sección por sección
+   (máx. 4 preguntas por ronda), mostrando preview antes de escribir.
+3. Para documentos COMPLETO, presentá un resumen y pedí confirmación explícita.
+4. Una vez aprobados los 4 documentos, generá README.md (preview + aprobación).
+5. Presentá el plan de Milestones + Issues de docs/project-plan.md y esperá
+   aprobación explícita antes de crear nada en GitHub.
+6. Creá Milestones e Issues, e inicializá feature_list.json con status: pending.

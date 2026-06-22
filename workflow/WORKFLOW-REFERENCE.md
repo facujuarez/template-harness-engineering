@@ -2,6 +2,12 @@
  
  > Resumen detallado del flujo de trabajo AI-first **provider-agnostic** con
  > agentes definidos en `workflow/agents/` + OpenSpec + GitHub.
+ >
+ > ¿Primera vez con esta plantilla? Empezá por **[README.md](../README.md)**
+ > (clonar, verificar entorno, Quickstart). Para configurar tu harness
+ > (Claude Code, Cursor, etc.) y ejecutar `/init-harness`, ver
+ > **[workflow/SETUP.md](SETUP.md)**. Este documento es la referencia
+ > completa de todas las fases una vez que el harness está configurado.
  
  ---
  
@@ -90,7 +96,7 @@
  ```
 
  **Lee al iniciar (Init):**
- - `workflow/SETUP.md` (punto de partida — **léelo primero**)
+ - `workflow/SETUP.md` (detalle de `/init-harness` — el punto de partida general es [`README.md`](../README.md))
  - `AGENTS.md`
  - `workflow/docs/harness-adapters.md`
 

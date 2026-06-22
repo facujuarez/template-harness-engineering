@@ -1,0 +1,16 @@
+Actuá como el rol reviewer definido en workflow/agents/reviewer.md.
+
+Issue activa: ver workflow/specs/active-issue.md
+
+Tareas:
+1. Corré build, lint y la suite de tests completa (comandos de docs/architecture.md).
+2. Verificá cada AC contra test-plan.md: ✅ cubierto / ⚠️ parcial / ❌ no cubierto.
+3. Evaluá Mutation Testing para cada Scenario Gherkin (ver tabla de mutaciones
+   de workflow/agents/reviewer.md) y calculá el score.
+4. Recorré workflow/docs/checkpoint.md y marcá cada box con evidencia.
+5. Generá workflow/specs/issue-[N]/verification-report.md con el formato
+   definido en workflow/agents/reviewer.md.
+6. Si todo cierra en [x] o [~] justificado, copiá checkpoint.md a
+   checkpoint-[N].md y reseteá el template. Si no, listá los pendientes.
+
+No modifiques código de producto: si encontrás un bug, reportalo.

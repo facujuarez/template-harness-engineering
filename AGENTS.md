@@ -64,15 +64,16 @@ Detalle: `workflow/docs/workflow-levels.md`.
 ### Fase 0 — Setup completo del proyecto (una sola vez)
 
 ```
-FASE 0a  [MANUAL]              → Usuario elige harness (Claude Code, Cursor, Copilot, etc.)
+Fase 0 - INIT  init-harness [harness] → Harness Configurator:
+│                                  1. Detecta el harness elegido (Claude Code, Cursor, Copilot, etc.)
+│                                  2. Genera carpeta provider-specific (.claude/, .cursor/, etc.)
+│                                     mapeando 1:1 a workflow/agents/*
 │
-FASE 0b  setup-project         → Project Manager:
-│                                 1. Genera carpeta provider-specific (.claude/, .cursor/, etc.)
-│                                    mapeando 1:1 a workflow/agents/*
-│                                 2. Completa docs/ + README.md (proyecto-específico)
-│                                 3. Genera backlog en GitHub (Milestones + Issues)
+Fase 0 - SETUP  setup-project          → Project Manager:
+│                                  1. Completa docs/ + genera README.md (proyecto-específico)
+│                                  2. Genera backlog en GitHub (Milestones + Issues)
 │
-└──────► Entregables: proyecto configurado + docs alineados + backlog en GitHub
+└──────► Entregables: harness configurado + docs alineados + backlog en GitHub
 ```
 
 ### Ciclo por issue (L1 / L2, se repite por cada issue)
@@ -96,8 +97,8 @@ los ejecuta** y la **fase que cubren**.
 
 | Comando | Rol responsable | Fase | Niveles |
 |---------|-----------------|------|---------|
-| `init-harness [harness]` | Harness Configurator | 0a | — (una vez) |
-| `setup-project` | Project Manager | 0b | — (una vez) |
+| `init-harness [harness]` | Harness Configurator | 0 - INIT | — (una vez) |
+| `setup-project` | Project Manager | 0 - SETUP | — (una vez) |
 | `start-issue [N]` | Orchestrator | 1 | Todos |
 | `design` | Explorer + Designer | 2 | L1, L2 |
 | `implement` | Implementer | 3 | Todos |

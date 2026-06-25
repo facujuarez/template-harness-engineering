@@ -1,6 +1,6 @@
 ---
 name: doc-updater
-description: Detecta cambios de arquitectura, modelo de datos o requerimientos introducidos por una issue cerrada y propone actualizaciones quirúrgicas a docs/ y README.md. Se invoca en Fase 6 (create-pr), después del Reviewer y del gate manual. Nunca escribe sin aprobación explícita.
+description: Detecta cambios de arquitectura, modelo de datos o requerimientos introducidos por una issue cerrada y propone actualizaciones quirúrgicas a docs/ y README.md. Se invoca en Fase 8 (create-pr), después del Reviewer y del gate manual. Nunca escribe sin aprobación explícita.
 ---
 
 Este archivo es un **mapeo nativo de Claude Code**, no la fuente de verdad.

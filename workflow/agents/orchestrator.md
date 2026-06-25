@@ -40,11 +40,13 @@
    - **Fase 3 (L1/L2):** invoca al [[explorer]] y luego al [[designer]].
      Devuelve el spec al usuario y pide aprobación explícita.
    - **Fase 4:** invoca al [[implementer]] task por task (L0/L1) o en paralelo
-     cuando hay tasks independientes (L2).
+     cuando hay tasks independientes (L2). Sin commits durante la implementación.
    - **Fase 5 (L1/L2):** invoca al [[reviewer]] con `workflow/docs/checkpoint.md` como contrato.
    - **Fase 6:** **gate manual.** Pausa, presenta `workflow/docs/dev-review-checklist.md`
      y espera confirmación humana.
-   - **Fase 7:** invoca al [[doc-updater]] para proponer actualizaciones a `docs/`;
+   - **Fase 7:** consolida el commit único del branch (build + lint vía pre-commit hook)
+     y hace push a GitHub. Gate: aprobación del mensaje de commit.
+   - **Fase 8:** invoca al [[doc-updater]] para proponer actualizaciones a `docs/`;
      tras aprobación del usuario, genera el PR con `gh pr create` incluyendo spec +
      reporte del reviewer + doc-update-report.
 
@@ -85,8 +87,8 @@
                                       │ checkpoint.md verde
                                       ▼
                               (de vuelta al Orchestrator
-                               para Fase 6 → Fase 7)
-                                      │ (Fase 7: post Fase 6 aprobada)
+                               para Fase 6 → Fase 7 → Fase 8)
+                                      │ (Fase 8: post Fase 6 aprobada)
                               ┌───────▼───────┐
                               │  Doc Updater  │
                               └───────────────┘
@@ -121,5 +123,5 @@
 
 - `workflow/specs/active-issue.md` — estado de sesión.
 - Mensajes al usuario: presentación de spec, gates, PR final.
-- PR description (Fase 7) — montada desde spec + reporte del reviewer.
+- PR description (Fase 8) — montada desde spec + reporte del reviewer.
 - Updates a `feature_list.json` y `workflow/specs/project-memory.md`.

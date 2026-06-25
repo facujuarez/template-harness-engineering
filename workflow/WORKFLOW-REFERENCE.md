@@ -22,10 +22,11 @@
  FASE 1  start-issue   → Issue → Branch + nivel detectado + feature_list actualizado
  FASE 2  enrich-issue  → Issue → ACs refinados + out-of-scope + edge cases + detalles técnicos
  FASE 3  design        → Contexto → Spec aprobado (test-plan en Gherkin)
- FASE 4  implement     → Spec → Código + commits
+ FASE 4  implement     → Spec → Código + tests (sin commits)
  FASE 5  verify        → Código → Reporte (ACs + Mutation Testing + checkpoint)
  FASE 6  [MANUAL]      → Revisión funcional en entorno local
- FASE 7  create-pr     → doc-updater sincroniza docs/ → PR creada → In Review + project-memory actualizado
+ FASE 7  commit        → Único commit del branch + push a GitHub
+ FASE 8  create-pr     → doc-updater sincroniza docs/ → PR creada → In Review + project-memory actualizado
  ```
  
  Los nombres son **convención**: cada harness los expone como mejor encaje
@@ -42,9 +43,9 @@
  
  | Nivel | Tamaño | Fases activas | Agentes |
  |-------|--------|--------------|---------|
- | **L0** | XS, S | 0 → 1 → 2 → 4 → 6 → 7 | `implementer` |
- | **L1** | M | 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 | Todos, secuencial |
- | **L2** | L, XL | 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 | Todos, paralelo en 3 y 5 |
+ | **L0** | XS, S | 0 → 1 → 2 → 4 → 6 → 7 → 8 | `implementer` |
+ | **L1** | M | 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 | Todos, secuencial |
+ | **L2** | L, XL | 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 | Todos, paralelo en 3 y 5 |
  
  **Override automático a L1 mínimo** si la issue afecta: autenticación,
  seguridad, permisos o contratos de API.
@@ -301,8 +302,8 @@
  
  **Rol responsable:** [implementer](agents/implementer.md).
  
- **Objetivo:** Implementar las tasks del spec una por una, con verificación en
- cada commit vía pre-commit hook.
+ **Objetivo:** Implementar las tasks del spec una por una. Sin commits durante
+ la implementación — el commit único se consolida en Fase 7.
  
  **Fuente de tasks según nivel:**
  - **L0:** tasks inline en `workflow/specs/active-issue.md`
@@ -325,19 +326,15 @@
       - Devuelve resumen del diff
     - d. El orchestrator presenta el resumen al usuario para aprobación.
     - e. **Gate:** aprobación explícita (o modo autopilot si el usuario lo activa).
-    - f. Hace `git commit` → el pre-commit hook ejecuta build + lint
-      automáticamente. Si falla: commit cancelado, corrige antes de avanzar.
-      Nunca se usa `--no-verify`.
-    - g. Marca la task como `[x]` en el archivo de tasks.
+    - f. Marca la task como `[x]` en el archivo de tasks. **Sin commit.**
  4. Al completar todas las tasks, presenta resumen y propone siguiente paso:
-    - **L0:** propone ir a `verify` (mínimo) o directo a revisión manual (Fase 6).
+    - **L0:** propone ir a revisión manual (Fase 6) o `verify` (mínimo).
     - **L1/L2:** propone `verify`.
  
- **Nunca hace push.** Solo commits locales hasta la Fase 7.
+ **Sin commits ni push durante la implementación.** Todo se consolida en Fase 7.
  
  **Output:**
- - Código implementado en el branch local.
- - N commits (uno por task) verificados por el hook.
+ - Código y tests implementados en el branch local (sin commitear).
  - `tasks.md` con todas las tasks en estado `[x]`.
  
  ---
@@ -419,18 +416,46 @@
  
  ---
  
- ## FASE 7 — `create-pr`
+ ## FASE 7 — `commit`
+ 
+ **Rol responsable:** [orchestrator](agents/orchestrator.md).
+ 
+ **Objetivo:** Consolidar todos los cambios del branch en un único commit y
+ publicar el branch en GitHub. Es el único momento en que se corre el
+ pre-commit hook y se hace push.
+ 
+ **Flujo:**
+ 
+ 1. Lee `workflow/specs/active-issue.md` para obtener nivel e info del branch.
+ 2. Verifica que todas las tasks están marcadas como `[x]`.
+ 3. Corre `git status` y muestra al usuario el conjunto de cambios a commitear.
+ 4. Propone mensaje de commit siguiendo `workflow/docs/workflow-conventions.md`:
+    - Formato: `{tipo}({scope}): {descripción en imperativo}`
+ 5. **Gate:** aprobación explícita del mensaje de commit.
+ 6. Ejecuta `git add` + `git commit`:
+    - El pre-commit hook corre build + lint automáticamente.
+    - Si falla: muestra el error, corrige y reintenta. Nunca `--no-verify`.
+ 7. Ejecuta `git push origin {branch}`.
+ 8. Indica siguiente paso: `/create-pr`.
+ 
+ **Output:**
+ - Un commit en el branch con todos los cambios de la issue.
+ - Branch publicado en GitHub (origin).
+ 
+ ---
+ 
+ ## FASE 8 — `create-pr`
  
  **Rol responsable:** [orchestrator](agents/orchestrator.md).
  
  **Objetivo:** Generar la descripción de PR desde el spec y el reporte,
- publicar el branch y crear la PR en GitHub.
+ y crear la PR en GitHub. El branch ya está publicado desde Fase 7.
  
  **Flujo:**
  
  1. Lee `workflow/specs/active-issue.md` para determinar nivel.
- 2. Verifica estado del branch:
-    - Sin cambios sin commitear.
+ 2. Verifica:
+    - Branch publicado en origin (push ya realizado en Fase 7).
     - Actualizado respecto a `develop` (si no, pregunta si hacer rebase).
     - `workflow/docs/checkpoint.md` cerrado por el reviewer.
  3. Para **L1/L2:** verifica que existe `verification-report.md`.
@@ -445,23 +470,21 @@
     todos, parcialmente, o ninguno.
  6. Aplica las actualizaciones aprobadas a `docs/` y genera
     `workflow/specs/issue-{N}/doc-update-report.md`.
- 7. Hace `git push origin {branch}` (única operación que contacta GitHub
-    para publicar; nunca antes).
- 8. Genera descripción de PR según nivel:
+ 7. Genera descripción de PR según nivel:
     - **L0:** descripción simple con ACs cubiertos.
     - **L1/L2:** descripción completa con ACs + tabla de verificación +
       decisiones técnicas relevantes + out of scope intencional.
- 9. Crea PR en GitHub con `gh pr create`:
+ 8. Crea PR en GitHub con `gh pr create`:
     - Título: `{tipo}(issue-{N}): {descripción}`
     - Base: `develop` (nunca `main` directamente)
     - `Closes #{N}` en la descripción
- 10. Mueve issue a **In Review** en el Project Board.
- 11. **Actualiza `workflow/specs/project-memory.md`** con:
+ 9. Mueve issue a **In Review** en el Project Board.
+ 10. **Actualiza `workflow/specs/project-memory.md`** con:
      - Resumen de cambios realizados
      - Patrones nuevos introducidos
      - Archivos clave afectados
      - Aprendizajes para futuras issues similares
- 12. Confirma estado final en `feature_list.json`.
+ 11. Confirma estado final en `feature_list.json`.
  
  **Output:**
  - PR creada en GitHub linkeada a la issue.
@@ -560,7 +583,8 @@
  | `.claude/skills/design/SKILL.md` | `/design` | 3 |
  | `.claude/skills/implement/SKILL.md` | `/implement` | 4 |
  | `.claude/skills/verify/SKILL.md` | `/verify` | 5 |
- | `.claude/skills/create-pr/SKILL.md` | `/create-pr` | 7 |
+ | `.claude/skills/commit/SKILL.md` | `/commit` | 7 |
+ | `.claude/skills/create-pr/SKILL.md` | `/create-pr` | 8 |
  | `.claude/skills/move-issue/SKILL.md` | `/move-issue` | utilidad |
  
  Cada uno **mapea 1:1 con `workflow/agents/*.md`**.

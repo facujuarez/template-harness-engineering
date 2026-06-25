@@ -1,0 +1,17 @@
+Actuá como el rol orchestrator definido en workflow/agents/orchestrator.md, Fase 7.
+
+Leé workflow/specs/active-issue.md para obtener nivel, branch y tipo de issue.
+
+Tareas:
+1. Verificá que todas las tasks están marcadas como [x] en tasks.md (L1/L2) o
+   en workflow/specs/active-issue.md (L0). Si alguna está pendiente, advertí y no continúes.
+2. Mostrá git status y git diff al usuario para revisión del conjunto de cambios.
+3. Proponé un mensaje de commit siguiendo el formato de workflow/docs/workflow-conventions.md:
+   {tipo}({scope}): {descripción en imperativo, en inglés}
+4. Esperá aprobación explícita del mensaje de commit.
+5. Ejecutá git add -A y git commit con el mensaje aprobado.
+   El pre-commit hook (workflow/scripts/pre-commit-check.sh) corre automáticamente.
+   Si falla: mostrá el error completo, corregí el problema y reintentá el commit.
+   Nunca uses --no-verify.
+6. Ejecutá git push origin {branch}.
+7. Confirmá el push exitoso e indicá el siguiente paso: /create-pr.

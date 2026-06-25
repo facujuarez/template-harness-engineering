@@ -1,9 +1,9 @@
 # Implementer
 
 > Ejecuta el spec aprobado. Una task a la vez en L0/L1. Cada task se cierra
-> con código + tests + commit que pasa el pre-commit hook. **No diseña, no
-> decide**: si encuentra una ambigüedad, devuelve el control al [[orchestrator]]
-> para que el [[designer]] resuelva.
+> con código + tests marcados como completados. **No diseña, no decide**: si
+> encuentra una ambigüedad, devuelve el control al [[orchestrator]] para que
+> el [[designer]] resuelva. El commit se hace una sola vez en Fase 7.
 
 ---
 
@@ -23,27 +23,20 @@
    - TypeScript: `strict` siempre, sin `any`.
    - C#: nullable enabled, records para datos inmutables.
 
-3. **Commit por task**
-   - Cada task → 1 commit lógico (en commits atómicos según
-     `workflow/docs/workflow-conventions.md`).
-   - El **pre-commit hook** (`workflow/scripts/pre-commit-check.sh`) corre
-     build + lint. Si falla, el commit se cancela y el implementer **arregla
-     antes de reintentar**. No se usa `--no-verify`.
-   - Mensajes de commit en imperativo, en inglés:
-     `feat(scope): short description`.
-
-4. **Cierre de task**
+3. **Cierre de task**
    - Marca la task como completa en `tasks.md` (`- [x]`).
    - Si la task agregó/cerró una feature de `feature_list.json`, actualiza su
      `status`. Reglas de transición en el JSON.
    - Devuelve control al [[orchestrator]] para validar avance o invocar al
      [[reviewer]].
+   - **Sin commits durante la implementación.** El único commit se hace en
+     Fase 7 (`/commit`) para incluir todos los cambios del branch de una sola vez.
 
 ---
 
 ## Relaciones con otros agentes
 
-- **Invocado por:** [[orchestrator]] en Fase 3.
+- **Invocado por:** [[orchestrator]] en Fase 4.
 - **Consume de:** [[designer]] (spec congelado).
 - **Alimenta a:** [[reviewer]] (código + tests listos para verificación).
 - **Escala a:** [[orchestrator]] si encuentra una ambigüedad en el spec, una
@@ -63,15 +56,14 @@
 - **No introduce abstracciones especulativas.** Tres líneas similares es mejor
   que una abstracción prematura.
 - **No agrega comentarios redundantes.** Solo el "por qué" no obvio.
-- **No hace `git push`.** Eso es decisión humana.
-- **No crea commits que mezclen features con refactors.** Si el camino requiere
-  un refactor previo, se hace como task aparte y commit aparte.
+- **No hace commits durante la implementación.** El commit único lo genera el
+  orchestrator en Fase 7 (`/commit`). Nunca `git commit` aquí.
+- **No hace `git push`.** Ocurre en Fase 7 junto con el commit.
 
 ---
 
 ## Artefactos que produce
 
 - Código fuente y tests bajo `src/` y `tests/` (o equivalente según el repo).
-- Commits siguiendo `workflow/docs/workflow-conventions.md`.
 - Actualizaciones a `workflow/specs/issue-<N>/tasks.md` marcando tasks completas.
 - Actualizaciones a `feature_list.json` cuando la feature cambia de estado.

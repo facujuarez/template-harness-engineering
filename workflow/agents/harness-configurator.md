@@ -50,10 +50,12 @@
    - Si harness es `claude-code`, crea `.claude/skills/` con:
      - `init-harness/SKILL.md` — referencia a este rol
      - `setup-project/SKILL.md` — referencia a project-manager
-     - `start-issue/SKILL.md` — referencia a orchestrator
+     - `start-issue/SKILL.md` — referencia a orchestrator (Fase 1)
+     - `enrich-issue/SKILL.md` — referencia a orchestrator (Fase 2)
      - `design/SKILL.md` — referencia a designer + explorer
      - `implement/SKILL.md` — referencia a implementer
      - `verify/SKILL.md` — referencia a reviewer
+     - `commit/SKILL.md` — referencia a orchestrator (Fase 7)
      - `create-pr/SKILL.md` — referencia a orchestrator + doc-updater
      - `new-issue/SKILL.md` — utilidad (orchestrator)
      - `move-issue/SKILL.md` — utilidad (orchestrator)
@@ -78,7 +80,7 @@
      ✓ Harness configurado: [harness-name]
      ✓ Carpeta generada: [path]
      ✓ Roles mapeados: 8/8
-     ✓ Skills generados: 9/9
+     ✓ Skills generados: 11/11
      ✓ Listo para /setup-project
      ```
    - Si hay errores:
@@ -145,9 +147,11 @@ Según harness elegido:
 │   ├── init-harness/SKILL.md
 │   ├── setup-project/SKILL.md
 │   ├── start-issue/SKILL.md
+│   ├── enrich-issue/SKILL.md
 │   ├── design/SKILL.md
 │   ├── implement/SKILL.md
 │   ├── verify/SKILL.md
+│   ├── commit/SKILL.md
 │   ├── create-pr/SKILL.md
 │   ├── new-issue/SKILL.md
 │   └── move-issue/SKILL.md
@@ -191,7 +195,7 @@ El Configurador verifica:
 - ✓ Carpeta provider-specific creada.
 - ✓ Directorios necesarios existen.
 - ✓ Todos los roles mapeados (8 roles esperados).
-- ✓ Skills generados (si aplica).
+- ✓ Skills generados (11 skills para Claude Code, si aplica).
 - ✓ Configuración JSON válida (si aplica).
 - ✓ Sin duplicación de contenido.
 - ✓ Referencias correctas a `workflow/agents/`.
@@ -214,7 +218,7 @@ Si alguna validación falla:
 1. Harness Configurator detecta: `claude-code`
 2. Lee: `workflow/docs/harness-adapters.md` (sección Claude Code)
 3. Crea: `.claude/agents/` con 8 referencias
-4. Crea: `.claude/skills/` con 9 skills
+4. Crea: `.claude/skills/` con 11 skills
 5. Crea: `.claude/settings.json`
 6. Valida todo
 7. Reporta: "✓ Harness configurado: claude-code → podés usar /setup-project"

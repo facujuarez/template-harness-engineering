@@ -51,7 +51,7 @@ y activa solo las fases necesarias.
 
 | Nivel | Tamaño | Flujo activo |
 |-------|--------|--------------|
-| **L0** | XS, S | `new-issue → start-issue → enrich-issue → implement → review → create-pr` |
+| **L0** | XS, S | `new-issue → start-issue → enrich-issue → implement → commit → create-pr` |
 | **L1** | M | Flujo completo secuencial |
 | **L2** | L, XL | Flujo completo + agentes en paralelo en design y verify |
 
@@ -82,10 +82,11 @@ Fase 0 - SETUP  setup-project          → Project Manager:
 FASE 1  start-issue    → Orchestrator detecta nivel, crea branch, actualiza feature_list
 FASE 2  enrich-issue   → Orchestrator refina issue: ACs, out-of-scope, edge cases, detalles técnicos
 FASE 3  design         → Explorer + Designer producen el spec (test-plan en Gherkin)
-FASE 4  implement      → Implementer ejecuta task por task + pre-commit hook
+FASE 4  implement      → Implementer ejecuta task por task (sin commits)
 FASE 5  verify         → Reviewer: ACs + build + tests + Mutation Testing + checkpoint
 FASE 6  [MANUAL]       → Dev review en entorno local (gate humano)
-FASE 7  create-pr      → Doc Updater sincroniza docs/ → Orchestrator genera PR desde spec + reporte
+FASE 7  commit         → Único commit del branch + push a GitHub
+FASE 8  create-pr      → Doc Updater sincroniza docs/ → Orchestrator genera PR desde spec + reporte
 ```
 
 ---
@@ -105,7 +106,8 @@ los ejecuta** y la **fase que cubren**.
 | `design` | Explorer + Designer | 3 | L1, L2 |
 | `implement` | Implementer | 4 | Todos |
 | `verify` | Reviewer | 5 | L1, L2 |
-| `create-pr` | Orchestrator | 7 | Todos |
+| `commit` | Orchestrator | 7 | Todos |
+| `create-pr` | Orchestrator | 8 | Todos |
 | `new-issue [descripción]` | Orchestrator | utilidad | Todos |
 | `move-issue [N] [estado]` | Orchestrator | utilidad | Todos |
 

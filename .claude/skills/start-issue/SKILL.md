@@ -1,6 +1,6 @@
 ---
 name: start-issue
-description: Inicializa el contexto de trabajo para una issue de GitHub - detecta el nivel (L0/L1/L2), crea la branch, instala el pre-commit hook y genera workflow/specs/active-issue.md. Usar cuando el usuario pide /start-issue [N] o quiere empezar a trabajar una issue específica.
+description: Inicializa el contexto de trabajo para una issue de GitHub - detecta el nivel (L0/L1/L2), crea la branch e instala el pre-commit hook. Usar cuando el usuario pide /start-issue [N] o quiere empezar a trabajar una issue específica.
 ---
 
 **Fase:** 1 · **Rol invocado:** [orchestrator](../../../workflow/agents/orchestrator.md)
@@ -13,4 +13,4 @@ description: Inicializa el contexto de trabajo para una issue de GitHub - detect
    usando la plantilla de [`prompt.txt`](prompt.txt), completando `[N]`.
 3. Confirmá con el usuario el nivel detectado y la branch antes de continuar.
 
-**Siguiente paso según nivel:** L0 → `/implement` directo · L1/L2 → `/design`.
+**Siguiente paso (todos los niveles):** `/enrich-issue`.

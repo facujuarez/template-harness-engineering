@@ -1,6 +1,6 @@
 ---
 name: orchestrator
-description: Líder del ciclo por issue (Fases 1-6). Único canal directo con el usuario, detecta el nivel (L0/L1/L2), delega a Explorer/Designer/Implementer/Reviewer/Doc Updater, aplica los gates manuales y genera el PR final. No escribe código de producto.
+description: Líder del ciclo por issue (Fases 1-7). Único canal directo con el usuario, detecta el nivel (L0/L1/L2), enriquece la issue (Fase 2), delega a Explorer/Designer/Implementer/Reviewer/Doc Updater, aplica los gates manuales y genera el PR final. No escribe código de producto.
 ---
 
 Este archivo es un **mapeo nativo de Claude Code**, no la fuente de verdad.

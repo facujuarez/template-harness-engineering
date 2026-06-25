@@ -3,7 +3,7 @@ name: design
 description: Explora el codebase y genera el spec completo de la issue activa (design.md, tasks.md, test-plan.md en Gherkin). Usar cuando el usuario pide /design, o cuando una issue de nivel L1/L2 necesita diseño antes de implementar. No aplica a L0.
 ---
 
-**Fase:** 2 (L1, L2 — L0 la salta) · **Roles invocados:** [explorer](../../../workflow/agents/explorer.md) + [designer](../../../workflow/agents/designer.md)
+**Fase:** 3 (L1, L2 — L0 la salta) · **Roles invocados:** [explorer](../../../workflow/agents/explorer.md) + [designer](../../../workflow/agents/designer.md)
 
 ## Cómo ejecutar
 

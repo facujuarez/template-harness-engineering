@@ -9,7 +9,7 @@ Tareas:
    de workflow/docs/workflow-levels.md.
 4. Creá la branch siguiendo workflow/docs/workflow-conventions.md y hacé checkout.
 5. Instalá el pre-commit hook si no existe.
-6. Generá workflow/specs/active-issue.md con número, título, nivel, branch, ACs.
-7. Actualizá feature_list.json: la feature pasa a in_progress.
-8. Movés la issue a In Progress en el Project Board.
-9. Presentá el resumen e indicá el siguiente comando según el nivel.
+6. Actualizá feature_list.json: la feature pasa a in_progress.
+7. Movés la issue a In Progress en el Project Board.
+8. Presentá el resumen (issue, nivel detectado, branch creado) e indicá el siguiente
+   comando: /enrich-issue.

@@ -1,0 +1,26 @@
+Actuá como el rol orchestrator definido en workflow/agents/orchestrator.md, Fase 2.
+
+Leé workflow/specs/active-issue.md para obtener el número de issue y nivel activos.
+
+Tareas:
+1. Leé la issue completa desde GitHub (gh issue view [N]).
+2. Leé workflow/docs/issue-template.md y workflow/docs/definition-of-ready.md.
+3. Analizá la descripción actual e identificá gaps en:
+   - Criterios de aceptación: ¿son verificables e independientes entre sí?
+   - Out of scope: ¿está explícito qué NO incluye la issue?
+   - Casos límite: ¿están identificados los edge cases relevantes?
+   - Detalles técnicos: ¿hay restricciones, dependencias o contexto necesario?
+   - Escenarios de prueba: ¿se pueden derivar test cases de los ACs?
+4. Hacé preguntas al usuario (máx. 3 por ronda) para cerrar los gaps detectados.
+5. Generá la versión enriquecida de la descripción y presentala al usuario para aprobación.
+6. Con aprobación explícita: actualizá la issue en GitHub (gh issue edit [N] --body "...").
+7. Generá/actualizá workflow/specs/active-issue.md con:
+   - Número, título, nivel, branch, tipo, tamaño
+   - ACs validados y completos
+   - Out of scope explícito
+   - Casos límite identificados
+   - Notas técnicas de implementación
+   - Escenarios de prueba mapeados a los ACs
+   - Para L0: tasks inline generadas directamente
+   - Para L1/L2: specs marcados como pendientes (Fase 3)
+8. Presentá el resumen e indicá el siguiente comando: L0 → /implement · L1/L2 → /design.

@@ -22,19 +22,29 @@
    - Lee la Issue activa de GitHub.
    - Aplica `workflow/docs/workflow-levels.md` para clasificar **L0 / L1 / L2**.
    - Crea la branch según `workflow/docs/workflow-conventions.md`.
-   - Escribe `workflow/specs/active-issue.md` con: número, título, nivel, branch.
    - Actualiza `feature_list.json`: marca la feature correspondiente en
      `in_progress`.
 
-3. **Delegación por fase**
-   - **Fase 2 (L1/L2):** invoca al [[explorer]] y luego al [[designer]].
+3. **Enriquecimiento de la issue** (Fase 2)
+   - Lee la issue completa desde GitHub y la analiza contra `workflow/docs/definition-of-ready.md`.
+   - Identifica gaps en: ACs, out of scope, casos límite, detalles técnicos y
+     escenarios de prueba.
+   - Hace preguntas al usuario (máx. 3 por ronda) para cerrar los gaps.
+   - **Gate:** presenta la descripción enriquecida y espera aprobación explícita.
+   - Con aprobación: actualiza la issue en GitHub y escribe
+     `workflow/specs/active-issue.md` con contenido completo.
+   - Para **L0:** genera tasks inline en `active-issue.md`.
+   - Para **L1/L2:** marca specs como pendientes (Fase 3).
+
+4. **Delegación por fase**
+   - **Fase 3 (L1/L2):** invoca al [[explorer]] y luego al [[designer]].
      Devuelve el spec al usuario y pide aprobación explícita.
-   - **Fase 3:** invoca al [[implementer]] task por task (L0/L1) o en paralelo
+   - **Fase 4:** invoca al [[implementer]] task por task (L0/L1) o en paralelo
      cuando hay tasks independientes (L2).
-   - **Fase 4 (L1/L2):** invoca al [[reviewer]] con `workflow/docs/checkpoint.md` como contrato.
-   - **Fase 5:** **gate manual.** Pausa, presenta `workflow/docs/dev-review-checklist.md`
+   - **Fase 5 (L1/L2):** invoca al [[reviewer]] con `workflow/docs/checkpoint.md` como contrato.
+   - **Fase 6:** **gate manual.** Pausa, presenta `workflow/docs/dev-review-checklist.md`
      y espera confirmación humana.
-   - **Fase 6:** invoca al [[doc-updater]] para proponer actualizaciones a `docs/`;
+   - **Fase 7:** invoca al [[doc-updater]] para proponer actualizaciones a `docs/`;
      tras aprobación del usuario, genera el PR con `gh pr create` incluyendo spec +
      reporte del reviewer + doc-update-report.
 
@@ -75,8 +85,8 @@
                                       │ checkpoint.md verde
                                       ▼
                               (de vuelta al Orchestrator
-                               para Fase 5 → Fase 6)
-                                      │ (Fase 6: post Fase 5 aprobada)
+                               para Fase 6 → Fase 7)
+                                      │ (Fase 7: post Fase 6 aprobada)
                               ┌───────▼───────┐
                               │  Doc Updater  │
                               └───────────────┘
@@ -111,5 +121,5 @@
 
 - `workflow/specs/active-issue.md` — estado de sesión.
 - Mensajes al usuario: presentación de spec, gates, PR final.
-- PR description (Fase 6) — montada desde spec + reporte del reviewer.
+- PR description (Fase 7) — montada desde spec + reporte del reviewer.
 - Updates a `feature_list.json` y `workflow/specs/project-memory.md`.

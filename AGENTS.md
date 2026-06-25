@@ -40,7 +40,7 @@ secuencialmente en una sola sesión. La definición canónica es la de
 | **Designer** | [workflow/agents/designer.md](workflow/agents/designer.md) | Genera el spec (design + tasks + test-plan en Gherkin). |
 | **Implementer** | [workflow/agents/implementer.md](workflow/agents/implementer.md) | Ejecuta tasks del spec, una a una. Respeta pre-commit. |
 | **Reviewer** | [workflow/agents/reviewer.md](workflow/agents/reviewer.md) | Verifica ACs, build, tests y robustez por Mutation Testing. Dueño de `workflow/docs/checkpoint.md`. |
-| **Doc Updater** | [workflow/agents/doc-updater.md](workflow/agents/doc-updater.md) | Fase 6. Detecta cambios en arquitectura, modelo de datos y requerimientos, y propone actualizaciones a `docs/`. |
+| **Doc Updater** | [workflow/agents/doc-updater.md](workflow/agents/doc-updater.md) | Fase 7. Detecta cambios en arquitectura, modelo de datos y requerimientos, y propone actualizaciones a `docs/`. |
 
 ---
 
@@ -51,9 +51,9 @@ y activa solo las fases necesarias.
 
 | Nivel | Tamaño | Flujo activo |
 |-------|--------|--------------|
-| **L0** | XS, S | `new-issue → start-issue → implement → review → create-pr` |
+| **L0** | XS, S | `new-issue → start-issue → enrich-issue → implement → review → create-pr` |
 | **L1** | M | Flujo completo secuencial |
-| **L2** | L, XL | Flujo completo + agentes en paralelo en design y review |
+| **L2** | L, XL | Flujo completo + agentes en paralelo en design y verify |
 
 Detalle: `workflow/docs/workflow-levels.md`.
 
@@ -79,12 +79,13 @@ Fase 0 - SETUP  setup-project          → Project Manager:
 ### Ciclo por issue (L1 / L2, se repite por cada issue)
 
 ```
-FASE 1  start-issue    → Orchestrator detecta nivel, crea branch, genera contexto
-FASE 2  design         → Explorer + Designer producen el spec (test-plan en Gherkin)
-FASE 3  implement      → Implementer ejecuta task por task + pre-commit hook
-FASE 4  verify         → Reviewer: ACs + build + tests + Mutation Testing + checkpoint
-FASE 5  [MANUAL]       → Dev review en entorno local (gate humano)
-FASE 6  create-pr      → Doc Updater sincroniza docs/ → Orchestrator genera PR desde spec + reporte
+FASE 1  start-issue    → Orchestrator detecta nivel, crea branch, actualiza feature_list
+FASE 2  enrich-issue   → Orchestrator refina issue: ACs, out-of-scope, edge cases, detalles técnicos
+FASE 3  design         → Explorer + Designer producen el spec (test-plan en Gherkin)
+FASE 4  implement      → Implementer ejecuta task por task + pre-commit hook
+FASE 5  verify         → Reviewer: ACs + build + tests + Mutation Testing + checkpoint
+FASE 6  [MANUAL]       → Dev review en entorno local (gate humano)
+FASE 7  create-pr      → Doc Updater sincroniza docs/ → Orchestrator genera PR desde spec + reporte
 ```
 
 ---
@@ -100,10 +101,11 @@ los ejecuta** y la **fase que cubren**.
 | `init-harness [harness]` | Harness Configurator | 0 - INIT | — (una vez) |
 | `setup-project` | Project Manager | 0 - SETUP | — (una vez) |
 | `start-issue [N]` | Orchestrator | 1 | Todos |
-| `design` | Explorer + Designer | 2 | L1, L2 |
-| `implement` | Implementer | 3 | Todos |
-| `verify` | Reviewer | 4 | L1, L2 |
-| `create-pr` | Orchestrator | 6 | Todos |
+| `enrich-issue` | Orchestrator | 2 | Todos |
+| `design` | Explorer + Designer | 3 | L1, L2 |
+| `implement` | Implementer | 4 | Todos |
+| `verify` | Reviewer | 5 | L1, L2 |
+| `create-pr` | Orchestrator | 7 | Todos |
 | `new-issue [descripción]` | Orchestrator | utilidad | Todos |
 | `move-issue [N] [estado]` | Orchestrator | utilidad | Todos |
 
@@ -157,9 +159,9 @@ Ambos se commitean junto con los specs.
 ## Reglas generales
 
 1. **Nunca crear Issues, branches ni PRs sin aprobación explícita del usuario.**
-2. **El spec aprobado en Fase 2 es el contrato.** Nada fuera de él.
+2. **El spec aprobado en Fase 3 es el contrato.** Nada fuera de él.
 3. **Un task a la vez en L0/L1.** En L2 los agentes pueden paralelizar tareas
-   independientes en Fase 2 (exploración por área) y Fase 4 (verificación por área).
+   independientes en Fase 3 (exploración por área) y Fase 5 (verificación por área).
 4. **Los gates manuales son intencionales.** No se saltan.
 5. **Si hay ambigüedad, preguntar.** No asumir ni inventar.
 6. **Actualizar `feature_list.json`, `workflow/specs/project-memory.md` y `docs/`** al

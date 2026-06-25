@@ -19,12 +19,13 @@
  SETUP   setup-project → harness configurado + docs/ completos + backlog en GitHub
 
  ── CICLO POR ISSUE (se repite por cada issue del backlog) ────────────────
- FASE 1  start-issue   → Issue → Branch + contexto + nivel detectado
- FASE 2  design        → Contexto → Spec aprobado (test-plan en Gherkin)
- FASE 3  implement     → Spec → Código + commits
- FASE 4  verify        → Código → Reporte (ACs + Mutation Testing + checkpoint)
- FASE 5  [MANUAL]      → Revisión funcional en entorno local
- FASE 6  create-pr     → doc-updater sincroniza docs/ → PR creada → In Review + project-memory actualizado
+ FASE 1  start-issue   → Issue → Branch + nivel detectado + feature_list actualizado
+ FASE 2  enrich-issue  → Issue → ACs refinados + out-of-scope + edge cases + detalles técnicos
+ FASE 3  design        → Contexto → Spec aprobado (test-plan en Gherkin)
+ FASE 4  implement     → Spec → Código + commits
+ FASE 5  verify        → Código → Reporte (ACs + Mutation Testing + checkpoint)
+ FASE 6  [MANUAL]      → Revisión funcional en entorno local
+ FASE 7  create-pr     → doc-updater sincroniza docs/ → PR creada → In Review + project-memory actualizado
  ```
  
  Los nombres son **convención**: cada harness los expone como mejor encaje
@@ -41,9 +42,9 @@
  
  | Nivel | Tamaño | Fases activas | Agentes |
  |-------|--------|--------------|---------|
- | **L0** | XS, S | 0 → 1 → 3 → 5 → 6 | `implementer` |
- | **L1** | M | 0 → 1 → 2 → 3 → 4 → 5 → 6 | Todos, secuencial |
- | **L2** | L, XL | 0 → 1 → 2 → 3 → 4 → 5 → 6 | Todos, paralelo en 2 y 4 |
+ | **L0** | XS, S | 0 → 1 → 2 → 4 → 6 → 7 | `implementer` |
+ | **L1** | M | 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 | Todos, secuencial |
+ | **L2** | L, XL | 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 | Todos, paralelo en 3 y 5 |
  
  **Override automático a L1 mínimo** si la issue afecta: autenticación,
  seguridad, permisos o contratos de API.
@@ -166,7 +167,7 @@
  **Rol responsable:** [orchestrator](agents/orchestrator.md).
  
  **Objetivo:** Inicializar el contexto de trabajo para la issue: detectar nivel,
- crear branch, instalar el hook y generar el archivo de sesión.
+ crear branch e instalar el hook.
  
  **Lee al iniciar:**
  - `AGENTS.md`
@@ -190,26 +191,67 @@
  5. Hace checkout local del branch.
  6. Instala el pre-commit hook si no existe (copia
     `workflow/scripts/pre-commit-check.sh` a `.git/hooks/pre-commit`).
- 7. Genera `workflow/specs/active-issue.md` con:
-    - Número, título, nivel, branch, tipo, tamaño
-    - ACs extraídos de la issue
-    - Notas técnicas y out of scope
-    - Para **L0:** tasks inline generadas directamente
-    - Para **L1/L2:** specs marcados como pendientes (Fase 2)
- 8. Actualiza `feature_list.json`: feature → `in_progress`.
- 9. Mueve la issue a **In Progress** en el Project Board.
- 10. Presenta resumen e indica el siguiente comando según el nivel.
+ 7. Actualiza `feature_list.json`: feature → `in_progress`.
+ 8. Mueve la issue a **In Progress** en el Project Board.
+ 9. Presenta resumen (issue, nivel detectado, branch creado) e indica el siguiente
+    comando: `/enrich-issue`.
  
  **Output:**
  - Branch creado y en checkout.
- - `workflow/specs/active-issue.md` generado.
  - Pre-commit hook instalado.
  - `feature_list.json` actualizado.
  - Issue en estado **In Progress**.
  
  ---
  
- ## FASE 2 — `design` *(L1, L2 — L0 la salta)*
+ ## FASE 2 — `enrich-issue`
+ 
+ **Rol responsable:** [orchestrator](agents/orchestrator.md).
+ 
+ **Objetivo:** Profundizar y completar la descripción de la issue antes del diseño,
+ garantizando que se dispone de criterios de aceptación claros, fuera de alcance,
+ casos límite, detalles de implementación técnica y escenarios de prueba.
+ 
+ **Lee al iniciar:**
+ - `workflow/specs/active-issue.md` (contexto básico de Fase 1, si existe)
+ - `workflow/docs/issue-template.md`
+ - `workflow/docs/definition-of-ready.md`
+ 
+ **Flujo:**
+ 
+ 1. Lee la issue completa desde GitHub (`gh issue view`) y el `active-issue.md`
+    generado en Fase 1.
+ 2. Analiza la descripción actual e identifica gaps en:
+    - **Criterios de aceptación:** ¿son verificables e independientes entre sí?
+    - **Out of scope:** ¿está explícito qué NO incluye la issue?
+    - **Casos límite:** ¿están identificados los edge cases relevantes?
+    - **Detalles técnicos:** ¿hay restricciones, dependencias o contexto necesario?
+    - **Escenarios de prueba:** ¿se pueden derivar test cases de los ACs?
+ 3. Formula preguntas al usuario (máx. 3 por ronda) para cerrar los gaps detectados.
+ 4. Genera la versión enriquecida de la descripción.
+ 5. **Gate:** presenta el borrador enriquecido al usuario para aprobación.
+ 6. Con aprobación explícita: actualiza la issue en GitHub (`gh issue edit`).
+ 7. Genera/actualiza `workflow/specs/active-issue.md` con:
+    - Número, título, nivel, branch, tipo, tamaño
+    - ACs validados y completos
+    - Out of scope explícito
+    - Casos límite identificados
+    - Notas técnicas de implementación
+    - Escenarios de prueba mapeados a los ACs
+    - Para **L0:** tasks inline generadas directamente
+    - Para **L1/L2:** specs marcados como pendientes (Fase 3)
+ 8. Presenta resumen e indica el siguiente comando según el nivel:
+    L0 → `/implement` · L1/L2 → `/design`.
+ 
+ **Output:**
+ - Issue en GitHub actualizada con descripción enriquecida.
+ - `workflow/specs/active-issue.md` completo con ACs, out of scope, edge cases,
+   detalles técnicos y escenarios de prueba.
+ - Para L0: tasks inline listas para implementar.
+ 
+ ---
+ 
+ ## FASE 3 — `design` *(L1, L2 — L0 la salta)*
  
  **Roles involucrados:** [explorer](agents/explorer.md),
  [designer](agents/designer.md).
@@ -255,7 +297,7 @@
  
  ---
  
- ## FASE 3 — `implement`
+ ## FASE 4 — `implement`
  
  **Rol responsable:** [implementer](agents/implementer.md).
  
@@ -288,10 +330,10 @@
       Nunca se usa `--no-verify`.
     - g. Marca la task como `[x]` en el archivo de tasks.
  4. Al completar todas las tasks, presenta resumen y propone siguiente paso:
-    - **L0:** propone ir a `verify` (mínimo) o directo a revisión manual (Fase 5).
+    - **L0:** propone ir a `verify` (mínimo) o directo a revisión manual (Fase 6).
     - **L1/L2:** propone `verify`.
  
- **Nunca hace push.** Solo commits locales hasta la Fase 6.
+ **Nunca hace push.** Solo commits locales hasta la Fase 7.
  
  **Output:**
  - Código implementado en el branch local.
@@ -300,7 +342,7 @@
  
  ---
  
- ## FASE 4 — `verify` *(L1, L2 — L0 lo hace versión ligera)*
+ ## FASE 5 — `verify` *(L1, L2 — L0 lo hace versión ligera)*
  
  **Rol responsable:** [reviewer](agents/reviewer.md).
  
@@ -336,7 +378,7 @@
  3. Determina resultado global: el más restrictivo de los reviewers.
  
  **Resultados posibles:**
- - ✅ **APROBADO** → gate manual (Fase 5)
+ - ✅ **APROBADO** → gate manual (Fase 6)
  - ⚠️ **APROBADO CON OBSERVACIONES** → gate manual con notas documentadas
  - ❌ **BLOQUEADO** → vuelve a `implement` para corregir
  
@@ -354,7 +396,7 @@
  
  ---
  
- ## FASE 5 — Manual · Dev Review
+ ## FASE 6 — Manual · Dev Review
  
  **Objetivo:** Validación funcional que ningún agente puede reemplazar:
  ¿el comportamiento real coincide con la intención original?
@@ -377,7 +419,7 @@
  
  ---
  
- ## FASE 6 — `create-pr`
+ ## FASE 7 — `create-pr`
  
  **Rol responsable:** [orchestrator](agents/orchestrator.md).
  
@@ -499,12 +541,12 @@
  | Archivo | Rol | Usado en |
  |---------|-----|----------|
  | `workflow/agents/project-manager.md` | Entrevista de docs + generación de backlog | Fase 0 |
- | `workflow/agents/orchestrator.md` | Líder, único canal con el usuario | Fases 1–6 |
- | `workflow/agents/explorer.md` | Análisis estático del codebase | Fase 2 |
- | `workflow/agents/designer.md` | Diseño arquitectónico + spec (Gherkin) | Fase 2 |
- | `workflow/agents/implementer.md` | Implementación task por task | Fase 3 |
- | `workflow/agents/reviewer.md` | ACs + build + tests + Mutation Testing + checkpoint | Fase 4 |
- | `workflow/agents/doc-updater.md` | Detecta y propone actualizaciones a `docs/` tras la issue | Fase 6 |
+ | `workflow/agents/orchestrator.md` | Líder, único canal con el usuario | Fases 1–7 |
+ | `workflow/agents/explorer.md` | Análisis estático del codebase | Fase 3 |
+ | `workflow/agents/designer.md` | Diseño arquitectónico + spec (Gherkin) | Fase 3 |
+ | `workflow/agents/implementer.md` | Implementación task por task | Fase 4 |
+ | `workflow/agents/reviewer.md` | ACs + build + tests + Mutation Testing + checkpoint | Fase 5 |
+ | `workflow/agents/doc-updater.md` | Detecta y propone actualizaciones a `docs/` tras la issue | Fase 7 |
 
  ### Capa provider-specific (opcional)
 
@@ -514,10 +556,11 @@
  |---------|---------|------|
  | `.claude/skills/setup-project/SKILL.md` | `/setup-project` | 0 |
  | `.claude/skills/start-issue/SKILL.md` | `/start-issue` | 1 |
- | `.claude/skills/design/SKILL.md` | `/design` | 2 |
- | `.claude/skills/implement/SKILL.md` | `/implement` | 3 |
- | `.claude/skills/verify/SKILL.md` | `/verify` | 4 |
- | `.claude/skills/create-pr/SKILL.md` | `/create-pr` | 6 |
+ | `.claude/skills/enrich-issue/SKILL.md` | `/enrich-issue` | 2 |
+ | `.claude/skills/design/SKILL.md` | `/design` | 3 |
+ | `.claude/skills/implement/SKILL.md` | `/implement` | 4 |
+ | `.claude/skills/verify/SKILL.md` | `/verify` | 5 |
+ | `.claude/skills/create-pr/SKILL.md` | `/create-pr` | 7 |
  | `.claude/skills/move-issue/SKILL.md` | `/move-issue` | utilidad |
  
  Cada uno **mapea 1:1 con `workflow/agents/*.md`**.

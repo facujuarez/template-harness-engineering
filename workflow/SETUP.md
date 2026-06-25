@@ -57,8 +57,9 @@ marca la configuración como completada.
 ```
 .claude/
 ├── agents/         → 8 referencias 1:1 a workflow/agents/*.md
-├── skills/         → init-harness, setup-project, start-issue, design,
-│                     implement, verify, create-pr, new-issue, move-issue
+├── skills/         → init-harness, setup-project, start-issue, enrich-issue,
+│                     design, implement, verify, commit, create-pr,
+│                     new-issue, move-issue
 └── settings.json   → hooks, permisos, MCP servers (opcional)
 ```
 

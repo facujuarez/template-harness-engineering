@@ -29,9 +29,11 @@
   │   │   └── prompt.txt
   │   ├── setup-project/
   │   ├── start-issue/
+  │   ├── enrich-issue/
   │   ├── design/
   │   ├── implement/
   │   ├── verify/
+  │   ├── commit/
   │   ├── create-pr/
   │   ├── new-issue/
   │   └── move-issue/
@@ -49,10 +51,12 @@
   - `init-harness` → Harness Configurator (Fase 0 - INIT)
   - `setup-project` → Project Manager (Fase 0 - SETUP)
   - `start-issue` → Orchestrator (Fase 1)
-  - `design` → Designer + Explorer (Fase 2)
-  - `implement` → Implementer (Fase 3)
-  - `verify` → Reviewer (Fase 4)
-  - `create-pr` → Orchestrator + Doc Updater (Fase 6)
+  - `enrich-issue` → Orchestrator (Fase 2)
+  - `design` → Designer + Explorer (Fase 3)
+  - `implement` → Implementer (Fase 4)
+  - `verify` → Reviewer (Fase 5)
+  - `commit` → Orchestrator (Fase 7)
+  - `create-pr` → Orchestrator + Doc Updater (Fase 8)
   - Utilitarios: `new-issue`, `move-issue`
 
 - **`.claude/settings.json`** — hooks pre-commit, permisos, variables de entorno.

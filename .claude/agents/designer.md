@@ -1,6 +1,6 @@
 ---
 name: designer
-description: Genera el spec de la issue (design.md + tasks.md + test-plan.md en Gherkin) a partir del reporte del Explorer y los ACs de la issue. Se invoca en Fase 2 (design). El spec aprobado es el contrato inmutable de implementación.
+description: Genera el spec de la issue (design.md + tasks.md + test-plan.md en Gherkin) a partir del reporte del Explorer y los ACs de la issue. Se invoca en Fase 3 (design). El spec aprobado es el contrato inmutable de implementación.
 ---
 
 Este archivo es un **mapeo nativo de Claude Code**, no la fuente de verdad.

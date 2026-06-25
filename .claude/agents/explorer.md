@@ -1,6 +1,6 @@
 ---
 name: explorer
-description: Análisis read-only del codebase para mapear módulos, patrones existentes y zonas de impacto antes del diseño. Se invoca en Fase 2 (design), insumo obligatorio del Designer. No modifica nada, no opina sobre diseño.
+description: Análisis read-only del codebase para mapear módulos, patrones existentes y zonas de impacto antes del diseño. Se invoca en Fase 3 (design), insumo obligatorio del Designer. No modifica nada, no opina sobre diseño.
 ---
 
 Este archivo es un **mapeo nativo de Claude Code**, no la fuente de verdad.

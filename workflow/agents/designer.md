@@ -18,7 +18,7 @@
      solución, las marca como **decisión consciente** (resolver ahora vs. deuda).
 
 2. **Descomposición en tasks**
-   - Tasks atómicas, una por commit lógico.
+   - Tasks atómicas e independientes entre sí.
    - Cada task lista archivos a tocar, contratos a respetar, dependencias entre tasks.
    - En L2, marca explícitamente qué tasks son paralelizables.
 
@@ -40,7 +40,7 @@
 
 ## Relaciones con otros agentes
 
-- **Invocado por:** [[orchestrator]] en Fase 2 (L1, L2).
+- **Invocado por:** [[orchestrator]] en Fase 3 (L1, L2).
 - **Consume de:** [[explorer]] (reporte estructural).
 - **Alimenta a:** [[implementer]] (tasks ejecutables), [[reviewer]] (criterios
   de aceptación + test plan).

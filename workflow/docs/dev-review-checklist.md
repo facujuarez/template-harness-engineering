@@ -1,4 +1,4 @@
-# Dev Review Checklist — Fase 5
+# Dev Review Checklist — Fase 6
 
 > Revisión manual en entorno local antes de crear la PR.
 > Esta fase es intencional y no puede ser automatizada.
@@ -78,7 +78,7 @@
 ## 📝 Resultado de la revisión
 
 **Decisión:**  
-[ ] ✅ Aprobado — listo para `/create-pr`  
+[ ] ✅ Aprobado — listo para `/commit`  
 [ ] ⚠️ Aprobado con observaciones — documentadas abajo  
 [ ] ❌ Requiere correcciones — volver a `/implement`
 

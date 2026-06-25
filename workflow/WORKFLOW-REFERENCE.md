@@ -410,7 +410,7 @@
  - Consola/logs: sin errores ni warnings nuevos
  
  **Resultado:**
- - ✅ Aprobado → `create-pr`.
+ - ✅ Aprobado → `/commit`.
  - ❌ Requiere correcciones → vuelve a `implement` (tasks adicionales o corrección
    de existentes). El reviewer revalida.
  
@@ -615,7 +615,7 @@
  | `workflow/docs/workflow-levels.md` | Referencia del sistema L0/L1/L2 | No |
  | `workflow/docs/definition-of-ready.md` | Criterios para estado Ready (incluye Milestone) | Opcional |
  | `workflow/docs/issue-template.md` | Template canónico de Issues | Opcional |
- | `workflow/docs/dev-review-checklist.md` | Checklist Fase 5 manual | Opcional |
+ | `workflow/docs/dev-review-checklist.md` | Checklist Fase 6 manual | Opcional |
  
  ### Specs *(generados durante el trabajo)*
  

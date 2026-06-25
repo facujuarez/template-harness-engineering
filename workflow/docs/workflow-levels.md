@@ -13,12 +13,12 @@
 
 **Fases activas:**
 ```
-/new-issue → /start-issue → /implement → /create-pr
+/new-issue → /start-issue → /enrich-issue → /implement → /commit → /create-pr
 ```
 
 **Qué se omite:**
-- `/design` — las tasks se definen inline en `start-issue`
-- `/verify` formal — se sustituye por el pre-commit hook + sanity check en `implement`
+- `/design` — las tasks se definen inline en `enrich-issue`
+- `/verify` formal — se sustituye por el pre-commit hook que corre en Fase 7 (`/commit`)
 - `specs/issue-N/design.md` y `test-plan.md` — no se generan
 
 **Cuándo NO usar L0 aunque el tamaño sea XS/S:**
@@ -35,13 +35,13 @@ y afecta al menos un módulo del sistema.
 
 **Fases activas:**
 ```
-/new-issue → /start-issue → /design → /implement → /verify → [manual] → /create-pr
+/new-issue → /start-issue → /enrich-issue → /design → /implement → /verify → [manual] → /commit → /create-pr
 ```
 
 **Subagents activos (secuencial):**
 - `codebase-explorer` → explora codebase antes del diseño
 - `design-agent` → genera spec completo
-- `implement-agent` → ejecuta cada task
+- `implement-agent` → ejecuta cada task (sin commits)
 - `verify-agent` → verifica cobertura y genera reporte
 
 ---
@@ -51,7 +51,7 @@ y afecta al menos un módulo del sistema.
 **Cuándo:** La issue tiene alto impacto, múltiples áreas afectadas, o el
 diseño requiere exploración profunda del codebase.
 
-**Fases activas:** Igual que L1 pero con paralelismo en Design y Verify.
+**Fases activas:** Igual que L1 (`/enrich-issue` incluido) pero con paralelismo en Design (Fase 3) y Verify (Fase 5).
 
 **Design (paralelo):**
 ```

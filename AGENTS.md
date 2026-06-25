@@ -149,7 +149,7 @@ Ambos se commitean junto con los specs.
 | `workflow/docs/workflow-conventions.md` | Branches, commits, PRs. |
 | `workflow/docs/definition-of-ready.md` | Criterios para estado Ready (incluye Milestone). |
 | `workflow/docs/issue-template.md` | Template canónico de Issues. |
-| `workflow/docs/dev-review-checklist.md` | Checklist Fase 5 (manual). |
+| `workflow/docs/dev-review-checklist.md` | Checklist Fase 6 (manual). |
 | `workflow/docs/workflow-levels.md` | Referencia del sistema de niveles. |
 | `workflow/specs/active-issue.md` | Issue y nivel activos en sesión. |
 | `workflow/specs/project-memory.md` | Memoria persistente cross-issues. |

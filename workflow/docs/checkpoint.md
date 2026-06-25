@@ -1,7 +1,7 @@
 # Checkpoint — Cierre de sesión
 
 > Checklist propiedad del [[reviewer]] (`workflow/agents/reviewer.md`). Se recorre **al
-> final** de la Fase 4 y al cerrar sesión. El reviewer marca `[x]` con
+> final** de la Fase 5 y al cerrar sesión. El reviewer marca `[x]` con
 > evidencia, `[ ]` si no verifica, o `[~]` si el orchestrator justificó que
 > no aplica para esta issue.
 >
@@ -42,7 +42,7 @@
 - [ ] `build` corre sin errores (comando: ver `docs/architecture.md`).
 - [ ] `lint` corre sin errores ni warnings ignorados sin justificación.
 - [ ] Test suite completa pasa. Sin tests skipped sin justificación.
-- [ ] Pre-commit hook se ejecutó en cada commit (no se usó `--no-verify`).
+- [ ] Pre-commit hook se ejecutó en el commit de Fase 7 (`/commit`) sin `--no-verify`.
 
 ## 4. Calidad de código
 
@@ -71,7 +71,7 @@
 - [ ] Branch al día con `develop` (o `main`, según convenciones del proyecto).
 - [ ] Commit history limpio: commits atómicos, mensajes en imperativo en inglés.
 - [ ] Sin archivos generados accidentales (build output, `.env`, etc.).
-- [ ] `gh pr create` se ejecutará desde la branch correcta.
+- [ ] Branch publicado en origin (`git push` ejecutado en Fase 7).
 
 ---
 

@@ -42,6 +42,11 @@
      muestra un preview y espera aprobación antes de escribir.
    - Si un documento ya está parcialmente completado, retoma desde la primera
      sección incompleta.
+   - Si el usuario aporta diagramas de flujo de proceso (imágenes exportadas
+     de Visio, BPMN u otra herramienta) durante la entrevista, los incorpora
+     como referencia visual en `docs/functional.md`, enlazando cada diagrama
+     junto al flujo textual que representa. Apoyo manual, no implica
+     automatización ni nuevas dependencias.
 
 4. **Generación del README.md**
    - Una vez que los 4 documentos de `docs/` están completos y aprobados:

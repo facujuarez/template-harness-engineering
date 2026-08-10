@@ -60,7 +60,10 @@
      `workflow/specs/checkpoint-<N>.md` como histórico inmutable de esa issue.
    - Devuelve el `workflow/docs/checkpoint.md` raíz a su estado de template (todos los boxes
      en `[ ]`) para la próxima sesión.
-   - Actualiza `feature_list.json`: feature → `done` si todos los ACs pasan.
+   - **Propone** al [[orchestrator]] la transición de `feature_list.json`:
+     feature → `done` si todos los ACs pasan. El reviewer nunca escribe
+     `feature_list.json` directamente: el orchestrator es el único dueño de
+     esa escritura y aplica la transición.
 
 7. **Reporte al orchestrator**
    - Resumen ejecutivo: ACs cubiertos, build status, tests pasados/fallidos,
@@ -92,6 +95,8 @@
   issue, el reviewer cambia `[ ]` por `[~]` (no aplicable) con justificación.
 - **No hace `git push` ni crea PR.** Eso es del [[orchestrator]] con aprobación
   humana.
+- **No escribe `feature_list.json`.** Propone la transición de estado al
+  [[orchestrator]], que es el único que la aplica.
 - **Si el build/lint/tests fallan, no negocia.** Reporta el fallo y rebota al
   implementer.
 

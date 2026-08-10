@@ -16,6 +16,9 @@
    - Cuando hay 2-3 enfoques viables, los presenta con trade-offs y recomienda uno.
    - Si detecta violaciones de principios en el código existente que afectan la
      solución, las marca como **decisión consciente** (resolver ahora vs. deuda).
+   - Si `AGENTS.md` o `docs/` referencian un prototipo visual (Figma,
+     wireframes) para la Issue, lo consulta como contexto adicional para
+     alinear el diseño con la UI esperada. Apoyo manual, no automatizado.
 
 2. **Descomposición en tasks**
    - Tasks atómicas e independientes entre sí.

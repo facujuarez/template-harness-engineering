@@ -389,7 +389,9 @@
  - `workflow/specs/issue-{N}/verification-report.md` completo.
  - `workflow/specs/checkpoint-{N}.md` histórico.
  - `workflow/docs/checkpoint.md` reseteado.
- - `feature_list.json` con feature → `done` si todos los ACs pasan.
+ - El reviewer **propone** feature → `done` si todos los ACs pasan; el
+   orchestrator aplica la transición en `feature_list.json` (el reviewer
+   nunca escribe ese archivo directamente).
  
  ---
  
@@ -550,6 +552,43 @@
  
  ---
  
+ ## UTILIDAD — `status`
+
+ **Rol responsable:** [orchestrator](agents/orchestrator.md).
+
+ **Objetivo:** Dar una foto del estado de la sesión activa sin efectos
+ secundarios: qué issue está en curso, en qué fase está, qué falta para
+ avanzar. Útil para retomar trabajo interrumpido o para verificar consistencia
+ entre `feature_list.json` y los artefactos en disco.
+
+ **Lee al iniciar:**
+ - `feature_list.json`
+ - `workflow/specs/active-issue.md` (si existe)
+ - `workflow/specs/issue-{N}/` — `design.md`, `tasks.md`, `test-plan.md`,
+   `verification-report.md` (los que existan)
+ - `workflow/docs/checkpoint.md`
+
+ **Flujo:**
+
+ 1. Identifica la issue activa (`feature_list.json` con `status: in_progress`,
+    o `active-issue.md` si existe).
+ 2. Reporta: número de issue, branch, nivel (L0/L1/L2), y qué artefactos de
+    spec existen.
+ 3. Si hay `tasks.md` o tasks inline: progreso (X/Y completadas).
+ 4. Estado de `workflow/docs/checkpoint.md`: pendiente / con `[ ]` sin
+    justificar / cerrado.
+ 5. Detecta inconsistencias y las señala (ej.: issue `in_progress` sin
+    `active-issue.md`; tasks todas `[x]` con checkpoint sin cerrar;
+    `feature_list.json` con una feature en un estado que no corresponde a los
+    artefactos presentes).
+ 6. Sugiere el siguiente comando del ciclo.
+
+ **Sin gate:** solo lectura, no genera ni modifica artefactos.
+
+ **Output:** panel resumen en el chat. No persiste nada en disco.
+
+ ---
+ 
  ## Archivos del kit
  
  ### Contrato del harness (auto-cargado por el harness)
@@ -586,6 +625,7 @@
  | `.claude/skills/commit/SKILL.md` | `/commit` | 7 |
  | `.claude/skills/create-pr/SKILL.md` | `/create-pr` | 8 |
  | `.claude/skills/move-issue/SKILL.md` | `/move-issue` | utilidad |
+ | `.claude/skills/status/SKILL.md` | `/status` | utilidad |
  
  Cada uno **mapea 1:1 con `workflow/agents/*.md`**.
  

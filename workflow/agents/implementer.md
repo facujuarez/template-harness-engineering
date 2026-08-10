@@ -25,8 +25,10 @@
 
 3. **Cierre de task**
    - Marca la task como completa en `tasks.md` (`- [x]`).
-   - Si la task agregó/cerró una feature de `feature_list.json`, actualiza su
-     `status`. Reglas de transición en el JSON.
+   - Si la task agregó/cerró una feature de `feature_list.json`, **reporta**
+     al [[orchestrator]] el cambio de `status` sugerido. El implementer nunca
+     escribe `feature_list.json` directamente: el orchestrator es el único
+     dueño de esa escritura y aplica la transición.
    - Devuelve control al [[orchestrator]] para validar avance o invocar al
      [[reviewer]].
    - **Sin commits durante la implementación.** El único commit se hace en
@@ -59,6 +61,8 @@
 - **No hace commits durante la implementación.** El commit único lo genera el
   orchestrator en Fase 7 (`/commit`). Nunca `git commit` aquí.
 - **No hace `git push`.** Ocurre en Fase 7 junto con el commit.
+- **No escribe `feature_list.json`.** Reporta el cambio de estado sugerido al
+  [[orchestrator]], que es el único que lo aplica.
 
 ---
 
@@ -66,4 +70,5 @@
 
 - Código fuente y tests bajo `src/` y `tests/` (o equivalente según el repo).
 - Actualizaciones a `workflow/specs/issue-<N>/tasks.md` marcando tasks completas.
-- Actualizaciones a `feature_list.json` cuando la feature cambia de estado.
+- Reporte al [[orchestrator]] de cambios de estado sugeridos para
+  `feature_list.json` (el orchestrator los aplica).

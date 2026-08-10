@@ -110,6 +110,7 @@ los ejecuta** y la **fase que cubren**.
 | `create-pr` | Orchestrator | 8 | Todos |
 | `new-issue [descripción]` | Orchestrator | utilidad | Todos |
 | `move-issue [N] [estado]` | Orchestrator | utilidad | Todos |
+| `status` | Orchestrator | utilidad | Todos |
 
 ---
 
@@ -126,8 +127,9 @@ los ejecuta** y la **fase que cubren**.
 - `workflow/specs/project-memory.md` acumula patrones, decisiones y aprendizajes
   cross-issues. Los agentes lo leen al iniciar y lo actualizan al cerrar issue.
 - `feature_list.json` es el estado **sincronizado** de features/issues. El
-  Orchestrator lo lee al inicio de cada fase; el Implementer y el Reviewer lo
-  actualizan al cambiar de estado.
+  Orchestrator lo lee al inicio de cada fase y es el **único** que lo escribe;
+  el Implementer y el Reviewer proponen transiciones de estado que el
+  Orchestrator aplica.
 
 Ambos se commitean junto con los specs.
 

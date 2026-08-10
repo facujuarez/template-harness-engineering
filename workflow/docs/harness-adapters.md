@@ -36,7 +36,8 @@
   │   ├── commit/
   │   ├── create-pr/
   │   ├── new-issue/
-  │   └── move-issue/
+  │   ├── move-issue/
+  │   └── status/
   │
   └── settings.json               → configuración de hooks, permissions, etc.
 ```
@@ -57,7 +58,8 @@
   - `verify` → Reviewer (Fase 5)
   - `commit` → Orchestrator (Fase 7)
   - `create-pr` → Orchestrator + Doc Updater (Fase 8)
-  - Utilitarios: `new-issue`, `move-issue`
+  - Utilitarios: `new-issue`, `move-issue`, `status` (Orchestrator, solo
+    lectura, sin gate)
 
 - **`.claude/settings.json`** — hooks pre-commit, permisos, variables de entorno.
 

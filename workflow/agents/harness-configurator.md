@@ -59,6 +59,7 @@
      - `create-pr/SKILL.md` — referencia a orchestrator + doc-updater
      - `new-issue/SKILL.md` — utilidad (orchestrator)
      - `move-issue/SKILL.md` — utilidad (orchestrator)
+     - `status/SKILL.md` — utilidad (orchestrator, solo lectura, sin gate)
    - Cada SKILL.md es una referencia breve a su rol correspondiente.
 
 6. **Configuración de settings.json (Claude Code)**
@@ -80,7 +81,7 @@
      ✓ Harness configurado: [harness-name]
      ✓ Carpeta generada: [path]
      ✓ Roles mapeados: 8/8
-     ✓ Skills generados: 11/11
+     ✓ Skills generados: 12/12
      ✓ Listo para /setup-project
      ```
    - Si hay errores:
@@ -154,7 +155,8 @@ Según harness elegido:
 │   ├── commit/SKILL.md
 │   ├── create-pr/SKILL.md
 │   ├── new-issue/SKILL.md
-│   └── move-issue/SKILL.md
+│   ├── move-issue/SKILL.md
+│   └── status/SKILL.md
 └── settings.json
 ```
 
@@ -195,7 +197,7 @@ El Configurador verifica:
 - ✓ Carpeta provider-specific creada.
 - ✓ Directorios necesarios existen.
 - ✓ Todos los roles mapeados (8 roles esperados).
-- ✓ Skills generados (11 skills para Claude Code, si aplica).
+- ✓ Skills generados (12 skills para Claude Code, si aplica).
 - ✓ Configuración JSON válida (si aplica).
 - ✓ Sin duplicación de contenido.
 - ✓ Referencias correctas a `workflow/agents/`.
@@ -218,7 +220,7 @@ Si alguna validación falla:
 1. Harness Configurator detecta: `claude-code`
 2. Lee: `workflow/docs/harness-adapters.md` (sección Claude Code)
 3. Crea: `.claude/agents/` con 8 referencias
-4. Crea: `.claude/skills/` con 11 skills
+4. Crea: `.claude/skills/` con 12 skills
 5. Crea: `.claude/settings.json`
 6. Valida todo
 7. Reporta: "✓ Harness configurado: claude-code → podés usar /setup-project"

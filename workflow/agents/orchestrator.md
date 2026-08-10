@@ -51,7 +51,9 @@
      reporte del reviewer + doc-update-report.
 
 4. **Gestión de estado**
-   - Mantiene `feature_list.json` sincronizado en cada transición de estado.
+   - Es el **único** agente que escribe `feature_list.json`. El [[implementer]]
+     (Fase 4) y el [[reviewer]] (Fase 5) proponen transiciones de estado; el
+     orchestrator las valida contra la Issue en GitHub y las aplica.
    - Llama a `move-issue` para reflejar en el GitHub Project Board.
    - Al cerrar issue, dispara al [[reviewer]] para validar `workflow/docs/checkpoint.md`
      completo y luego actualiza `workflow/specs/project-memory.md`.

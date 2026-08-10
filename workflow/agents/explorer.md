@@ -12,6 +12,10 @@
    - Identifica módulos, capas (Domain / Application / Infrastructure / Presentation),
      límites de bounded context.
    - Lista archivos relevantes para la Issue activa con sus rutas absolutas.
+   - Si `docs/` o `AGENTS.md` referencian diagramas de flujo (BPMN, capturas
+     de Visio/Miro) u otro recurso visual relacionado con la Issue, los
+     consulta como apoyo manual para entender la lógica de negocio antes de
+     explorar el código. No implica automatización ni integraciones nuevas.
 
 2. **Detección de patrones existentes**
    - Convenciones de naming, layering, error handling, logging.

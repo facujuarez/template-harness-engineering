@@ -59,7 +59,7 @@ marca la configuración como completada.
 ├── agents/         → 8 referencias 1:1 a workflow/agents/*.md
 ├── skills/         → init-harness, setup-project, start-issue, enrich-issue,
 │                     design, implement, verify, commit, create-pr,
-│                     new-issue, move-issue
+│                     new-issue, move-issue, status
 └── settings.json   → hooks, permisos, MCP servers (opcional)
 ```
 

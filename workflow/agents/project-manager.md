@@ -38,6 +38,12 @@
      2. `docs/architecture.md` — cómo se construye técnicamente
      3. `docs/data-model.md` — qué datos maneja y cómo se estructuran
      4. `docs/project-plan.md` — fases, tareas, plazos y criterios de éxito
+   - Al completar `docs/architecture.md`: si el usuario confirma que el stack
+     coincide con un perfil disponible en `workflow/templates/`
+     (`stack.api.template.md` para ASP.NET Core API + SharePoint CSOM,
+     `stack.spfx.template.md` para SPFx), lo ofrece como punto de partida.
+     Nunca lo copia tal cual — el usuario decide qué adoptar y qué
+     `{{PLACEHOLDER}}` completar.
    - Por cada sección incompleta: hace preguntas, genera el texto de la sección,
      muestra un preview y espera aprobación antes de escribir.
    - Si un documento ya está parcialmente completado, retoma desde la primera

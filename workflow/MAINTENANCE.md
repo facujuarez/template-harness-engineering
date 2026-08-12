@@ -36,7 +36,7 @@
 | Recurso | Cantidad | Lista |
 |---------|----------|-------|
 | Agentes (`workflow/agents/`) | 8 | harness-configurator, project-manager, orchestrator, explorer, designer, implementer, reviewer, doc-updater |
-| Skills Claude Code (`.claude/skills/`) | 12 | init-harness, setup-project, start-issue, enrich-issue, design, implement, verify, commit, create-pr, new-issue, move-issue, status |
+| Skills Claude Code (`.claude/skills/`) | 12 | init-harness, setup-project, start-issue, enrich-issue, design, implement, verify, commit, create-pr, new-issue, move-issue, project-status |
 
 ---
 
@@ -49,7 +49,7 @@
 | `enrich-issue` antes de `design` | Garantiza que los ACs estén completos antes de que el designer genere el spec. Evita iteraciones de corrección a mitad del diseño. |
 | Fase 6 es siempre MANUAL (gate humano) | Ningún agente puede validar que el comportamiento real coincide con la intención original del usuario. |
 | `git push` vive en Fase 7 (`commit`), no en Fase 8 (`create-pr`) | `create-pr` solo necesita que el branch esté en origin; separar push de PR creation da un checkpoint explícito antes de abrir la PR. |
-| `/status` no tiene gate | Es de solo lectura (no genera ni modifica artefactos), a diferencia de `new-issue`/`move-issue` que sí escriben en GitHub/`feature_list.json`. |
+| `/project-status` no tiene gate | Es de solo lectura (no genera ni modifica artefactos), a diferencia de `new-issue`/`move-issue` que sí escriben en GitHub/`feature_list.json`. |
 | Solo el orchestrator escribe `feature_list.json`; implementer y reviewer proponen | Evita que dos subagentes en contexto aislado (Fase 4 y Fase 5) escriban el mismo archivo de forma independiente e inconsistente. |
 
 ---

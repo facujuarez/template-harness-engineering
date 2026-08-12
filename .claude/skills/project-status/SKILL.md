@@ -1,6 +1,6 @@
 ---
-name: status
-description: Reporta el estado de la sesión activa (issue en curso, fase, progreso de tasks, checkpoint) sin efectos secundarios y sugiere el siguiente comando. Usar cuando el usuario pide /status, o para retomar trabajo interrumpido.
+name: project-status
+description: Reporta el estado de la sesión activa (issue en curso, fase, progreso de tasks, checkpoint) sin efectos secundarios y sugiere el siguiente comando. Usar cuando el usuario pide /project-status, o para retomar trabajo interrumpido.
 ---
 
 **Utilidad** · **Rol invocado:** [orchestrator](../../../workflow/agents/orchestrator.md)

@@ -59,7 +59,7 @@
      - `create-pr/SKILL.md` — referencia a orchestrator + doc-updater
      - `new-issue/SKILL.md` — utilidad (orchestrator)
      - `move-issue/SKILL.md` — utilidad (orchestrator)
-     - `status/SKILL.md` — utilidad (orchestrator, solo lectura, sin gate)
+     - `project-status/SKILL.md` — utilidad (orchestrator, solo lectura, sin gate)
    - Cada SKILL.md es una referencia breve a su rol correspondiente.
 
 6. **Configuración de settings.json (Claude Code)**
@@ -156,7 +156,7 @@ Según harness elegido:
 │   ├── create-pr/SKILL.md
 │   ├── new-issue/SKILL.md
 │   ├── move-issue/SKILL.md
-│   └── status/SKILL.md
+│   └── project-status/SKILL.md
 └── settings.json
 ```
 

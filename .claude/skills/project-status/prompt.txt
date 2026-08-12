@@ -1,4 +1,4 @@
-Actuá como el rol orchestrator definido en workflow/agents/orchestrator.md, utilidad status.
+Actuá como el rol orchestrator definido en workflow/agents/orchestrator.md, utilidad project-status.
 
 Tareas (solo lectura, sin gate, no generás ni modificás artefactos):
 1. Leé feature_list.json e identificá la issue activa (status: in_progress),

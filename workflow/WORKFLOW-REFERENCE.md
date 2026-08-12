@@ -552,7 +552,7 @@
  
  ---
  
- ## UTILIDAD — `status`
+ ## UTILIDAD — `project-status`
 
  **Rol responsable:** [orchestrator](agents/orchestrator.md).
 
@@ -616,6 +616,7 @@
 
  | Archivo | Comando | Fase |
  |---------|---------|------|
+ | `.claude/skills/init-harness/SKILL.md` | `/init-harness` | 0-INIT |
  | `.claude/skills/setup-project/SKILL.md` | `/setup-project` | 0 |
  | `.claude/skills/start-issue/SKILL.md` | `/start-issue` | 1 |
  | `.claude/skills/enrich-issue/SKILL.md` | `/enrich-issue` | 2 |
@@ -624,8 +625,9 @@
  | `.claude/skills/verify/SKILL.md` | `/verify` | 5 |
  | `.claude/skills/commit/SKILL.md` | `/commit` | 7 |
  | `.claude/skills/create-pr/SKILL.md` | `/create-pr` | 8 |
+ | `.claude/skills/new-issue/SKILL.md` | `/new-issue` | utilidad |
  | `.claude/skills/move-issue/SKILL.md` | `/move-issue` | utilidad |
- | `.claude/skills/status/SKILL.md` | `/status` | utilidad |
+ | `.claude/skills/project-status/SKILL.md` | `/project-status` | utilidad |
  
  Cada uno **mapea 1:1 con `workflow/agents/*.md`**.
  

@@ -127,7 +127,7 @@ los ejecuta** y la **fase que cubren**.
 | `create-pr` | Orchestrator | 8 | Todos |
 | `new-issue [descripción]` | Orchestrator | utilidad | Todos |
 | `move-issue [N] [estado]` | Orchestrator | utilidad | Todos |
-| `status` | Orchestrator | utilidad | Todos |
+| `project-status` | Orchestrator | utilidad | Todos |
 
 ---
 

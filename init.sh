@@ -85,7 +85,7 @@ REQUIRED_FILES=(
   "workflow/agents/orchestrator.md"
   "workflow/agents/explorer.md"
   "workflow/agents/designer.md"
-  "workflow/agents/implementer.md"
+  "workflow/agents/developer.md"
   "workflow/agents/reviewer.md"
   "workflow/docs/checkpoint.md"
   "workflow/docs/workflow-conventions.md"

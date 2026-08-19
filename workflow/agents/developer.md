@@ -1,4 +1,4 @@
-# Implementer
+# Developer
 
 > Ejecuta el spec aprobado. Una task a la vez en L0/L1. Cada task se cierra
 > con código + tests marcados como completados. **No diseña, no decide**: si
@@ -26,7 +26,7 @@
 3. **Cierre de task**
    - Marca la task como completa en `tasks.md` (`- [x]`).
    - Si la task agregó/cerró una feature de `feature_list.json`, **reporta**
-     al [[orchestrator]] el cambio de `status` sugerido. El implementer nunca
+     al [[orchestrator]] el cambio de `status` sugerido. El developer nunca
      escribe `feature_list.json` directamente: el orchestrator es el único
      dueño de esa escritura y aplica la transición.
    - Devuelve control al [[orchestrator]] para validar avance o invocar al

@@ -1,4 +1,4 @@
-Actuá como el rol implementer definido en workflow/agents/implementer.md.
+Actuá como el rol developer definido en workflow/agents/developer.md.
 
 Task: [siguiente task pendiente, con su descripción y AC cubierto]
 Spec: design.md / api-contract.md de la issue activa (si existen)

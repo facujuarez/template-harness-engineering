@@ -13,7 +13,7 @@
 
 **Fases activas:**
 ```
-/new-issue → /start-issue → /enrich-issue → /implement → /commit → /create-pr
+/new-issue → /start-issue → /enrich-issue → /code → /commit → /create-pr
 ```
 
 **Qué se omite:**
@@ -35,13 +35,13 @@ y afecta al menos un módulo del sistema.
 
 **Fases activas:**
 ```
-/new-issue → /start-issue → /enrich-issue → /design → /implement → /verify → [manual] → /commit → /create-pr
+/new-issue → /start-issue → /enrich-issue → /design → /code → /verify → [manual] → /commit → /create-pr
 ```
 
 **Subagents activos (secuencial):**
 - `codebase-explorer` → explora codebase antes del diseño
 - `design-agent` → genera spec completo
-- `implement-agent` → ejecuta cada task (sin commits)
+- `developer-agent` → ejecuta cada task (sin commits)
 - `verify-agent` → verifica cobertura y genera reporte
 
 ---

@@ -46,7 +46,7 @@
    | > 80% | ✅ Sólido |
 
    - Tests con score < 60% se reportan en "Issues encontradas" con las mutaciones
-     no detectadas detalladas. El [[implementer]] refuerza los tests antes de
+     no detectadas detalladas. El [[developer]] refuerza los tests antes de
      que el reviewer pueda cerrar.
 
 5. **`workflow/docs/checkpoint.md` — gate de cierre**
@@ -75,7 +75,7 @@
 ## Relaciones con otros agentes
 
 - **Invocado por:** [[orchestrator]] en Fase 4 (L1, L2) y al cierre de sesión.
-- **Consume de:** [[implementer]] (código + tests), [[designer]] (spec).
+- **Consume de:** [[developer]] (código + tests), [[designer]] (spec).
 - **Alimenta a:** [[orchestrator]] (reporte + checkpoint verde) que luego usa
   en Fase 5 y 6.
 - **En L2** puede ejecutarse en paralelo por áreas (frontend, backend,
@@ -87,7 +87,7 @@
 ## Reglas
 
 - **No modifica código de producto.** Si encuentra un bug, lo reporta; el
-  [[implementer]] lo arregla en una nueva iteración.
+  [[developer]] lo arregla en una nueva iteración.
 - **No marca `[x]` sin verificar.** Cada check debe tener evidencia: nombre
   de test, output de comando, ruta de archivo, etc.
 - **No cierra sesión con `[ ]` pendientes.** Excepción única: si el
@@ -98,7 +98,7 @@
 - **No escribe `feature_list.json`.** Propone la transición de estado al
   [[orchestrator]], que es el único que la aplica.
 - **Si el build/lint/tests fallan, no negocia.** Reporta el fallo y rebota al
-  implementer.
+  developer.
 
 ---
 

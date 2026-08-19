@@ -42,7 +42,7 @@
      - orchestrator.md
      - explorer.md
      - designer.md
-     - implementer.md
+     - developer.md
      - reviewer.md
      - doc-updater.md
 
@@ -53,7 +53,7 @@
      - `start-issue/SKILL.md` — referencia a orchestrator (Fase 1)
      - `enrich-issue/SKILL.md` — referencia a orchestrator (Fase 2)
      - `design/SKILL.md` — referencia a designer + explorer
-     - `implement/SKILL.md` — referencia a implementer
+     - `code/SKILL.md` — referencia a developer
      - `verify/SKILL.md` — referencia a reviewer
      - `commit/SKILL.md` — referencia a orchestrator (Fase 7)
      - `create-pr/SKILL.md` — referencia a orchestrator + doc-updater
@@ -141,7 +141,7 @@ Según harness elegido:
 │   ├── orchestrator.md          (referencia)
 │   ├── explorer.md              (referencia)
 │   ├── designer.md              (referencia)
-│   ├── implementer.md           (referencia)
+│   ├── developer.md             (referencia)
 │   ├── reviewer.md              (referencia)
 │   └── doc-updater.md           (referencia)
 ├── skills/
@@ -150,7 +150,7 @@ Según harness elegido:
 │   ├── start-issue/SKILL.md
 │   ├── enrich-issue/SKILL.md
 │   ├── design/SKILL.md
-│   ├── implement/SKILL.md
+│   ├── code/SKILL.md
 │   ├── verify/SKILL.md
 │   ├── commit/SKILL.md
 │   ├── create-pr/SKILL.md
@@ -170,7 +170,7 @@ Según harness elegido:
 │   ├── orchestrator.md
 │   ├── explorer.md
 │   ├── designer.md
-│   ├── implementer.md
+│   ├── developer.md
 │   ├── reviewer.md
 │   └── doc-updater.md
 └── .cursorignore

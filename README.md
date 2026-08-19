@@ -17,7 +17,7 @@ harness en uso (Claude Code, Cursor, Aider, Continue, OpenHands, Codex, etc.).
 |---|---|
 | `AGENTS.md` | Contrato raíz multi-provider. Lo leen todos los agentes al iniciar. |
 | `feature_list.json` | Estado sincronizado de features/issues. |
-| `workflow/agents/` | Definición de cada rol: project-manager, orchestrator, explorer, designer, implementer, reviewer, doc-updater. |
+| `workflow/agents/` | Definición de cada rol: project-manager, orchestrator, explorer, designer, developer, reviewer, doc-updater. |
 | `workflow/docs/harness-adapters.md` | Referencia de configuración por harness (Claude Code, Cursor, Copilot, etc.). Lo usa el Harness Configurator en Fase 0 - INIT. |
 | `workflow/docs/checkpoint.md` | Checklist de cierre de sesión. Lo recorre el reviewer. Bloquea cierre con boxes vacíos. |
 | `workflow/docs/` | Contexto del proyecto: producto, stack, convenciones, niveles, templates. |
@@ -81,7 +81,7 @@ El Project Manager te entrevista para completar `docs/`, genera el `README.md` d
 
 ### 7. Listo
 
-Tu proyecto está configurado para el ciclo por issue (`/start-issue`, `/design`, `/implement`, `/verify`, `/create-pr`). El pre-commit hook (build + lint) se instala automáticamente en el primer `/start-issue`. Ver el flujo completo en [`workflow/WORKFLOW-REFERENCE.md`](workflow/WORKFLOW-REFERENCE.md).
+Tu proyecto está configurado para el ciclo por issue (`/start-issue`, `/design`, `/code`, `/verify`, `/create-pr`). El pre-commit hook (build + lint) se instala automáticamente en el primer `/start-issue`. Ver el flujo completo en [`workflow/WORKFLOW-REFERENCE.md`](workflow/WORKFLOW-REFERENCE.md).
 
 ---
 
@@ -98,7 +98,7 @@ Usuario ──▶ Lee SETUP.md ──▶ /init-harness [harness] ──▶ Harne
                                       backlog en GitHub
 
 ── CICLO POR ISSUE ─────────────────────────────────────────────────────────
-Usuario ──▶ Orchestrator ──▶ Explorer ──▶ Designer ──▶ Implementer ──▶ Reviewer
+Usuario ──▶ Orchestrator ──▶ Explorer ──▶ Designer ──▶ Developer ──▶ Reviewer
                 ▲                                                         │
                 └────── checkpoint verde + reporte ───────────────────────┘
                                     │
@@ -114,7 +114,7 @@ Detalle en `workflow/agents/`:
 | **[Orchestrator](workflow/agents/orchestrator.md)** | Líder, único canal con el usuario. Detecta nivel, aplica gates. | 1–6 |
 | **[Explorer](workflow/agents/explorer.md)** | Análisis read-only del codebase. Insumo del Designer. | 2 |
 | **[Designer](workflow/agents/designer.md)** | Produce el spec: design + tasks + test-plan en Gherkin. | 2 |
-| **[Implementer](workflow/agents/implementer.md)** | Ejecuta el spec, una task por commit. | 3 |
+| **[Developer](workflow/agents/developer.md)** | Ejecuta el spec, una task por commit. | 3 |
 | **[Reviewer](workflow/agents/reviewer.md)** | Verifica ACs, build, tests y Mutation Testing. Dueño de `checkpoint.md`. | 4 |
 | **[Doc Updater](workflow/agents/doc-updater.md)** | Detecta cambios de la issue y propone actualizaciones a `docs/` y `README.md`. | 6 |
 
@@ -124,7 +124,7 @@ Detalle en `workflow/agents/`:
 
 | Nivel | Tamaño | Flujo |
 |---|---|---|
-| **L0** | XS, S | new-issue → start-issue → implement → create-pr |
+| **L0** | XS, S | new-issue → start-issue → code → create-pr |
 | **L1** | M | Flujo completo secuencial |
 | **L2** | L, XL | Flujo completo + agentes en paralelo en design y review |
 

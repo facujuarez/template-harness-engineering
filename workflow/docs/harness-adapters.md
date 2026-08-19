@@ -19,7 +19,7 @@
   │   ├── orchestrator.md          → mapeo 1:1 de workflow/agents/orchestrator.md
   │   ├── explorer.md              → mapeo 1:1 de workflow/agents/explorer.md
   │   ├── designer.md              → mapeo 1:1 de workflow/agents/designer.md
-  │   ├── implementer.md           → mapeo 1:1 de workflow/agents/implementer.md
+  │   ├── developer.md             → mapeo 1:1 de workflow/agents/developer.md
   │   ├── reviewer.md              → mapeo 1:1 de workflow/agents/reviewer.md
   │   └── doc-updater.md           → mapeo 1:1 de workflow/agents/doc-updater.md
   │
@@ -31,7 +31,7 @@
   │   ├── start-issue/
   │   ├── enrich-issue/
   │   ├── design/
-  │   ├── implement/
+  │   ├── code/
   │   ├── verify/
   │   ├── commit/
   │   ├── create-pr/
@@ -54,7 +54,7 @@
   - `start-issue` → Orchestrator (Fase 1)
   - `enrich-issue` → Orchestrator (Fase 2)
   - `design` → Designer + Explorer (Fase 3)
-  - `implement` → Implementer (Fase 4)
+  - `code` → Developer (Fase 4)
   - `verify` → Reviewer (Fase 5)
   - `commit` → Orchestrator (Fase 7)
   - `create-pr` → Orchestrator + Doc Updater (Fase 8)
@@ -76,7 +76,7 @@
   ├── rules/
   │   ├── orchestrator.md
   │   ├── designer.md
-  │   ├── implementer.md
+  │   ├── developer.md
   │   └── ... (otros roles)
   │
   └── .cursorignore

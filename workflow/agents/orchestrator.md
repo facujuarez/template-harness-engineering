@@ -39,7 +39,7 @@
 4. **Delegación por fase**
    - **Fase 3 (L1/L2):** invoca al [[explorer]] y luego al [[designer]].
      Devuelve el spec al usuario y pide aprobación explícita.
-   - **Fase 4:** invoca al [[implementer]] task por task (L0/L1) o en paralelo
+   - **Fase 4:** invoca al [[developer]] task por task (L0/L1) o en paralelo
      cuando hay tasks independientes (L2). Sin commits durante la implementación.
    - **Fase 5 (L1/L2):** invoca al [[reviewer]] con `workflow/docs/checkpoint.md` como contrato.
    - **Fase 6:** **gate manual.** Pausa, presenta `workflow/docs/dev-review-checklist.md`
@@ -50,8 +50,8 @@
      tras aprobación del usuario, genera el PR con `gh pr create` incluyendo spec +
      reporte del reviewer + doc-update-report.
 
-4. **Gestión de estado**
-   - Es el **único** agente que escribe `feature_list.json`. El [[implementer]]
+5. **Gestión de estado**
+   - Es el **único** agente que escribe `feature_list.json`. El [[developer]]
      (Fase 4) y el [[reviewer]] (Fase 5) proponen transiciones de estado; el
      orchestrator las valida contra la Issue en GitHub y las aplica.
    - Llama a `move-issue` para reflejar en el GitHub Project Board.
@@ -79,7 +79,7 @@
                                       │ spec
                                       ▼
                               ┌───────────────┐
-                              │  Implementer  │
+                              │   Developer   │
                               └───────┬───────┘
                                       │ código + commits
                                       ▼
@@ -101,7 +101,7 @@
 ```
 
 - **Recibe de:** Usuario (lenguaje natural), Reviewer (reporte de cierre).
-- **Entrega a:** Explorer, Designer, Implementer, Reviewer, Doc Updater (contextos delegados).
+- **Entrega a:** Explorer, Designer, Developer, Reviewer, Doc Updater (contextos delegados).
 - **Nunca hereda contexto entre fases sin congelarlo en disco:** todo se
   persiste en `workflow/specs/` y `feature_list.json` para que cada agente
   arranque desde un estado leíble.

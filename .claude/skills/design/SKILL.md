@@ -14,4 +14,4 @@ description: Explora el codebase y genera el spec completo de la issue activa (d
    (ver [agents/designer.md](../../agents/designer.md)) para generar el spec completo.
 4. Presentá el spec al usuario.
 
-**Gate:** aprobación explícita del spec antes de continuar a `/implement`.
+**Gate:** aprobación explícita del spec antes de continuar a `/code`.

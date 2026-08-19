@@ -17,7 +17,7 @@
 | 1 | `start-issue` | Orchestrator | todos |
 | 2 | `enrich-issue` | Orchestrator | todos |
 | 3 | `design` | Explorer + Designer | L1, L2 |
-| 4 | `implement` | Implementer | todos |
+| 4 | `code` | Developer | todos |
 | 5 | `verify` | Reviewer | L1, L2 |
 | 6 | `[MANUAL]` | — (gate humano) | todos |
 | 7 | `commit` | Orchestrator | todos |
@@ -31,12 +31,17 @@
 | L1 | M | 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 |
 | L2 | L, XL | 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 (paralelo en 3 y 5) |
 
+Además existe un cierre de proyecto único, **FASE 9 — CLOSE** (ver
+`WORKFLOW-REFERENCE.md`): hito manual sin agente ni comando, análogo a la
+Fase 6 pero a nivel de proyecto completo en vez de issue individual. No forma
+parte del ciclo por issue de la tabla anterior.
+
 ### Contadores invariantes
 
 | Recurso | Cantidad | Lista |
 |---------|----------|-------|
-| Agentes (`workflow/agents/`) | 8 | harness-configurator, project-manager, orchestrator, explorer, designer, implementer, reviewer, doc-updater |
-| Skills Claude Code (`.claude/skills/`) | 12 | init-harness, setup-project, start-issue, enrich-issue, design, implement, verify, commit, create-pr, new-issue, move-issue, project-status |
+| Agentes (`workflow/agents/`) | 8 | harness-configurator, project-manager, orchestrator, explorer, designer, developer, reviewer, doc-updater |
+| Skills Claude Code (`.claude/skills/`) | 12 | init-harness, setup-project, start-issue, enrich-issue, design, code, verify, commit, create-pr, new-issue, move-issue, project-status |
 
 ---
 
@@ -50,7 +55,9 @@
 | Fase 6 es siempre MANUAL (gate humano) | Ningún agente puede validar que el comportamiento real coincide con la intención original del usuario. |
 | `git push` vive en Fase 7 (`commit`), no en Fase 8 (`create-pr`) | `create-pr` solo necesita que el branch esté en origin; separar push de PR creation da un checkpoint explícito antes de abrir la PR. |
 | `/project-status` no tiene gate | Es de solo lectura (no genera ni modifica artefactos), a diferencia de `new-issue`/`move-issue` que sí escriben en GitHub/`feature_list.json`. |
-| Solo el orchestrator escribe `feature_list.json`; implementer y reviewer proponen | Evita que dos subagentes en contexto aislado (Fase 4 y Fase 5) escriban el mismo archivo de forma independiente e inconsistente. |
+| Solo el orchestrator escribe `feature_list.json`; developer y reviewer proponen | Evita que dos subagentes en contexto aislado (Fase 4 y Fase 5) escriban el mismo archivo de forma independiente e inconsistente. |
+| FASE 9 (CLOSE) es un hito manual sin comando ni agente | Ningún agente puede certificar que el backlog completo y la documentación reflejan lo realmente desplegado en producción; es una verificación humana, igual que la Fase 6 pero a nivel de proyecto. |
+| Project Manager acepta un documento adjunto como input alternativo/complementario a la entrevista | Evita reescribir desde cero cuando ya existe documentación previa del proyecto en cualquier formato; acelera el Setup sin perder el gate de aprobación por sección. |
 
 ---
 
@@ -80,7 +87,7 @@
 Mismos archivos que "agregar fase", más:
 - `.claude/agents/orchestrator.md` (frontmatter `description`)
 - `.claude/agents/doc-updater.md` (si afecta Fase 8)
-- `.claude/agents/implementer.md` (si afecta Fase 4)
+- `.claude/agents/developer.md` (si afecta Fase 4)
 - Cualquier `SKILL.md` cuyo campo `**Fase:**` necesite actualizarse
 
 Truco: `grep -rn "Fase N"` sobre `.claude/` y `workflow/` para encontrar todas las menciones.

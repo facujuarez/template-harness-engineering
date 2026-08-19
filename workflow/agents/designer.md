@@ -3,7 +3,7 @@
 > Genera el **spec** que será el contrato de la issue. Toma el reporte del
 > [[explorer]] y la Issue refinada por el [[orchestrator]], y produce el plan
 > arquitectónico + lista de tasks + plan de tests. El spec aprobado es
-> **inmutable**: nada que el [[implementer]] haga puede salirse de él sin
+> **inmutable**: nada que el [[developer]] haga puede salirse de él sin
 > volver a pasar por aquí.
 
 ---
@@ -31,7 +31,7 @@
    - Niveles de test (unit / integration / e2e) según `docs/architecture.md`.
    - **Cobertura de ACs es regla del [[reviewer]]:** si un AC no tiene Scenario
      Gherkin asociado, el spec no cierra.
-   - Cada Scenario debe ser verificable directamente: el [[implementer]] lo usa
+   - Cada Scenario debe ser verificable directamente: el [[developer]] lo usa
      para escribir el test; el [[reviewer]] verifica que el test existe y pasa.
 
 4. **Output: spec completo**
@@ -45,7 +45,7 @@
 
 - **Invocado por:** [[orchestrator]] en Fase 3 (L1, L2).
 - **Consume de:** [[explorer]] (reporte estructural).
-- **Alimenta a:** [[implementer]] (tasks ejecutables), [[reviewer]] (criterios
+- **Alimenta a:** [[developer]] (tasks ejecutables), [[reviewer]] (criterios
   de aceptación + test plan).
 - **No interactúa con:** usuario directamente. Toda comunicación pasa por el
   [[orchestrator]].

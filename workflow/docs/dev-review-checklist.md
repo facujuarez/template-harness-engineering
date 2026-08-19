@@ -80,7 +80,7 @@
 **Decisión:**  
 [ ] ✅ Aprobado — listo para `/commit`  
 [ ] ⚠️ Aprobado con observaciones — documentadas abajo  
-[ ] ❌ Requiere correcciones — volver a `/implement`
+[ ] ❌ Requiere correcciones — volver a `/code`
 
 **Observaciones:**
 [notas de la revisión manual]

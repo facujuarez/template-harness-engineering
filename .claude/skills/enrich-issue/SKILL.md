@@ -1,6 +1,6 @@
 ---
 name: enrich-issue
-description: Profundiza y completa la descripción de la issue activa - ACs, out-of-scope, edge cases, detalles técnicos y escenarios de prueba. Usar cuando el usuario pide /enrich-issue, después de /start-issue y antes de /design o /implement.
+description: Profundiza y completa la descripción de la issue activa - ACs, out-of-scope, edge cases, detalles técnicos y escenarios de prueba. Usar cuando el usuario pide /enrich-issue, después de /start-issue y antes de /design o /code.
 ---
 
 **Fase:** 2 · **Rol invocado:** [orchestrator](../../../workflow/agents/orchestrator.md)
@@ -15,4 +15,4 @@ description: Profundiza y completa la descripción de la issue activa - ACs, out
 
 **Gate:** aprobación explícita antes de actualizar la issue en GitHub y generar `active-issue.md`.
 
-**Siguiente paso según nivel:** L0 → `/implement` · L1/L2 → `/design`.
+**Siguiente paso según nivel:** L0 → `/code` · L1/L2 → `/design`.

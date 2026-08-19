@@ -55,7 +55,7 @@ secuencialmente en una sola sesión. La definición canónica es la de
 | **Orchestrator** | [workflow/agents/orchestrator.md](../agents/orchestrator.md) | Líder. Detecta nivel, delega, aplica gates, único canal hacia el usuario. |
 | **Explorer** | [workflow/agents/explorer.md](../agents/explorer.md) | Análisis read-only del codebase. Insumo del Designer. |
 | **Designer** | [workflow/agents/designer.md](../agents/designer.md) | Genera el spec (design + tasks + test-plan en Gherkin). |
-| **Implementer** | [workflow/agents/implementer.md](../agents/implementer.md) | Ejecuta tasks del spec, una a una. Respeta pre-commit. |
+| **Developer** | [workflow/agents/developer.md](../agents/developer.md) | Ejecuta tasks del spec, una a una. Respeta pre-commit. |
 | **Reviewer** | [workflow/agents/reviewer.md](../agents/reviewer.md) | Verifica ACs, build, tests y robustez por Mutation Testing. Dueño de `workflow/docs/checkpoint.md`. |
 | **Doc Updater** | [workflow/agents/doc-updater.md](../agents/doc-updater.md) | Fase 8. Detecta cambios en arquitectura, modelo de datos y requerimientos, y propone actualizaciones a `docs/`. |
 
@@ -68,7 +68,7 @@ y activa solo las fases necesarias.
 
 | Nivel | Tamaño | Flujo activo |
 |-------|--------|--------------|
-| **L0** | XS, S | `new-issue → start-issue → enrich-issue → implement → commit → create-pr` |
+| **L0** | XS, S | `new-issue → start-issue → enrich-issue → code → commit → create-pr` |
 | **L1** | M | Flujo completo secuencial |
 | **L2** | L, XL | Flujo completo + agentes en paralelo en design y verify |
 
@@ -99,11 +99,17 @@ Fase 0 - SETUP  setup-project          → Project Manager:
 FASE 1  start-issue    → Orchestrator detecta nivel, crea branch, actualiza feature_list
 FASE 2  enrich-issue   → Orchestrator refina issue: ACs, out-of-scope, edge cases, detalles técnicos
 FASE 3  design         → Explorer + Designer producen el spec (test-plan en Gherkin)
-FASE 4  implement      → Implementer ejecuta task por task (sin commits)
+FASE 4  code           → Developer ejecuta task por task (sin commits)
 FASE 5  verify         → Reviewer: ACs + build + tests + Mutation Testing + checkpoint
 FASE 6  [MANUAL]       → Dev review en entorno local (gate humano)
 FASE 7  commit         → Único commit del branch + push a GitHub
 FASE 8  create-pr      → Doc Updater sincroniza docs/ → Orchestrator genera PR desde spec + reporte
+```
+
+### Cierre de proyecto (una sola vez, al final)
+
+```
+FASE 9  [MANUAL]  → Backlog sin issues pendientes + docs finales verificados
 ```
 
 ---
@@ -121,7 +127,7 @@ los ejecuta** y la **fase que cubren**.
 | `start-issue [N]` | Orchestrator | 1 | Todos |
 | `enrich-issue` | Orchestrator | 2 | Todos |
 | `design` | Explorer + Designer | 3 | L1, L2 |
-| `implement` | Implementer | 4 | Todos |
+| `code` | Developer | 4 | Todos |
 | `verify` | Reviewer | 5 | L1, L2 |
 | `commit` | Orchestrator | 7 | Todos |
 | `create-pr` | Orchestrator | 8 | Todos |
@@ -145,7 +151,7 @@ los ejecuta** y la **fase que cubren**.
   cross-issues. Los agentes lo leen al iniciar y lo actualizan al cerrar issue.
 - `feature_list.json` es el estado **sincronizado** de features/issues. El
   Orchestrator lo lee al inicio de cada fase y es el **único** que lo escribe;
-  el Implementer y el Reviewer proponen transiciones de estado que el
+  el Developer y el Reviewer proponen transiciones de estado que el
   Orchestrator aplica.
 
 Ambos se commitean junto con los specs.

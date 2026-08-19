@@ -14,5 +14,5 @@ description: Verifica que la implementación cumple el spec y los ACs - build, l
 3. El reviewer recorre `workflow/docs/checkpoint.md` y genera `verification-report.md`.
 
 **Regla dura:** si queda algún `[ ]` sin justificación en `checkpoint.md`, el
-reviewer bloquea el cierre y vuelve a `/implement`.
+reviewer bloquea el cierre y vuelve a `/code`.
 **Siguiente paso:** gate manual (Fase 5, `workflow/docs/dev-review-checklist.md`).

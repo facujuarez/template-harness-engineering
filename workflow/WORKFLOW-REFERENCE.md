@@ -1,7 +1,7 @@
  # Harness Engineering Workflow — Referencia Completa
  
  > Resumen detallado del flujo de trabajo AI-first **provider-agnostic** con
- > agentes definidos en `workflow/agents/` + OpenSpec + GitHub.
+ > agentes definidos en `workflow/agents/` + GitHub.
  >
  > ¿Primera vez con esta plantilla? Empezá por **[README.md](../README.md)**
  > (clonar, verificar entorno, Quickstart). Para configurar tu harness
@@ -22,11 +22,14 @@
  FASE 1  start-issue   → Issue → Branch + nivel detectado + feature_list actualizado
  FASE 2  enrich-issue  → Issue → ACs refinados + out-of-scope + edge cases + detalles técnicos
  FASE 3  design        → Contexto → Spec aprobado (test-plan en Gherkin)
- FASE 4  implement     → Spec → Código + tests (sin commits)
+ FASE 4  code          → Spec → Código + tests (sin commits)
  FASE 5  verify        → Código → Reporte (ACs + Mutation Testing + checkpoint)
  FASE 6  [MANUAL]      → Revisión funcional en entorno local
  FASE 7  commit        → Único commit del branch + push a GitHub
  FASE 8  create-pr     → doc-updater sincroniza docs/ → PR creada → In Review + project-memory actualizado
+
+── CIERRE DE PROYECTO (una sola vez, al final) ────────────────────────────
+ FASE 9  [MANUAL]      → Backlog sin pendientes + docs finales verificados
  ```
  
  Los nombres son **convención**: cada harness los expone como mejor encaje
@@ -43,7 +46,7 @@
  
  | Nivel | Tamaño | Fases activas | Agentes |
  |-------|--------|--------------|---------|
- | **L0** | XS, S | 0 → 1 → 2 → 4 → 6 → 7 → 8 | `implementer` |
+ | **L0** | XS, S | 0 → 1 → 2 → 4 → 6 → 7 → 8 | `developer` |
  | **L1** | M | 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 | Todos, secuencial |
  | **L2** | L, XL | 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 | Todos, paralelo en 3 y 5 |
  
@@ -242,7 +245,7 @@
     - Para **L0:** tasks inline generadas directamente
     - Para **L1/L2:** specs marcados como pendientes (Fase 3)
  8. Presenta resumen e indica el siguiente comando según el nivel:
-    L0 → `/implement` · L1/L2 → `/design`.
+    L0 → `/code` · L1/L2 → `/design`.
  
  **Output:**
  - Issue en GitHub actualizada con descripción enriquecida.
@@ -298,9 +301,9 @@
  
  ---
  
- ## FASE 4 — `implement`
+ ## FASE 4 — `code`
  
- **Rol responsable:** [implementer](agents/implementer.md).
+ **Rol responsable:** [developer](agents/developer.md).
  
  **Objetivo:** Implementar las tasks del spec una por una. Sin commits durante
  la implementación — el commit único se consolida en Fase 7.
@@ -315,11 +318,11 @@
  2. Muestra progreso y espera confirmación para empezar.
  3. **Por cada task pendiente:**
     - a. Anuncia la task (nombre, descripción, AC cubierto).
-    - b. El orchestrator delega al [implementer](agents/implementer.md) con:
+    - b. El orchestrator delega al [developer](agents/developer.md) con:
       - Descripción completa de la task
       - Contenido de `design.md` y `api-contract.md`
       - Convenciones de `workflow-conventions.md`
-    - c. El implementer trabaja en contexto aislado:
+    - c. El developer trabaja en contexto aislado:
       - Lee archivos afectados en su estado actual
       - Implementa estrictamente según el spec
       - Verifica compilación internamente
@@ -377,7 +380,7 @@
  **Resultados posibles:**
  - ✅ **APROBADO** → gate manual (Fase 6)
  - ⚠️ **APROBADO CON OBSERVACIONES** → gate manual con notas documentadas
- - ❌ **BLOQUEADO** → vuelve a `implement` para corregir
+ - ❌ **BLOQUEADO** → vuelve a `code` para corregir
  
  **Reglas duras del reviewer:**
  - Si quedó algún box en `[ ]` en `workflow/docs/checkpoint.md`, **bloquea el cierre**.
@@ -413,7 +416,7 @@
  
  **Resultado:**
  - ✅ Aprobado → `/commit`.
- - ❌ Requiere correcciones → vuelve a `implement` (tasks adicionales o corrección
+ - ❌ Requiere correcciones → vuelve a `code` (tasks adicionales o corrección
    de existentes). El reviewer revalida.
  
  ---
@@ -495,6 +498,29 @@
  - `workflow/specs/issue-{N}/doc-update-report.md` generado.
  - `project-memory.md` actualizado.
  - `feature_list.json` reflejando el cierre de scope.
+ 
+ ---
+ 
+ ## FASE 9 — CLOSE (cierre de proyecto)
+ 
+ **Objetivo:** cierre del proyecto completo. Ocurre **una sola vez**, cuando ya
+ no quedan issues pendientes en el backlog. **Hito manual**, sin comando ni
+ agente dedicado — el orchestrator acompaña el checklist junto al usuario, de
+ la misma forma que en la Fase 6 pero a nivel de proyecto completo en vez de
+ issue individual.
+ 
+ **Checklist:**
+ 
+ - [ ] **Todos los requerimientos** de `docs/project-plan.md` están disponibles
+       en el entorno de producción.
+ - [ ] **Backlog** (GitHub y `feature_list.json`) sin issues pendientes —
+       ninguna en `pending`, `in_progress` ni `blocked`; todas en `done`.
+ - [ ] **Documentación final** (`docs/*.md`) actualizada y coherente con lo
+       efectivamente desplegado.
+ 
+ **Resultado:** proyecto cerrado. No genera artefactos nuevos ni transiciones
+ en GitHub — es una verificación de que el estado en disco y en GitHub
+ reflejan la realidad.
  
  ---
  
@@ -606,7 +632,7 @@
  | `workflow/agents/orchestrator.md` | Líder, único canal con el usuario | Fases 1–7 |
  | `workflow/agents/explorer.md` | Análisis estático del codebase | Fase 3 |
  | `workflow/agents/designer.md` | Diseño arquitectónico + spec (Gherkin) | Fase 3 |
- | `workflow/agents/implementer.md` | Implementación task por task | Fase 4 |
+ | `workflow/agents/developer.md` | Implementación task por task | Fase 4 |
  | `workflow/agents/reviewer.md` | ACs + build + tests + Mutation Testing + checkpoint | Fase 5 |
  | `workflow/agents/doc-updater.md` | Detecta y propone actualizaciones a `docs/` tras la issue | Fase 7 |
 
@@ -621,7 +647,7 @@
  | `.claude/skills/start-issue/SKILL.md` | `/start-issue` | 1 |
  | `.claude/skills/enrich-issue/SKILL.md` | `/enrich-issue` | 2 |
  | `.claude/skills/design/SKILL.md` | `/design` | 3 |
- | `.claude/skills/implement/SKILL.md` | `/implement` | 4 |
+ | `.claude/skills/code/SKILL.md` | `/code` | 4 |
  | `.claude/skills/verify/SKILL.md` | `/verify` | 5 |
  | `.claude/skills/commit/SKILL.md` | `/commit` | 7 |
  | `.claude/skills/create-pr/SKILL.md` | `/create-pr` | 8 |

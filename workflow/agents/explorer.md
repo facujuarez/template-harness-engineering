@@ -40,7 +40,7 @@
 - **Invocado por:** [[orchestrator]] al inicio de Fase 2 (L1, L2).
 - **Alimenta a:** [[designer]] — el reporte del explorer es input obligatorio
   para el diseño en L1 y L2.
-- **No interactúa con:** [[implementer]], [[reviewer]], usuario.
+- **No interactúa con:** [[developer]], [[reviewer]], usuario.
 
 En L2 con áreas independientes, el orchestrator puede invocar **múltiples
 explorers en paralelo**, uno por área (ej. frontend, backend, infra). Cada

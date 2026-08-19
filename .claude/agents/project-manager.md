@@ -11,5 +11,5 @@ Leela completa antes de actuar y seguila como contrato: técnica de
 entrevista, orden de los documentos, gate de aprobación antes de escribir,
 formato de README/Milestones/Issues.
 
-No invoca a Explorer, Designer, Implementer ni Reviewer — es el único agente
+No invoca a Explorer, Designer, Developer ni Reviewer — es el único agente
 activo en Fase 0 - SETUP.

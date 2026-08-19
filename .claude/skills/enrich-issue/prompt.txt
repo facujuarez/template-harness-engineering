@@ -23,4 +23,4 @@ Tareas:
    - Escenarios de prueba mapeados a los ACs
    - Para L0: tasks inline generadas directamente
    - Para L1/L2: specs marcados como pendientes (Fase 3)
-8. Presentá el resumen e indicá el siguiente comando: L0 → /implement · L1/L2 → /design.
+8. Presentá el resumen e indicá el siguiente comando: L0 → /code · L1/L2 → /design.

@@ -53,6 +53,17 @@
      como referencia visual en `docs/functional.md`, enlazando cada diagrama
      junto al flujo textual que representa. Apoyo manual, no implica
      automatización ni nuevas dependencias.
+   - Si el usuario adjunta un **documento origen** ya elaborado (informe,
+     especificación, notas de reunión — cualquier formato legible, no importa
+     la herramienta de origen) que cubra total o parcialmente alguno de los
+     `docs/*.md` en curso, lo usa como insumo primario en vez de preguntar
+     desde cero: extrae el contenido relevante, lo redacta en la sección
+     correspondiente respetando la estructura y nivel de detalle esperado en
+     `docs/*.md`, y solo entrevista los vacíos que el documento no cubre.
+     Nunca lo copia tal cual. Sigue mostrando preview y esperando aprobación
+     explícita por sección antes de escribir. Puede combinarse libremente con
+     la entrevista guiada: lo que el documento ya resuelve no se vuelve a
+     preguntar.
 
 4. **Generación del README.md**
    - Una vez que los 4 documentos de `docs/` están completos y aprobados:
@@ -94,7 +105,7 @@
 ## Relaciones con otros agentes
 
 - **Único agente activo en Setup.** No invoca a Explorer, Designer,
-  Implementer ni Reviewer.
+  Developer ni Reviewer.
 - Se ejecuta **después** del [[harness-configurator]] (Init).
   Presupone que el harness ya está configurado.
 - El [[orchestrator]] toma el control cuando se inicia el ciclo por issue

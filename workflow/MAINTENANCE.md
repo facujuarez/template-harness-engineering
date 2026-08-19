@@ -112,6 +112,65 @@ Truco: `grep -rn "Fase N"` sobre `.claude/` y `workflow/` para encontrar todas l
 
 ---
 
+## Distribución a repos suscriptores (submodule)
+
+Este repo es el **origen único** de `workflow/`. Los repos que lo consumen
+(hoy: `facujuarez/facujuarezdev`, `facujuarez/azureliondevs-site`) no tienen
+una copia local editable: tienen un git submodule (`.workflow-src`, pineado a
+un commit/tag de este repo) y un symlink `workflow -> .workflow-src/workflow`.
+Así, un cambio acá se propaga con un bump de versión en cada suscriptor, sin
+copiar archivos a mano.
+
+### Publicar una versión nueva
+
+1. Terminar y mergear el cambio a `master` (o la rama por defecto).
+2. Taguear el commit: `git tag -a vX.Y.Z -m "resumen del cambio"` y
+   `git push origin vX.Y.Z`.
+   - **Ojo:** si trabajás desde una sesión de Claude Code con push restringido
+     a una branch designada, el push del tag puede devolver 403. Hacelo desde
+     un entorno con push completo a este repo (tu máquina, o una sesión sin esa
+     restricción).
+   - Seguí SemVer de forma laxa: `MAJOR` si cambian rutas/nombres de archivo
+     esperados por `AGENTS.md`/`.claude/`, `MINOR` si se agrega contenido
+     (nuevo agente, nuevo skill), `PATCH` para correcciones de contenido sin
+     romper contratos.
+3. Avisar (o dejar que cada suscriptor decida cuándo) actualizar.
+
+### Actualizar un repo suscriptor a la versión nueva
+
+Desde la raíz del repo suscriptor:
+
+```bash
+cd .workflow-src
+git fetch --tags
+git checkout vX.Y.Z
+cd ..
+git add .workflow-src
+git commit -m "chore: bump workflow a vX.Y.Z"
+git push
+```
+
+### Dar de alta un nuevo repo suscriptor
+
+```bash
+git submodule add --name workflow-central \
+  https://github.com/facujuarez/template-harness-engineering.git .workflow-src
+cd .workflow-src && git checkout vX.Y.Z && cd ..
+ln -s .workflow-src/workflow workflow
+git add .gitmodules .workflow-src workflow
+```
+
+Luego generar `AGENTS.md` a partir de `workflow/templates/AGENTS.template.md`
+(reemplazando placeholders) y `.claude/agents` + `.claude/skills` copiando
+los de este repo (o corriendo `/init-harness` una vez que `workflow/` esté
+montado). Cualquier contenido de proyecto que hoy viva accidentalmente dentro
+de `workflow/` (checkpoints con datos reales, specs, docs de producto/stack)
+se rescata primero a `docs/` — `workflow/` nunca debe quedar con cambios
+locales sin commitear, porque son invisibles para el repo padre y se pierden
+en el próximo bump.
+
+---
+
 ## Protocolo de sesión de mantenimiento
 
 1. Leer este archivo (`workflow/MAINTENANCE.md`).
@@ -122,3 +181,5 @@ Truco: `grep -rn "Fase N"` sobre `.claude/` y `workflow/` para encontrar todas l
 6. Actualizar los contadores en `harness-configurator.md` si corresponde.
 7. Actualizar este archivo si el cambio altera fases, contadores o decisiones de diseño.
 8. Commit con tipo `docs(workflow)` o `feat(workflow)` según corresponda.
+9. Si el cambio afecta contenido de `workflow/`, taguear una versión nueva y
+   avisar a los repos suscriptores (ver "Distribución a repos suscriptores").

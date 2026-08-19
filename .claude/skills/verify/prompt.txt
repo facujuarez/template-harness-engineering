@@ -8,7 +8,7 @@ Tareas:
 3. Evaluá Mutation Testing para cada Scenario Gherkin (ver tabla de mutaciones
    de workflow/agents/reviewer.md) y calculá el score.
 4. Recorré docs/memory/checkpoint.md y marcá cada box con evidencia.
-5. Generá docs/memory/issue-[N]/verification-report.md con el formato
+5. Generá docs/specs/issue-[N]/verification-report.md con el formato
    definido en workflow/agents/reviewer.md.
 6. Si todo cierra en [x] o [~] justificado, copiá checkpoint.md a
    checkpoint-[N].md y reseteá el template. Si no, listá los pendientes.

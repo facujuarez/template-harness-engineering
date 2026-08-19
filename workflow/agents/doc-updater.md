@@ -45,7 +45,7 @@
      bloque actualizado para trazabilidad.
 
 6. **Reporte de cierre**
-   - Genera `docs/memory/issue-{N}/doc-update-report.md` indicando:
+   - Genera `docs/specs/issue-{N}/doc-update-report.md` indicando:
      qué se actualizó, qué se descartó y por qué.
 
 ---
@@ -82,7 +82,7 @@
 - `docs/data-model.md` — actualizado (secciones aprobadas).
 - `docs/functional.md` — actualizado (secciones aprobadas).
 - `README.md` — actualizado si algún cambio aprobado afecta información visible externamente.
-- `docs/memory/issue-{N}/doc-update-report.md`:
+- `docs/specs/issue-{N}/doc-update-report.md`:
 
   ```markdown
   # Doc Update Report — Issue #[N]

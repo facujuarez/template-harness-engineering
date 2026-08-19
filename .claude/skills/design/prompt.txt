@@ -15,4 +15,4 @@ Tareas:
 1. Proponé el enfoque arquitectónico respetando los patrones detectados.
 2. Descomponé en tasks atómicas ordenadas por dependencia.
 3. Escribí un Scenario Gherkin por cada AC de la issue en test-plan.md.
-4. Generá docs/memory/issue-[N]/{design.md,tasks.md,test-plan.md}.
+4. Generá docs/specs/issue-[N]/{design.md,tasks.md,test-plan.md}.

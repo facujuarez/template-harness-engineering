@@ -10,7 +10,7 @@
 ## Responsabilidades principales
 
 1. **Lectura del spec**
-   - Lee `docs/memory/issue-<N>/{design,tasks,test-plan}.md` al iniciar.
+   - Lee `docs/specs/issue-<N>/{design,tasks,test-plan}.md` al iniciar.
    - Identifica la siguiente task pendiente. En L0/L1 procesa una.
    - En L2, puede procesar varias tasks marcadas como paralelizables en `tasks.md`,
      pero cada una en contexto aislado.
@@ -69,6 +69,6 @@
 ## Artefactos que produce
 
 - Código fuente y tests bajo `src/` y `tests/` (o equivalente según el repo).
-- Actualizaciones a `docs/memory/issue-<N>/tasks.md` marcando tasks completas.
+- Actualizaciones a `docs/specs/issue-<N>/tasks.md` marcando tasks completas.
 - Reporte al [[orchestrator]] de cambios de estado sugeridos para
   `feature_list.json` (el orchestrator los aplica).

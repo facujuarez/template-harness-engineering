@@ -24,9 +24,9 @@
 
 ## 1. Spec y alcance
 
-- [ ] Existe `docs/memory/issue-<N>/design.md` aprobado.
-- [ ] Existe `docs/memory/issue-<N>/tasks.md`.
-- [ ] Existe `docs/memory/issue-<N>/test-plan.md`.
+- [ ] Existe `docs/specs/issue-<N>/design.md` aprobado.
+- [ ] Existe `docs/specs/issue-<N>/tasks.md`.
+- [ ] Existe `docs/specs/issue-<N>/test-plan.md`.
 - [ ] Todas las tasks en `tasks.md` están marcadas `[x]`.
 - [ ] No hay scope creep: los cambios en git diff coinciden con archivos del spec.
 

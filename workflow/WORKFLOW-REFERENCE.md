@@ -290,7 +290,7 @@
  
  **Archivos generados:**
  ```
- docs/memory/issue-{N}/
+ docs/specs/issue-{N}/
  ├── design.md          → enfoque, componentes, decisiones técnicas, riesgos
  ├── tasks.md           → tasks ordenadas, cada una mapeada a un AC
  ├── api-contract.md    → contratos de interfaz (solo si aplica)
@@ -310,7 +310,7 @@
  
  **Fuente de tasks según nivel:**
  - **L0:** tasks inline en `docs/memory/active-issue.md`
- - **L1/L2:** `docs/memory/issue-{N}/tasks.md`
+ - **L1/L2:** `docs/specs/issue-{N}/tasks.md`
  
  **Flujo:**
  
@@ -360,7 +360,7 @@
     - Verifica cada AC: ✅ cubierto / ⚠️ parcial / ❌ no cubierto
     - Verifica que el scope implementado corresponde al spec
     - Recorre `docs/memory/checkpoint.md` y marca cada box con evidencia
-    - Genera `docs/memory/issue-{N}/verification-report.md`
+    - Genera `docs/specs/issue-{N}/verification-report.md`
  3. Presenta resultado al orchestrator.
  
  **Flujo L2 (varios reviewers en paralelo):**
@@ -389,7 +389,7 @@
    resetea el template a `[ ]` para la próxima sesión.
  
  **Output:**
- - `docs/memory/issue-{N}/verification-report.md` completo.
+ - `docs/specs/issue-{N}/verification-report.md` completo.
  - `docs/memory/checkpoint-{N}.md` histórico.
  - `docs/memory/checkpoint.md` reseteado.
  - El reviewer **propone** feature → `done` si todos los ACs pasan; el
@@ -474,7 +474,7 @@
     aprobación explícita. El usuario puede aprobar los cambios de docs
     todos, parcialmente, o ninguno.
  6. Aplica las actualizaciones aprobadas a `docs/` y genera
-    `docs/memory/issue-{N}/doc-update-report.md`.
+    `docs/specs/issue-{N}/doc-update-report.md`.
  7. Genera descripción de PR según nivel:
     - **L0:** descripción simple con ACs cubiertos.
     - **L1/L2:** descripción completa con ACs + tabla de verificación +
@@ -495,7 +495,7 @@
  - PR creada en GitHub linkeada a la issue.
  - Issue en estado **In Review**.
  - `docs/` actualizados con los cambios aprobados.
- - `docs/memory/issue-{N}/doc-update-report.md` generado.
+ - `docs/specs/issue-{N}/doc-update-report.md` generado.
  - `project-memory.md` actualizado.
  - `feature_list.json` reflejando el cierre de scope.
  
@@ -590,7 +590,7 @@
  **Lee al iniciar:**
  - `feature_list.json`
  - `docs/memory/active-issue.md` (si existe)
- - `docs/memory/issue-{N}/` — `design.md`, `tasks.md`, `test-plan.md`,
+ - `docs/specs/issue-{N}/` — `design.md`, `tasks.md`, `test-plan.md`,
    `verification-report.md` (los que existan)
  - `docs/memory/checkpoint.md`
 
@@ -691,13 +691,13 @@
  |---------|--------------|---------------|
  | `docs/memory/active-issue.md` | Issue activa en sesión actual | ❌ No |
  | `docs/memory/project-memory.md` | Memoria persistente cross-issues | ✅ Sí |
- | `docs/memory/issue-{N}/design.md` | Diseño aprobado de la issue | ✅ Sí |
- | `docs/memory/issue-{N}/tasks.md` | Tasks y su estado | ✅ Sí |
- | `docs/memory/issue-{N}/api-contract.md` | Contratos de interfaz | ✅ Sí |
- | `docs/memory/issue-{N}/test-plan.md` | Plan de pruebas | ✅ Sí |
- | `docs/memory/issue-{N}/verification-report.md` | Reporte de verificación | ✅ Sí |
+ | `docs/specs/issue-{N}/design.md` | Diseño aprobado de la issue | ✅ Sí |
+ | `docs/specs/issue-{N}/tasks.md` | Tasks y su estado | ✅ Sí |
+ | `docs/specs/issue-{N}/api-contract.md` | Contratos de interfaz | ✅ Sí |
+ | `docs/specs/issue-{N}/test-plan.md` | Plan de pruebas | ✅ Sí |
+ | `docs/specs/issue-{N}/verification-report.md` | Reporte de verificación | ✅ Sí |
  | `docs/memory/checkpoint-{N}.md` | Histórico inmutable del checkpoint cerrado | ✅ Sí |
- | `docs/memory/issue-{N}/doc-update-report.md` | Registro de actualizaciones aplicadas a `docs/` | ✅ Sí |
+ | `docs/specs/issue-{N}/doc-update-report.md` | Registro de actualizaciones aplicadas a `docs/` | ✅ Sí |
  
  ---
  

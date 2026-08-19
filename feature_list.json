@@ -15,7 +15,7 @@
       "acceptance": [
         "Reemplazar este array con los Acceptance Criteria de la issue real",
         "Cada AC debe ser verificable por el reviewer",
-        "Cada AC debe poder mapearse a uno o más tests en docs/memory/issue-<N>/test-plan.md"
+        "Cada AC debe poder mapearse a uno o más tests en docs/specs/issue-<N>/test-plan.md"
       ],
       "status": "pending"
     }

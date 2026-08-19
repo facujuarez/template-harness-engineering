@@ -21,7 +21,8 @@ harness en uso (Claude Code, Cursor, Aider, Continue, OpenHands, Codex, etc.).
 | `workflow/docs/harness-adapters.md` | Referencia de configuración por harness (Claude Code, Cursor, Copilot, etc.). Lo usa el Harness Configurator en Fase 0 - INIT. |
 | `docs/memory/checkpoint.md` | Checklist de cierre de sesión. Lo recorre el reviewer. Bloquea cierre con boxes vacíos. |
 | `workflow/docs/` | Contexto del proyecto: producto, stack, convenciones, niveles, templates. |
-| `docs/memory/` | Estado de sesión por issue + memoria persistente cross-issues. Vive fuera de `workflow/` para que el submodule nunca quede dirty. |
+| `docs/memory/` | Issue activa en sesión + memoria persistente cross-issues. Vive fuera de `workflow/` para que el submodule nunca quede dirty. |
+| `docs/specs/` | Spec por issue (`design.md`, `tasks.md`, `test-plan.md`, etc.), generado durante el trabajo. Vive fuera de `workflow/` por la misma razón. |
 | `workflow/templates/` | Plantillas de bootstrap (AGENTS.md, checkpoint, project-memory) y perfiles de stack opcionales (API .NET, SPFx) para acelerar `docs/architecture.md` en Fase 0 - SETUP. |
 | `init.sh` | Verifica entorno e inicializa el repo. |
 | `workflow/scripts/pre-commit-check.sh` | Hook de build + lint antes de cada commit. |

@@ -179,7 +179,7 @@ Ambos se commitean junto con los specs.
 | `docs/memory/active-issue.md` | Issue y nivel activos en sesión. |
 | `docs/memory/project-memory.md` | Memoria persistente cross-issues. |
 | `docs/memory/checkpoint-<N>.md` | Copia por issue del checkpoint cerrado. |
-| `docs/memory/issue-{N}/doc-update-report.md` | Cambios aplicados a `docs/` al cerrar la issue. |
+| `docs/specs/issue-{N}/doc-update-report.md` | Cambios aplicados a `docs/` al cerrar la issue. |
 | `workflow/templates/` | Plantillas para bootstrap de proyecto y perfiles de stack (ver `workflow/templates/stack.*.template.md`). |
 
 ---

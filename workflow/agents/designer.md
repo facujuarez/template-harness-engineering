@@ -35,7 +35,7 @@
      para escribir el test; el [[reviewer]] verifica que el test existe y pasa.
 
 4. **Output: spec completo**
-   - Persiste el spec en `docs/memory/issue-<N>/` (o equivalente según la
+   - Persiste el spec en `docs/specs/issue-<N>/` (o equivalente según la
      estructura del repo derivado).
    - Estructura mínima: `design.md`, `tasks.md`, `test-plan.md`.
 
@@ -75,7 +75,7 @@ reportes de múltiples [[explorer]]s en paralelo. El spec final es único.
 ## Artefactos que produce
 
 ```
-docs/memory/issue-<N>/
+docs/specs/issue-<N>/
   ├── design.md       # Decisiones arquitectónicas + diagramas + alternativas evaluadas
   ├── tasks.md        # Lista numerada de tasks, dependencies, paralelización
   └── test-plan.md    # Cobertura AC → test (unit / integration / e2e)

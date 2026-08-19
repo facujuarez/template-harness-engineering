@@ -19,7 +19,7 @@
 **Qué se omite:**
 - `/design` — las tasks se definen inline en `enrich-issue`
 - `/verify` formal — se sustituye por el pre-commit hook que corre en Fase 7 (`/commit`)
-- `docs/memory/issue-N/design.md` y `test-plan.md` — no se generan
+- `docs/specs/issue-N/design.md` y `test-plan.md` — no se generan
 
 **Cuándo NO usar L0 aunque el tamaño sea XS/S:**
 - Si la issue afecta lógica de negocio crítica
@@ -94,8 +94,8 @@ verify-parallel (integración)       →─┘
 | Archivo | L0 | L1 | L2 |
 |---------|----|----|-----|
 | `docs/memory/active-issue.md` | ✅ | ✅ | ✅ |
-| `docs/memory/issue-N/tasks.md` | ✅ (inline) | ✅ | ✅ |
-| `docs/memory/issue-N/design.md` | ❌ | ✅ | ✅ |
-| `docs/memory/issue-N/api-contract.md` | ❌ | si aplica | si aplica |
-| `docs/memory/issue-N/test-plan.md` | ❌ | ✅ | ✅ |
-| `docs/memory/issue-N/verification-report.md` | ❌ | ✅ | ✅ |
+| `docs/specs/issue-N/tasks.md` | ✅ (inline) | ✅ | ✅ |
+| `docs/specs/issue-N/design.md` | ❌ | ✅ | ✅ |
+| `docs/specs/issue-N/api-contract.md` | ❌ | si aplica | si aplica |
+| `docs/specs/issue-N/test-plan.md` | ❌ | ✅ | ✅ |
+| `docs/specs/issue-N/verification-report.md` | ❌ | ✅ | ✅ |

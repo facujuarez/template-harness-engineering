@@ -7,7 +7,7 @@ description: Sincroniza docs/ vía Doc Updater y crea el Pull Request en GitHub 
 
 ## Cómo ejecutar
 
-1. Leé `workflow/specs/active-issue.md` para el nivel y verificá que el branch
+1. Leé `docs/memory/active-issue.md` para el nivel y verificá que el branch
    está publicado en origin, al día con `develop`, y `checkpoint.md` cerrado por el reviewer.
 2. Delegá al subagente `doc-updater` (ver [agents/doc-updater.md](../../agents/doc-updater.md))
    usando [`prompt.txt`](prompt.txt) para obtener las propuestas de actualización de `docs/`.
@@ -15,4 +15,4 @@ description: Sincroniza docs/ vía Doc Updater y crea el Pull Request en GitHub 
 
 **Gate:** aprobación explícita del PR y de los cambios de docs (todos, parcial o ninguno)
 antes de `gh pr create`.
-**Después:** actualizar `workflow/specs/project-memory.md` y mover la issue a In Review.
+**Después:** actualizar `docs/memory/project-memory.md` y mover la issue a In Review.

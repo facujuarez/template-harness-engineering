@@ -7,7 +7,7 @@ description: Consolida todos los cambios del branch en un único commit, corre e
 
 ## Cómo ejecutar
 
-1. Leé `workflow/specs/active-issue.md` para el nivel, branch y tipo de issue.
+1. Leé `docs/memory/active-issue.md` para el nivel, branch y tipo de issue.
 2. Verificá que todas las tasks están en `[x]` en tasks.md (o active-issue.md en L0).
 3. Mostrá el `git status` + `git diff` al usuario para revisar los cambios.
 4. Proponé un mensaje de commit siguiendo `workflow/docs/workflow-conventions.md`.

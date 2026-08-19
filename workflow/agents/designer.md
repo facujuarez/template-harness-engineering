@@ -35,7 +35,7 @@
      para escribir el test; el [[reviewer]] verifica que el test existe y pasa.
 
 4. **Output: spec completo**
-   - Persiste el spec en `workflow/specs/issue-<N>/` (o equivalente según la
+   - Persiste el spec en `docs/memory/issue-<N>/` (o equivalente según la
      estructura del repo derivado).
    - Estructura mínima: `design.md`, `tasks.md`, `test-plan.md`.
 
@@ -67,7 +67,7 @@ reportes de múltiples [[explorer]]s en paralelo. El spec final es único.
 - **Documenta las decisiones de diseño no obvias** en `design.md`. El "por qué"
   importa más que el "qué".
 - Cuando el spec genere aprendizajes reutilizables, agrega entrada propuesta
-  para `workflow/specs/project-memory.md` (el [[orchestrator]] decide si la
+  para `docs/memory/project-memory.md` (el [[orchestrator]] decide si la
   persiste al cerrar issue).
 
 ---
@@ -75,7 +75,7 @@ reportes de múltiples [[explorer]]s en paralelo. El spec final es único.
 ## Artefactos que produce
 
 ```
-workflow/specs/issue-<N>/
+docs/memory/issue-<N>/
   ├── design.md       # Decisiones arquitectónicas + diagramas + alternativas evaluadas
   ├── tasks.md        # Lista numerada de tasks, dependencies, paralelización
   └── test-plan.md    # Cobertura AC → test (unit / integration / e2e)

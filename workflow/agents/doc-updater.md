@@ -30,7 +30,7 @@
    - Por cada sección afectada, muestra el diff propuesto (antes → después).
    - Si una categoría no tiene cambios relevantes, lo declara explícitamente.
    - **No propone cambios si la información ya está documentada** o si es
-     redundante con `workflow/specs/project-memory.md`.
+     redundante con `docs/memory/project-memory.md`.
 
 4. **Gate de aprobación**
    - Devuelve las propuestas al [[orchestrator]].
@@ -45,7 +45,7 @@
      bloque actualizado para trazabilidad.
 
 6. **Reporte de cierre**
-   - Genera `workflow/specs/issue-{N}/doc-update-report.md` indicando:
+   - Genera `docs/memory/issue-{N}/doc-update-report.md` indicando:
      qué se actualizó, qué se descartó y por qué.
 
 ---
@@ -82,7 +82,7 @@
 - `docs/data-model.md` — actualizado (secciones aprobadas).
 - `docs/functional.md` — actualizado (secciones aprobadas).
 - `README.md` — actualizado si algún cambio aprobado afecta información visible externamente.
-- `workflow/specs/issue-{N}/doc-update-report.md`:
+- `docs/memory/issue-{N}/doc-update-report.md`:
 
   ```markdown
   # Doc Update Report — Issue #[N]

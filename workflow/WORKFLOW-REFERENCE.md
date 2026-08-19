@@ -178,7 +178,7 @@
  - `docs/architecture.md`
  - `workflow/docs/workflow-conventions.md`
  - `workflow/docs/workflow-levels.md`
- - `workflow/specs/project-memory.md` (si existe)
+ - `docs/memory/project-memory.md` (si existe)
  - `feature_list.json`
  
  **Flujo:**
@@ -217,7 +217,7 @@
  casos límite, detalles de implementación técnica y escenarios de prueba.
  
  **Lee al iniciar:**
- - `workflow/specs/active-issue.md` (contexto básico de Fase 1, si existe)
+ - `docs/memory/active-issue.md` (contexto básico de Fase 1, si existe)
  - `workflow/docs/issue-template.md`
  - `workflow/docs/definition-of-ready.md`
  
@@ -235,7 +235,7 @@
  4. Genera la versión enriquecida de la descripción.
  5. **Gate:** presenta el borrador enriquecido al usuario para aprobación.
  6. Con aprobación explícita: actualiza la issue en GitHub (`gh issue edit`).
- 7. Genera/actualiza `workflow/specs/active-issue.md` con:
+ 7. Genera/actualiza `docs/memory/active-issue.md` con:
     - Número, título, nivel, branch, tipo, tamaño
     - ACs validados y completos
     - Out of scope explícito
@@ -249,7 +249,7 @@
  
  **Output:**
  - Issue en GitHub actualizada con descripción enriquecida.
- - `workflow/specs/active-issue.md` completo con ACs, out of scope, edge cases,
+ - `docs/memory/active-issue.md` completo con ACs, out of scope, edge cases,
    detalles técnicos y escenarios de prueba.
  - Para L0: tasks inline listas para implementar.
  
@@ -290,7 +290,7 @@
  
  **Archivos generados:**
  ```
- workflow/specs/issue-{N}/
+ docs/memory/issue-{N}/
  ├── design.md          → enfoque, componentes, decisiones técnicas, riesgos
  ├── tasks.md           → tasks ordenadas, cada una mapeada a un AC
  ├── api-contract.md    → contratos de interfaz (solo si aplica)
@@ -309,8 +309,8 @@
  la implementación — el commit único se consolida en Fase 7.
  
  **Fuente de tasks según nivel:**
- - **L0:** tasks inline en `workflow/specs/active-issue.md`
- - **L1/L2:** `workflow/specs/issue-{N}/tasks.md`
+ - **L0:** tasks inline en `docs/memory/active-issue.md`
+ - **L1/L2:** `docs/memory/issue-{N}/tasks.md`
  
  **Flujo:**
  
@@ -348,7 +348,7 @@
  
  **Objetivo:** Verificación objetiva e independiente de que la implementación
  cumple el spec y los ACs. Produce el `verification-report.md` y deja
- `workflow/docs/checkpoint.md` completamente marcado.
+ `docs/memory/checkpoint.md` completamente marcado.
  
  **Flujo L1 (secuencial):**
  
@@ -359,8 +359,8 @@
     - Tests con cobertura
     - Verifica cada AC: ✅ cubierto / ⚠️ parcial / ❌ no cubierto
     - Verifica que el scope implementado corresponde al spec
-    - Recorre `workflow/docs/checkpoint.md` y marca cada box con evidencia
-    - Genera `workflow/specs/issue-{N}/verification-report.md`
+    - Recorre `docs/memory/checkpoint.md` y marca cada box con evidencia
+    - Genera `docs/memory/issue-{N}/verification-report.md`
  3. Presenta resultado al orchestrator.
  
  **Flujo L2 (varios reviewers en paralelo):**
@@ -374,7 +374,7 @@
     - reviewer área C: integración y contratos
       (breaking changes, coherencia entre módulos, contratos de API)
  2. Un reviewer integrador consolida los informes en un único
-    `verification-report.md` y un único `workflow/docs/checkpoint.md`.
+    `verification-report.md` y un único `docs/memory/checkpoint.md`.
  3. Determina resultado global: el más restrictivo de los reviewers.
  
  **Resultados posibles:**
@@ -383,15 +383,15 @@
  - ❌ **BLOQUEADO** → vuelve a `code` para corregir
  
  **Reglas duras del reviewer:**
- - Si quedó algún box en `[ ]` en `workflow/docs/checkpoint.md`, **bloquea el cierre**.
+ - Si quedó algún box en `[ ]` en `docs/memory/checkpoint.md`, **bloquea el cierre**.
  - Las únicas excepciones son `[~]` (no aplica) con justificación del orchestrator.
- - Al cerrar, copia `workflow/docs/checkpoint.md` a `workflow/specs/checkpoint-{N}.md` y
+ - Al cerrar, copia `docs/memory/checkpoint.md` a `docs/memory/checkpoint-{N}.md` y
    resetea el template a `[ ]` para la próxima sesión.
  
  **Output:**
- - `workflow/specs/issue-{N}/verification-report.md` completo.
- - `workflow/specs/checkpoint-{N}.md` histórico.
- - `workflow/docs/checkpoint.md` reseteado.
+ - `docs/memory/issue-{N}/verification-report.md` completo.
+ - `docs/memory/checkpoint-{N}.md` histórico.
+ - `docs/memory/checkpoint.md` reseteado.
  - El reviewer **propone** feature → `done` si todos los ACs pasan; el
    orchestrator aplica la transición en `feature_list.json` (el reviewer
    nunca escribe ese archivo directamente).
@@ -431,7 +431,7 @@
  
  **Flujo:**
  
- 1. Lee `workflow/specs/active-issue.md` para obtener nivel e info del branch.
+ 1. Lee `docs/memory/active-issue.md` para obtener nivel e info del branch.
  2. Verifica que todas las tasks están marcadas como `[x]`.
  3. Corre `git status` y muestra al usuario el conjunto de cambios a commitear.
  4. Propone mensaje de commit siguiendo `workflow/docs/workflow-conventions.md`:
@@ -458,11 +458,11 @@
  
  **Flujo:**
  
- 1. Lee `workflow/specs/active-issue.md` para determinar nivel.
+ 1. Lee `docs/memory/active-issue.md` para determinar nivel.
  2. Verifica:
     - Branch publicado en origin (push ya realizado en Fase 7).
     - Actualizado respecto a `develop` (si no, pregunta si hacer rebase).
-    - `workflow/docs/checkpoint.md` cerrado por el reviewer.
+    - `docs/memory/checkpoint.md` cerrado por el reviewer.
  3. Para **L1/L2:** verifica que existe `verification-report.md`.
  4. **Invoca al [doc-updater](agents/doc-updater.md)** en contexto aislado:
     - Analiza `design.md`, `verification-report.md` y `active-issue.md`.
@@ -474,7 +474,7 @@
     aprobación explícita. El usuario puede aprobar los cambios de docs
     todos, parcialmente, o ninguno.
  6. Aplica las actualizaciones aprobadas a `docs/` y genera
-    `workflow/specs/issue-{N}/doc-update-report.md`.
+    `docs/memory/issue-{N}/doc-update-report.md`.
  7. Genera descripción de PR según nivel:
     - **L0:** descripción simple con ACs cubiertos.
     - **L1/L2:** descripción completa con ACs + tabla de verificación +
@@ -484,7 +484,7 @@
     - Base: `develop` (nunca `main` directamente)
     - `Closes #{N}` en la descripción
  9. Mueve issue a **In Review** en el Project Board.
- 10. **Actualiza `workflow/specs/project-memory.md`** con:
+ 10. **Actualiza `docs/memory/project-memory.md`** con:
      - Resumen de cambios realizados
      - Patrones nuevos introducidos
      - Archivos clave afectados
@@ -495,7 +495,7 @@
  - PR creada en GitHub linkeada a la issue.
  - Issue en estado **In Review**.
  - `docs/` actualizados con los cambios aprobados.
- - `workflow/specs/issue-{N}/doc-update-report.md` generado.
+ - `docs/memory/issue-{N}/doc-update-report.md` generado.
  - `project-memory.md` actualizado.
  - `feature_list.json` reflejando el cierre de scope.
  
@@ -589,10 +589,10 @@
 
  **Lee al iniciar:**
  - `feature_list.json`
- - `workflow/specs/active-issue.md` (si existe)
- - `workflow/specs/issue-{N}/` — `design.md`, `tasks.md`, `test-plan.md`,
+ - `docs/memory/active-issue.md` (si existe)
+ - `docs/memory/issue-{N}/` — `design.md`, `tasks.md`, `test-plan.md`,
    `verification-report.md` (los que existan)
- - `workflow/docs/checkpoint.md`
+ - `docs/memory/checkpoint.md`
 
  **Flujo:**
 
@@ -601,7 +601,7 @@
  2. Reporta: número de issue, branch, nivel (L0/L1/L2), y qué artefactos de
     spec existen.
  3. Si hay `tasks.md` o tasks inline: progreso (X/Y completadas).
- 4. Estado de `workflow/docs/checkpoint.md`: pendiente / con `[ ]` sin
+ 4. Estado de `docs/memory/checkpoint.md`: pendiente / con `[ ]` sin
     justificar / cerrado.
  5. Detecta inconsistencias y las señala (ej.: issue `in_progress` sin
     `active-issue.md`; tasks todas `[x]` con checkpoint sin cerrar;
@@ -668,7 +668,7 @@
  
  | Archivo | Propósito |
  |---------|-----------|
- | `workflow/docs/checkpoint.md` | Checklist de cierre de sesión (dueño: reviewer) |
+ | `docs/memory/checkpoint.md` | Checklist de cierre de sesión (dueño: reviewer) |
  | `feature_list.json` | Estado sincronizado de features/issues |
  
  ### Documentación del proyecto *(se completa con `/setup-project`)*
@@ -689,15 +689,15 @@
  
  | Archivo | Qué contiene | ¿Committear? |
  |---------|--------------|---------------|
- | `workflow/specs/active-issue.md` | Issue activa en sesión actual | ❌ No |
- | `workflow/specs/project-memory.md` | Memoria persistente cross-issues | ✅ Sí |
- | `workflow/specs/issue-{N}/design.md` | Diseño aprobado de la issue | ✅ Sí |
- | `workflow/specs/issue-{N}/tasks.md` | Tasks y su estado | ✅ Sí |
- | `workflow/specs/issue-{N}/api-contract.md` | Contratos de interfaz | ✅ Sí |
- | `workflow/specs/issue-{N}/test-plan.md` | Plan de pruebas | ✅ Sí |
- | `workflow/specs/issue-{N}/verification-report.md` | Reporte de verificación | ✅ Sí |
- | `workflow/specs/checkpoint-{N}.md` | Histórico inmutable del checkpoint cerrado | ✅ Sí |
- | `workflow/specs/issue-{N}/doc-update-report.md` | Registro de actualizaciones aplicadas a `docs/` | ✅ Sí |
+ | `docs/memory/active-issue.md` | Issue activa en sesión actual | ❌ No |
+ | `docs/memory/project-memory.md` | Memoria persistente cross-issues | ✅ Sí |
+ | `docs/memory/issue-{N}/design.md` | Diseño aprobado de la issue | ✅ Sí |
+ | `docs/memory/issue-{N}/tasks.md` | Tasks y su estado | ✅ Sí |
+ | `docs/memory/issue-{N}/api-contract.md` | Contratos de interfaz | ✅ Sí |
+ | `docs/memory/issue-{N}/test-plan.md` | Plan de pruebas | ✅ Sí |
+ | `docs/memory/issue-{N}/verification-report.md` | Reporte de verificación | ✅ Sí |
+ | `docs/memory/checkpoint-{N}.md` | Histórico inmutable del checkpoint cerrado | ✅ Sí |
+ | `docs/memory/issue-{N}/doc-update-report.md` | Registro de actualizaciones aplicadas a `docs/` | ✅ Sí |
  
  ---
  
@@ -729,7 +729,7 @@
  
  ```gitignore
  # Sesión activa (no committear)
- workflow/specs/active-issue.md
+ docs/memory/active-issue.md
  
  # Secretos y configuración local
  .env.local

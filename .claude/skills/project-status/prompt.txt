@@ -2,10 +2,10 @@ Actuá como el rol orchestrator definido en workflow/agents/orchestrator.md, uti
 
 Tareas (solo lectura, sin gate, no generás ni modificás artefactos):
 1. Leé feature_list.json e identificá la issue activa (status: in_progress),
-   o workflow/specs/active-issue.md si existe.
-2. Leé, si existen, workflow/specs/issue-{N}/design.md, tasks.md,
+   o docs/memory/active-issue.md si existe.
+2. Leé, si existen, docs/memory/issue-{N}/design.md, tasks.md,
    test-plan.md y verification-report.md.
-3. Leé workflow/docs/checkpoint.md.
+3. Leé docs/memory/checkpoint.md.
 4. Reportá: número de issue, branch, nivel (L0/L1/L2), qué artefactos de
    spec existen, progreso de tasks (X/Y completadas), y estado del
    checkpoint (pendiente / con [ ] sin justificar / cerrado).

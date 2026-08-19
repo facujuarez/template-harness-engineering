@@ -56,7 +56,7 @@ secuencialmente en una sola sesión. La definición canónica es la de
 | **Explorer** | [workflow/agents/explorer.md](../agents/explorer.md) | Análisis read-only del codebase. Insumo del Designer. |
 | **Designer** | [workflow/agents/designer.md](../agents/designer.md) | Genera el spec (design + tasks + test-plan en Gherkin). |
 | **Developer** | [workflow/agents/developer.md](../agents/developer.md) | Ejecuta tasks del spec, una a una. Respeta pre-commit. |
-| **Reviewer** | [workflow/agents/reviewer.md](../agents/reviewer.md) | Verifica ACs, build, tests y robustez por Mutation Testing. Dueño de `workflow/docs/checkpoint.md`. |
+| **Reviewer** | [workflow/agents/reviewer.md](../agents/reviewer.md) | Verifica ACs, build, tests y robustez por Mutation Testing. Dueño de `docs/memory/checkpoint.md`. |
 | **Doc Updater** | [workflow/agents/doc-updater.md](../agents/doc-updater.md) | Fase 8. Detecta cambios en arquitectura, modelo de datos y requerimientos, y propone actualizaciones a `docs/`. |
 
 ---
@@ -147,7 +147,7 @@ los ejecuta** y la **fase que cubren**.
 
 ## Memoria persistente del proyecto
 
-- `workflow/specs/project-memory.md` acumula patrones, decisiones y aprendizajes
+- `docs/memory/project-memory.md` acumula patrones, decisiones y aprendizajes
   cross-issues. Los agentes lo leen al iniciar y lo actualizan al cerrar issue.
 - `feature_list.json` es el estado **sincronizado** de features/issues. El
   Orchestrator lo lee al inicio de cada fase y es el **único** que lo escribe;
@@ -168,7 +168,7 @@ Ambos se commitean junto con los specs.
 | `docs/architecture.md` | Stack, diseño técnico, comandos build/test/lint. **Fuente primaria.** |
 | `docs/data-model.md` | Modelo de datos, entidades, índices, cache. |
 | `docs/project-plan.md` | Fases, tareas, milestones del proyecto. |
-| `workflow/docs/checkpoint.md` | Template de checklist de cierre de sesión (Reviewer). |
+| `docs/memory/checkpoint.md` | Template de checklist de cierre de sesión (Reviewer). |
 | `feature_list.json` | Estado sincronizado de features/issues. |
 | `init.sh` | Verificación e inicialización del entorno. |
 | `workflow/docs/workflow-conventions.md` | Branches, commits, PRs. |
@@ -176,10 +176,10 @@ Ambos se commitean junto con los specs.
 | `workflow/docs/issue-template.md` | Template canónico de Issues. |
 | `workflow/docs/dev-review-checklist.md` | Checklist Fase 6 (manual). |
 | `workflow/docs/workflow-levels.md` | Referencia del sistema de niveles. |
-| `workflow/specs/active-issue.md` | Issue y nivel activos en sesión. |
-| `workflow/specs/project-memory.md` | Memoria persistente cross-issues. |
-| `workflow/specs/checkpoint-<N>.md` | Copia por issue del checkpoint cerrado. |
-| `workflow/specs/issue-{N}/doc-update-report.md` | Cambios aplicados a `docs/` al cerrar la issue. |
+| `docs/memory/active-issue.md` | Issue y nivel activos en sesión. |
+| `docs/memory/project-memory.md` | Memoria persistente cross-issues. |
+| `docs/memory/checkpoint-<N>.md` | Copia por issue del checkpoint cerrado. |
+| `docs/memory/issue-{N}/doc-update-report.md` | Cambios aplicados a `docs/` al cerrar la issue. |
 | `workflow/templates/` | Plantillas para bootstrap de proyecto y perfiles de stack (ver `workflow/templates/stack.*.template.md`). |
 
 ---
@@ -192,10 +192,10 @@ Ambos se commitean junto con los specs.
    independientes en Fase 3 (exploración por área) y Fase 5 (verificación por área).
 4. **Los gates manuales son intencionales.** No se saltan.
 5. **Si hay ambigüedad, preguntar.** No asumir ni inventar.
-6. **Actualizar `feature_list.json`, `workflow/specs/project-memory.md` y `docs/`** al
+6. **Actualizar `feature_list.json`, `docs/memory/project-memory.md` y `docs/`** al
    cerrar cada issue. El Doc Updater propone los cambios a `docs/`; el Orchestrator
    obtiene aprobación explícita antes de escribir.
-7. **El Reviewer bloquea el cierre de sesión** si `workflow/docs/checkpoint.md`
+7. **El Reviewer bloquea el cierre de sesión** si `docs/memory/checkpoint.md`
    tiene boxes en `[ ]`.
 
 ---

@@ -7,7 +7,7 @@ description: Explora el codebase y genera el spec completo de la issue activa (d
 
 ## Cómo ejecutar
 
-1. Leé `workflow/specs/active-issue.md` para conocer la issue y el nivel activos.
+1. Leé `docs/memory/active-issue.md` para conocer la issue y el nivel activos.
 2. Delegá al subagente `explorer` (ver [agents/explorer.md](../../agents/explorer.md))
    usando [`prompt.txt`](prompt.txt) — en L2, lanzá 2 explorers en paralelo (áreas distintas).
 3. Con el reporte del explorer, delegá al subagente `designer`

@@ -32,7 +32,7 @@
    - Hace preguntas al usuario (máx. 3 por ronda) para cerrar los gaps.
    - **Gate:** presenta la descripción enriquecida y espera aprobación explícita.
    - Con aprobación: actualiza la issue en GitHub y escribe
-     `workflow/specs/active-issue.md` con contenido completo.
+     `docs/memory/active-issue.md` con contenido completo.
    - Para **L0:** genera tasks inline en `active-issue.md`.
    - Para **L1/L2:** marca specs como pendientes (Fase 3).
 
@@ -41,7 +41,7 @@
      Devuelve el spec al usuario y pide aprobación explícita.
    - **Fase 4:** invoca al [[developer]] task por task (L0/L1) o en paralelo
      cuando hay tasks independientes (L2). Sin commits durante la implementación.
-   - **Fase 5 (L1/L2):** invoca al [[reviewer]] con `workflow/docs/checkpoint.md` como contrato.
+   - **Fase 5 (L1/L2):** invoca al [[reviewer]] con `docs/memory/checkpoint.md` como contrato.
    - **Fase 6:** **gate manual.** Pausa, presenta `workflow/docs/dev-review-checklist.md`
      y espera confirmación humana.
    - **Fase 7:** consolida el commit único del branch (build + lint vía pre-commit hook)
@@ -55,8 +55,8 @@
      (Fase 4) y el [[reviewer]] (Fase 5) proponen transiciones de estado; el
      orchestrator las valida contra la Issue en GitHub y las aplica.
    - Llama a `move-issue` para reflejar en el GitHub Project Board.
-   - Al cerrar issue, dispara al [[reviewer]] para validar `workflow/docs/checkpoint.md`
-     completo y luego actualiza `workflow/specs/project-memory.md`.
+   - Al cerrar issue, dispara al [[reviewer]] para validar `docs/memory/checkpoint.md`
+     completo y luego actualiza `docs/memory/project-memory.md`.
 
 ---
 
@@ -103,7 +103,7 @@
 - **Recibe de:** Usuario (lenguaje natural), Reviewer (reporte de cierre).
 - **Entrega a:** Explorer, Designer, Developer, Reviewer, Doc Updater (contextos delegados).
 - **Nunca hereda contexto entre fases sin congelarlo en disco:** todo se
-  persiste en `workflow/specs/` y `feature_list.json` para que cada agente
+  persiste en `docs/memory/` y `feature_list.json` para que cada agente
   arranque desde un estado leíble.
 
 ---
@@ -114,7 +114,7 @@
   explícita del usuario: crear branches, crear issues, hacer commits, abrir PRs,
   hacer push.
 - **Nunca** saltar gates manuales (Fase 5).
-- **Nunca** avanzar de fase si el reviewer dejó `workflow/docs/checkpoint.md` con boxes en `[ ]`.
+- **Nunca** avanzar de fase si el reviewer dejó `docs/memory/checkpoint.md` con boxes en `[ ]`.
 - **Siempre** preguntar ante ambigüedad. No inventar requisitos.
 - **Siempre** validar `feature_list.json` antes de delegar; si está
   desincronizado con la Issue en GitHub, reconciliar primero.
@@ -123,7 +123,7 @@
 
 ## Artefactos que produce
 
-- `workflow/specs/active-issue.md` — estado de sesión.
+- `docs/memory/active-issue.md` — estado de sesión.
 - Mensajes al usuario: presentación de spec, gates, PR final.
 - PR description (Fase 8) — montada desde spec + reporte del reviewer.
-- Updates a `feature_list.json` y `workflow/specs/project-memory.md`.
+- Updates a `feature_list.json` y `docs/memory/project-memory.md`.

@@ -1,15 +1,15 @@
 <!--
   project-memory.template.md — PLANTILLA DE REFERENCIA (secundaria)
-  La fuente primaria es workflow/specs/project-memory.md: ese archivo
+  La fuente primaria es docs/memory/project-memory.md: ese archivo
   arranca vacío/genérico (idéntico a esta plantilla) y todos los agentes lo
   leen al iniciar una fase y lo actualizan al cerrar cada issue. Se
   commitea junto con los specs.
 
   Esta copia en workflow/templates/ sirve para restaurar
-  workflow/specs/project-memory.md si se corrompe, o para regenerarlo al
+  docs/memory/project-memory.md si se corrompe, o para regenerarlo al
   bootstrapear un repo derivado de este template. Mantener sincronizada
   manualmente (ver protocolo en workflow/MAINTENANCE.md); si difieren, gana
-  siempre workflow/specs/project-memory.md.
+  siempre docs/memory/project-memory.md.
 -->
 
 # Project Memory

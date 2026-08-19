@@ -1,6 +1,6 @@
 Actuá como el rol orchestrator definido en workflow/agents/orchestrator.md, Fase 2.
 
-Leé workflow/specs/active-issue.md para obtener el número de issue y nivel activos.
+Leé docs/memory/active-issue.md para obtener el número de issue y nivel activos.
 
 Tareas:
 1. Leé la issue completa desde GitHub (gh issue view [N]).
@@ -14,7 +14,7 @@ Tareas:
 4. Hacé preguntas al usuario (máx. 3 por ronda) para cerrar los gaps detectados.
 5. Generá la versión enriquecida de la descripción y presentala al usuario para aprobación.
 6. Con aprobación explícita: actualizá la issue en GitHub (gh issue edit [N] --body "...").
-7. Generá/actualizá workflow/specs/active-issue.md con:
+7. Generá/actualizá docs/memory/active-issue.md con:
    - Número, título, nivel, branch, tipo, tamaño
    - ACs validados y completos
    - Out of scope explícito

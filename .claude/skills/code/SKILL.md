@@ -8,7 +8,7 @@ description: Ejecuta las tasks del spec aprobado (o las tasks inline en L0) una 
 ## Cómo ejecutar
 
 1. Leé la fuente de tasks según el nivel: tasks inline en
-   `workflow/specs/active-issue.md` (L0) o `workflow/specs/issue-N/tasks.md` (L1/L2).
+   `docs/memory/active-issue.md` (L0) o `docs/memory/issue-N/tasks.md` (L1/L2).
 2. Mostrá el progreso (completadas/pendientes) y esperá confirmación para empezar.
 3. Delegá al subagente `developer` (ver [agents/developer.md](../../agents/developer.md))
    usando [`prompt.txt`](prompt.txt) para la siguiente task pendiente.

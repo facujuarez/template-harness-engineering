@@ -1,6 +1,6 @@
 # Reviewer
 
-> Verifica que lo implementado cumple el spec. **Dueño de `workflow/docs/checkpoint.md`.**
+> Verifica que lo implementado cumple el spec. **Dueño de `docs/memory/checkpoint.md`.**
 > Recorre cada checkbox y marca `[x]` o `[ ]`. Si al cerrar sesión queda algún
 > `[ ]` sin justificación válida, **rechaza el cierre** y devuelve el control
 > al [[orchestrator]] con la lista de pendientes.
@@ -13,7 +13,7 @@
    - Cada AC de la Issue debe tener test cubriéndolo según `test-plan.md`.
    - Cada test debe existir, correr y pasar.
    - Si un AC no tiene test o el test no cubre realmente el criterio → `[ ]` en
-     `workflow/docs/checkpoint.md`, con nota de qué falta.
+     `docs/memory/checkpoint.md`, con nota de qué falta.
 
 2. **Build + Lint + Tests**
    - Corre los comandos canónicos del proyecto definidos en
@@ -49,16 +49,16 @@
      no detectadas detalladas. El [[developer]] refuerza los tests antes de
      que el reviewer pueda cerrar.
 
-5. **`workflow/docs/checkpoint.md` — gate de cierre**
-   - El reviewer es el único agente que escribe en `workflow/docs/checkpoint.md`.
+5. **`docs/memory/checkpoint.md` — gate de cierre**
+   - El reviewer es el único agente que escribe en `docs/memory/checkpoint.md`.
    - Recorre **cada** box. Marca `[x]` si verifica positivamente, `[ ]` si no.
    - Si queda alguna `[ ]`, escribe en la sección **Pendientes** el detalle.
    - Si todo en `[x]`, agrega entrada de cierre y aprueba el avance a Fase 5.
 
 6. **Sincronización de estado**
-   - Al cerrar la verificación, copia `workflow/docs/checkpoint.md` a
-     `workflow/specs/checkpoint-<N>.md` como histórico inmutable de esa issue.
-   - Devuelve el `workflow/docs/checkpoint.md` raíz a su estado de template (todos los boxes
+   - Al cerrar la verificación, copia `docs/memory/checkpoint.md` a
+     `docs/memory/checkpoint-<N>.md` como histórico inmutable de esa issue.
+   - Devuelve el `docs/memory/checkpoint.md` raíz a su estado de template (todos los boxes
      en `[ ]`) para la próxima sesión.
    - **Propone** al [[orchestrator]] la transición de `feature_list.json`:
      feature → `done` si todos los ACs pasan. El reviewer nunca escribe
@@ -80,7 +80,7 @@
   en Fase 5 y 6.
 - **En L2** puede ejecutarse en paralelo por áreas (frontend, backend,
   seguridad, performance, integraciones). Cada reviewer-en-paralelo emite su
-  sub-reporte; un reviewer integrador consolida en un único `workflow/docs/checkpoint.md`.
+  sub-reporte; un reviewer integrador consolida en un único `docs/memory/checkpoint.md`.
 
 ---
 
@@ -104,8 +104,8 @@
 
 ## Artefactos que produce
 
-- `workflow/docs/checkpoint.md` — completamente marcado.
-- `workflow/specs/checkpoint-<N>.md` — copia histórica de la sesión.
+- `docs/memory/checkpoint.md` — completamente marcado.
+- `docs/memory/checkpoint-<N>.md` — copia histórica de la sesión.
 - Reporte de verificación (Markdown, entregado al orchestrator). Estructura:
 
   ```markdown

@@ -9,7 +9,7 @@
 > justificación, el reviewer **rechaza el cierre** y devuelve la lista de
 > pendientes al [[orchestrator]].
 >
-> Al cerrar issue, copiar este archivo a `workflow/specs/checkpoint-<N>.md` y
+> Al cerrar issue, copiar este archivo a `docs/memory/checkpoint-<N>.md` y
 > resetear este template a todos `[ ]` para la próxima sesión.
 
 ---
@@ -24,9 +24,9 @@
 
 ## 1. Spec y alcance
 
-- [ ] Existe `workflow/specs/issue-<N>/design.md` aprobado.
-- [ ] Existe `workflow/specs/issue-<N>/tasks.md`.
-- [ ] Existe `workflow/specs/issue-<N>/test-plan.md`.
+- [ ] Existe `docs/memory/issue-<N>/design.md` aprobado.
+- [ ] Existe `docs/memory/issue-<N>/tasks.md`.
+- [ ] Existe `docs/memory/issue-<N>/test-plan.md`.
 - [ ] Todas las tasks en `tasks.md` están marcadas `[x]`.
 - [ ] No hay scope creep: los cambios en git diff coinciden con archivos del spec.
 
@@ -55,8 +55,8 @@
 ## 5. Estado sincronizado
 
 - [ ] `feature_list.json` refleja el nuevo estado de la feature.
-- [ ] `workflow/specs/active-issue.md` está actualizado.
-- [ ] `workflow/specs/project-memory.md` actualizado si hubo aprendizajes
+- [ ] `docs/memory/active-issue.md` está actualizado.
+- [ ] `docs/memory/project-memory.md` actualizado si hubo aprendizajes
       reutilizables.
 
 ## 6. Documentación
@@ -95,5 +95,5 @@
 
 - [ ] Todos los items arriba están en `[x]` o `[~]` con justificación.
 - [ ] Reporte de verificación entregado al orchestrator.
-- [ ] Copia histórica creada en `workflow/specs/checkpoint-<N>.md`.
+- [ ] Copia histórica creada en `docs/memory/checkpoint-<N>.md`.
 - [ ] Este archivo reseteado a estado template para la próxima sesión.

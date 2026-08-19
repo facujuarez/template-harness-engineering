@@ -1,6 +1,6 @@
 Paso 1 — Actuá como el rol explorer definido en workflow/agents/explorer.md.
 
-Issue activa: ver workflow/specs/active-issue.md
+Issue activa: ver docs/memory/active-issue.md
 
 Tareas:
 1. Mapeá módulos, capas y archivos relevantes para esta issue.
@@ -15,4 +15,4 @@ Tareas:
 1. Proponé el enfoque arquitectónico respetando los patrones detectados.
 2. Descomponé en tasks atómicas ordenadas por dependencia.
 3. Escribí un Scenario Gherkin por cada AC de la issue en test-plan.md.
-4. Generá workflow/specs/issue-[N]/{design.md,tasks.md,test-plan.md}.
+4. Generá docs/memory/issue-[N]/{design.md,tasks.md,test-plan.md}.

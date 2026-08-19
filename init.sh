@@ -87,13 +87,13 @@ REQUIRED_FILES=(
   "workflow/agents/designer.md"
   "workflow/agents/developer.md"
   "workflow/agents/reviewer.md"
-  "workflow/docs/checkpoint.md"
+  "docs/memory/checkpoint.md"
   "workflow/docs/workflow-conventions.md"
   "workflow/docs/definition-of-ready.md"
   "workflow/docs/issue-template.md"
   "workflow/docs/dev-review-checklist.md"
   "workflow/docs/workflow-levels.md"
-  "workflow/specs/project-memory.md"
+  "docs/memory/project-memory.md"
   "workflow/scripts/pre-commit-check.sh"
 )
 
@@ -178,7 +178,7 @@ fi
 # ---------- 6. checkpoint.md en estado template ----------
 section "checkpoint.md"
 
-CHECKPOINT="workflow/docs/checkpoint.md"
+CHECKPOINT="docs/memory/checkpoint.md"
 if [[ -f "$CHECKPOINT" ]]; then
   unchecked=$(grep -c '^- \[ \]' "$CHECKPOINT" || true)
   checked=$(grep -c '^- \[x\]' "$CHECKPOINT" || true)

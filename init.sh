@@ -90,7 +90,7 @@ REQUIRED_FILES=(
   "docs/memory/checkpoint.md"
   "workflow/docs/workflow-conventions.md"
   "workflow/docs/definition-of-ready.md"
-  "workflow/docs/issue-template.md"
+  "workflow/templates/issue-template.md"
   "workflow/docs/dev-review-checklist.md"
   "workflow/docs/workflow-levels.md"
   "docs/memory/project-memory.md"

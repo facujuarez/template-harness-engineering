@@ -33,6 +33,17 @@ harness en uso (Claude Code, Cursor, Aider, Continue, OpenHands, Codex, etc.).
 
 ## Quickstart
 
+Hay dos formas de arrancar un proyecto con este harness:
+
+- **Copia independiente** ("Use this template"): el repo nuevo tiene su
+  propia copia de `workflow/` y evoluciona sin conexión con este repo.
+  Recomendado si vas a personalizar el workflow fuerte para ese proyecto.
+- **Submodule** (recomendado si mantenés varios proyectos con el mismo
+  workflow): el repo nuevo consume `workflow/` desde este repo vía git
+  submodule, pineado a una versión (tag). Las actualizaciones al workflow se
+  bajan con un bump de versión en vez de copiarse a mano. Ver
+  `workflow/MAINTENANCE.md` → "Distribución a repos suscriptores".
+
 ### 1. Crear el repo desde la plantilla
 
 En GitHub: **Use this template → Create a new repository**. Luego clona y entra al directorio.

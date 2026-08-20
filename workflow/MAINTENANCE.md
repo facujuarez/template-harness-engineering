@@ -114,12 +114,11 @@ Truco: `grep -rn "Fase N"` sobre `.claude/` y `workflow/` para encontrar todas l
 
 ## Distribución a repos suscriptores (submodule)
 
-Este repo es el **origen único** de `workflow/`. Los repos que lo consumen
-(hoy: `facujuarez/facujuarezdev`, `facujuarez/azureliondevs-site`) no tienen
-una copia local editable: tienen un git submodule (`.workflow-src`, pineado a
-un commit/tag de este repo) y un symlink `workflow -> .workflow-src/workflow`.
-Así, un cambio acá se propaga con un bump de versión en cada suscriptor, sin
-copiar archivos a mano.
+Este repo es el **origen único** de `workflow/`. Los repos suscriptores (privados,
+fuera de este repo) no tienen una copia local editable: tienen un git submodule
+(`.workflow-src`, pineado a un commit/tag de este repo) y un symlink
+`workflow -> .workflow-src/workflow`. Así, un cambio acá se propaga con un
+bump de versión en cada suscriptor, sin copiar archivos a mano.
 
 ### Publicar una versión nueva
 
